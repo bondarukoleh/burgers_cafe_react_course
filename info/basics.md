@@ -10,7 +10,7 @@ MultiplePA - many HTML pages, content is rendered on the server.
 For: Flow that includes optimizing code, linting, compiling to ES5, etc.
 With: 
 - npm;
-- webpack bundler (make one js file, and gives you ability to add steps to this process, e.g. compile to ES5);
+- webpack bundler (make one js file, and gives you ability to add steps to this process, e.g. compile to ES5, also auto-prefixes css styles);
 - babel (compile, translator);
 - Webserver;
 
@@ -29,6 +29,7 @@ For cashing scripts, so app works faster.
 `jsx`
 .jsx syntax can be used in .js files. When you are using the jsx - it looks like html, but in the end it will compile
 in javascript, and your .render() method will be React.createElement().
+In any file you are using jsx or creating the components - you `must import React from 'react'`. 
 
 `statefull with stateless` \
 We should use stateless components preferably, it's best practise, because changing setState() should be used very
@@ -47,7 +48,7 @@ class App extends Component {
 }
 ```
 
-### Elements
+### Component
 `Components should be named with capital`. All lower case named components treated by React as `native html elements`.
 ```jsx
 render () {
@@ -137,4 +138,16 @@ const [someAnotherState, setSomeAnotherState] = useState(['diffStateValue']);
 /* Mutate state & trigger re-render. Replaces old state (NO automatic merging)! */
 const handleSomeEvent = () => { setSomeState({{stateProp: 'stateValue', newProp: 'SomeNewProp'}}) };
 const handleSomeAnotherEvent = () => { setSomeAnotherState(['diffStateValue', 'addingSomeValue']) }; /* And I haven't touch the previous state! */
+```
+
+### CSS
+You can add style in .css file near your component file, and then just import it in component.
+```jsx
+import './MyComponent.css'
+```
+Or you can add inline styles as an object or directly as a style attribute.
+```jsx
+const style = {background: 'white'}
+<button style={buttonStyle}>Set the name</button>
+<button style={{'background': 'red'}}>Set the name</button>
 ```
