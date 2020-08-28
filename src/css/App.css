@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+}
+
+.person-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.person {
+  margin: .3rem;
+  padding: .3rem;
+  background: cornflowerblue;
+  border: 2px solid black;
+  width: fit-content;
+}
