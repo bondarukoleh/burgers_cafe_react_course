@@ -155,3 +155,37 @@ const style = {background: 'white'}
 
 We can fix that with some packages like `radium`. \
 There are much more powerful package - `styled-components`.
+
+#### CSS modules
+Nice feature, when you can import some specific styles from the .css file, e.g. `classes`.
+
+In react-scripts 2.x - they are working out of the [box](https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/)
+but you need to follow some conventions. 
+
+```jsx
+import personStyles from './Person.module.css';
+return <div className={personStyles.person}></div>;
+```
+**Every import** - dynamically **generate unique CSS class** from provided css file. This gives us uniqueness per class,
+you cannot `add it wrongly somewhere else since it is uniq` across the application.
+```css
+/* In Post.css File */
+.Post {
+    color: red;
+}
+```
+```jsx
+// In Post Component File
+import classes from './Post.css';
+// console.log(classes.Post) -> Post__Post__ah5_1 
+const post = () => <div className={classes.Post}>...</div>;
+```
+```html
+<!--uniq class name-->
+<div class="Post__Post__ah5_1" >...</div>
+```
+To define a global CSS class in such a .css file, you can prefix the selector with `:global`.
+```css
+:global .Post { ... }
+``` 
+Now you can use className="Post" anywhere in your app and receive that styling.

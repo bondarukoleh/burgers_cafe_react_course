@@ -1,0 +1,19 @@
+.btn {
+  background: white;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #3a5695;
+  color: #fff;
+}
+
+.btn.primary {
+  background: red;
+  color: white;
+}
+
+.btn.primary:hover {
+  background: white;
+  color: red;
+}

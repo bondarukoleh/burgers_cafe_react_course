@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import './Person.css';
+import personStyles from './Person.module.css';
+import buttonStyles from '../../css/Button.module.css';
+
 /* Example os styled-components usage
 import styled, {css} from 'styled-components';
 
@@ -34,13 +36,13 @@ const Person = (props) => {
     input.value = '';
   };
 
-  return <div className="person">
+  return <div className={personStyles.person}>
     <label htmlFor={`set${personState.name}`}>To reset the name </label>
     <input type="text" id={`set${personState.name}`}/>
-    {/*<Button key={1} onClick={handleSetName}>Set the name</Button>*/}
+    <button key={1} className={buttonStyles.btn} onClick={handleSetName}>Set the name</button>
     <p>My name is {personState.name}! I'm {personState.age} years old.</p>
     <p>My hobbies are: {personHobbies.join(', ')}.</p>
-    {/*<Button primary key={2} onClick={props.deleteButtonHandler}>Delete person</Button>*/}
+    <button className={`${buttonStyles.btn} ${buttonStyles.primary}`} key={2} onClick={props.deleteButtonHandler}>Delete person</button>
   </div>;
 };
 
