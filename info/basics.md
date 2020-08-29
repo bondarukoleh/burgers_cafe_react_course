@@ -151,3 +151,7 @@ const style = {background: 'white'}
 <button style={buttonStyle}>Set the name</button>
 <button style={{'background': 'red'}}>Set the name</button>
 ```
+> Disadvantage of inline adding - we cannot use sudo selectors :hover, :active, etc.
+
+We can fix that with some packages like `radium`. \
+There are much more powerful package - `styled-components`.
