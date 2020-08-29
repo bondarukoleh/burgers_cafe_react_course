@@ -24,6 +24,7 @@ const Person = (props) => {
     <button onClick={handleSetName} style={buttonStyle}>Set the name</button>
     <p>My name is {personState.name}! I'm {personState.age} years old.</p>
     <p>My hobbies are: {personHobbies.join(', ')}.</p>
+    <button onClick={props.deleteButtonHandler} style={buttonStyle}>Delete person</button>
   </div>;
 };
 
