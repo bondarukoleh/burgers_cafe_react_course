@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import personStyles from './Person.module.css';
-import buttonStyles from '../../css/Button.module.css';
+import buttonStyles from '../../../css/Button.module.css';
 
 /* Example os styled-components usage
 import styled, {css} from 'styled-components';
