@@ -189,3 +189,35 @@ To define a global CSS class in such a .css file, you can prefix the selector wi
 :global .Post { ... }
 ``` 
 Now you can use className="Post" anywhere in your app and receive that styling.
+
+### Errors
+React Developer tools have nice features like: printing components data, jumping to source code where via chore dev
+tools we can add break point, also you can change data of the components to see the result. 
+
+#### Error Boundary
+Wrapper that will catch error from wrapped components. try/catch for components.
+Should be used with some components that potentially can cause error.
+```jsx
+class ErrorBoundary extends Component {
+  state = {
+    hasError: false,
+    errorMessage: ''
+  };
+
+  // React 16.x method
+  componentDidCatch(error, errorInfo) {
+    this.setState({hasError: true, errorMessage: error});
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1 style={{color: 'red'}}>Sorry, we have an error.</h1>;
+    } else {
+      return this.props.children; // If no error - return wrapped components
+    }
+  }
+}
+
+/* using */
+<ErrorBoundary><Person name={name}>...</Person></ErrorBoundary>
+```

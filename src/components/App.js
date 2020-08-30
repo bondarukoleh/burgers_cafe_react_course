@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../css/App.css';
 import Person from "./Person/Person";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 class App extends Component {
   state = {
@@ -18,8 +19,10 @@ class App extends Component {
   deletePerson = (personId) => {
     const persons = [...this.state.persons];
     const indexToDelete = persons.findIndex(({id}) => id === personId);
-    persons.splice(indexToDelete, 1);
-    this.setState({persons});
+    if(indexToDelete !== -1) {
+      persons.splice(indexToDelete, 1);
+      this.setState({persons});
+    }
   };
 
   renderPersons = () => {
@@ -30,11 +33,10 @@ class App extends Component {
         {
           this.state.persons
             .map(({name, age, hobbies, id}) =>
-              <Person
+              <ErrorBoundary key={id}><Person
                 name={name}
                 age={age}
-                key={id}
-                deleteButtonHandler={() => this.deletePerson(id)}>{hobbies}</Person>)
+                deleteButtonHandler={() => this.deletePerson(id)}>{hobbies}</Person></ErrorBoundary>)
         }
       </div>;
     }
