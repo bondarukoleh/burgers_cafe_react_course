@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../css/App.css';
 import Persons from "../components/Persons/Persons";
+import Header from '../components/Header/Header';
 
 class App extends Component {
   state = {
@@ -15,17 +16,11 @@ class App extends Component {
     this.setState({showPersons: !e.target.checked});
   }.bind(this);
 
-  hideStyle = () => ({background: `${this.state.showPersons ? 'lightgreen' : '#c06c6c'}`});
-
   render() {
     return <div className="App">
-      <header className="App-header">
-        <h1>Hello App</h1>
-      </header>
+      <Header hidePersonsHandler={this.toggleShowingPersons} showPersons={this.state.showPersons}/>
       <main>
-        <input type='checkbox' id='showPersons' onChange={this.toggleShowingPersons}/>
-        <label htmlFor='showPersons' style={this.hideStyle()}> Hide persons.</label>
-        <Persons persons={this.state.persons} showPersons={this.state.persons} />
+        <Persons persons={this.state.persons} showPersons={this.state.showPersons}/>
       </main>
     </div>;
   }
