@@ -18,6 +18,7 @@ class App extends Component {
 
   render() {
     return <div className="App">
+      <p>{this.props.title}</p>
       <Header hidePersonsHandler={this.toggleShowingPersons} showPersons={this.state.showPersons}/>
       <main>
         <Persons persons={this.state.persons} showPersons={this.state.showPersons}/>

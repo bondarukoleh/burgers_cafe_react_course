@@ -221,3 +221,22 @@ class ErrorBoundary extends Component {
 /* using */
 <ErrorBoundary><Person name={name}>...</Person></ErrorBoundary>
 ```
+
+### Component Lifecycle hooks
+Only available in class components. \
+There are lifecycle hooks, methods that fires when some phase or event happened, e.g. state is changed.
+And there are lifecycle hooks that fires when e.g. component fires for the first time.
+
+#### Mounting (Creation)
+1. `constructor(props)` - it's from ES6 classes feature. If you are implementing constructor for the component - you
+ need to pass parent props that component received `super(props)`.
+ In constructor, you should do some setup, but you SHOULD NOT do some heavy stuff like sending analytics, sending some
+ requests, anything that can cost side effects and re-rendering. 
+2. `getDerivedStateFromProps(props, state)` -  when component props changes - you can sync your component state with 
+ this change. It's a rarely used hook. Also do not make some heavy sh*t here.
+3. `render()` - returns JSX from your component. No heavy stuff here as well. This is the place where all child 
+ components lifecycle hooks involved and after all their hooks finished, then -
+3.1. `React updates DOM and refs.`
+4. `componentDidMount()` - hook that involved when component rendered. Here you can use HEAVY calculation, and get data
+from web. Call `setState()` **synchronously is not allowed** here, unless it's in the Promise after HTTP request. Sync 
+setState call here triggers re-render - and it is an endless loop.
