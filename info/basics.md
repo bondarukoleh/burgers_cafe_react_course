@@ -129,7 +129,7 @@ If state or props changed - everything that depend on that is re-rendered.
 ### Hooks
 `useState` \
 You can change state in functional, stateless components with `useState()`. `It's NOT MERGING THE STATE, REPLACES IT!` \
-But - we can create as `much states as we want`.
+But - we can create as `much states as we want`. Keep in mind that useState triggers extra re-render.
 ```jsx
 /* returns an array with exactly two elements: 1) Your current state value, 2) A method to update your state value */
 const [someState, setSomeState] = useState({stateProp: 'stateValue'});
@@ -234,9 +234,23 @@ And there are lifecycle hooks that fires when e.g. component fires for the first
  requests, anything that can cost side effects and re-rendering. 
 2. `getDerivedStateFromProps(props, state)` -  when component props changes - you can sync your component state with 
  this change. It's a rarely used hook. Also do not make some heavy sh*t here.
+ It should return an object to update the state, or null to update nothing. Shouldn't be used, there are memoization
+ helper, or other tricks to use instead of this method.
 3. `render()` - returns JSX from your component. No heavy stuff here as well. This is the place where all child 
  components lifecycle hooks involved and after all their hooks finished, then -
 3.1. `React updates DOM and refs.`
 4. `componentDidMount()` - hook that involved when component rendered. Here you can use HEAVY calculation, and get data
 from web. Call `setState()` **synchronously is not allowed** here, unless it's in the Promise after HTTP request. Sync 
 setState call here triggers re-render - and it is an endless loop.
+
+#### Updating
+1. `getDerivedStateFromProps(props, state)`.
+2. `shouldComponentUpdate(nextProps, nextState, nextContext)` - lets you decide if a component’s needs to be re-rendered after state
+ or props change. This method is not called for the initial render or when forceUpdate() is used. Should return true
+ (default) or false.
+3. `render()` - don't forget that it will update props and render all child as well.
+4. `getSnapshotBeforeUpdate(prevProps, prevState)` -  It enables your component to capture some information from the 
+DOM (e.g. scroll position) before it is potentially changed. Any value returned by this lifecycle will be passed as a
+parameter to `componentDidUpdate()`. A snapshot value (or null) should be returned.
+4.1. `React updates DOM and refs.`
+5. `componentDidUpdate()` - heavy operation here, without calling `render()` synchronously.

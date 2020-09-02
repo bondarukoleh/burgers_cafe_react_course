@@ -2,16 +2,6 @@ import React from "react";
 import Person from "./Person/Person";
 
 const persons = (props) => {
-
-  const deletePerson = (personId) => {
-    const persons = [...props.persons];
-    const indexToDelete = persons.findIndex(({id}) => id === personId);
-    if (indexToDelete !== -1) {
-      persons.splice(indexToDelete, 1);
-      this.setState({persons});
-    }
-  };
-
   const renderPersons = () => {
     const {showPersons} = props;
     let persons = null;
@@ -19,18 +9,20 @@ const persons = (props) => {
       persons = <div className="person-wrap">
         {
           props.persons
-            .map(({name, age, hobbies, id}) =>
-              <Person
+            .map(({name, age, hobbies, id}) => {
+              return <Person
                 key={id}
                 name={name}
                 age={age}
-                deleteButtonHandler={() => deletePerson(id)}>{hobbies}</Person>)
+                id={id}
+                deleteButtonHandler={() => props.deletePerson(id)  } handleSetName={(e) => props.handleSetName(e, id)}>{hobbies}</Person>
+            })
         }
       </div>;
     }
     return persons;
   };
-
+  console.log('Persons render is called');
   return renderPersons();
 };
 
