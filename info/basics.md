@@ -127,7 +127,7 @@ again, you just need to pass changed value there. It's sometimes not very conven
 If state or props changed - everything that depend on that is re-rendered.
 
 ### Hooks
-`useState` \
+#### useState
 You can change state in functional, stateless components with `useState()`. `It's NOT MERGING THE STATE, REPLACES IT!` \
 But - we can create as `much states as we want`. Keep in mind that useState triggers extra re-render.
 ```jsx
@@ -139,6 +139,35 @@ const [someAnotherState, setSomeAnotherState] = useState(['diffStateValue']);
 const handleSomeEvent = () => { setSomeState({{stateProp: 'stateValue', newProp: 'SomeNewProp'}}) };
 const handleSomeAnotherEvent = () => { setSomeAnotherState(['diffStateValue', 'addingSomeValue']) }; /* And I haven't touch the previous state! */
 ```
+#### useEffect
+You can use it as `componentDidMount`, `componentDidUpdate` and `componentWillUnmount` from class based Lifecycle hooks `in function based` components.
+It runs after `render` but you can pass an array of values that you want to 
+change subscribe, and it will fire only when they will be changed.
+```jsx
+const Header = (props) => {
+  /* This one will be called ONLY once, because of empty array, like componentsDidMount */
+  useEffect(() => {
+    console.log('HEADER has RENDERED already')
+  }, [])
+  /* This one will be fired each time property chenged, like componentDidUpdate */
+  useEffect(() => {
+    console.log('Invoced when showPersons value changed')
+    return () => console.log('Will run when component with showPersons changed - will unmount')
+  }, [props.showPersons])
+  /* componentWillUnmount, you need to return the function */
+  useEffect(() => {
+    console.log('Do some work here as in componentsDidMount')
+    return () => {
+      console.log('Work before will be unmount')
+    }
+  })
+  // When you'll delete component output will be: 
+  // "Work before will be unmount"
+  // "Do some work here as in componentsDidMount"
+}
+```
+> useEffect(_ => _ => {}, []) - will never run, since we are watching nothing. 
+
 
 ### CSS
 You can add style in .css file near your component file, and then just import it in component.
@@ -254,3 +283,9 @@ DOM (e.g. scroll position) before it is potentially changed. Any value returned 
 parameter to `componentDidUpdate()`. A snapshot value (or null) should be returned.
 4.1. `React updates DOM and refs.`
 5. `componentDidUpdate()` - heavy operation here, without calling `render()` synchronously.
+
+#### Unmounting
+1. `componentWillUnmount()` invoked before a component is unmounted and destroyed. Cleanup, such as invalidating timers,
+ canceling network requests, or cleaning up any subscriptions that were created should be done here. **DO NOT call**
+ `setState()` here because the component will never be re-rendered. Once a component instance is unmounted, it will
+  **`never be mounted again.**

@@ -4,10 +4,6 @@ import Persons from "../components/Persons/Persons";
 import Header from '../components/Header/Header';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   // static getDerivedStateFromProps(props, state) {
   //   console.log('getDerivedStateFromProps. state and props: ', state, props)
   //   return state;
@@ -48,7 +44,6 @@ class App extends Component {
   };
 
   render() {
-    console.log('App render is started');
     return <div className="App">
       <p>{this.props.title}</p>
       <Header hidePersonsHandler={this.toggleShowingPersons} showPersons={this.state.showPersons}/>
@@ -58,18 +53,22 @@ class App extends Component {
     </div>;
   }
 
-  componentDidMount() {
-    console.log('componentDidMount');
-    setTimeout(_ => {
-      console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-      console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-      console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-      console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-      const persons = [...this.state.persons];
-      persons[0].name = 'Oleh updated'
-      this.setState({persons})
-    }, 2000)
-  }
+  // shouldComponentUpdate(nextProps, nextState, nextContext) {
+  //   return true;
+  // }
+  //
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   console.log('componentDidUpdate APP');
+  // }
+
+  // componentDidMount() {
+  //   console.log('componentDidMount APP');
+  //   setTimeout(_ => {
+  //     const persons = [...this.state.persons];
+  //     persons[0].name = 'Oleh updated'
+  //     this.setState({persons})
+  //   }, 2000)
+  // }
 }
 
 export default App;

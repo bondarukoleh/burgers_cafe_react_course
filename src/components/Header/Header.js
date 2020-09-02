@@ -1,6 +1,20 @@
 import React from 'react';
 
 const Header = (props) => {
+  // useEffect(() => {
+  //   console.log('HEADER showPersons changed')
+  // }, [props.showPersons])
+  //
+  // useEffect(() => {
+  //   console.log('HEADER has RENDERED already')
+  // }, [])
+  //
+  // useEffect(() => {
+  //   return () => {
+  //     console.log('HEADER will be unmount')
+  //   }
+  // })
+
   const hideStyle = () => ({background: `${props.showPersons ? 'lightgreen' : '#c06c6c'}`});
 
   return (

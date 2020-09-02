@@ -1,7 +1,7 @@
 import React from "react";
 import Person from "./Person/Person";
 
-const persons = (props) => {
+const Persons = (props) => {
   const renderPersons = () => {
     const {showPersons} = props;
     let persons = null;
@@ -22,8 +22,7 @@ const persons = (props) => {
     }
     return persons;
   };
-  console.log('Persons render is called');
   return renderPersons();
 };
 
-export default persons;
+export default Persons;

@@ -29,23 +29,31 @@ class Person extends Component {
    const [personHobbies] = useState(props.children);
   */
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    console.log('shouldComponentUpdate PERSON', this.props.name)
-    return nextProps.name !== this.props.name;
-  }
-
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    console.log('getSnapshotBeforeUpdate PERSON', this.props.name)
-    return {snapshot: 'returned from getSnapshotBeforeUpdate'};
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log('componentDidUpdate PERSON', this.props.name)
-    console.log(snapshot)
-  }
+  // shouldComponentUpdate(nextProps, nextState, nextContext) {
+  //   console.log('shouldComponentUpdate PERSON', this.props.name)
+  //   return nextProps.name !== this.props.name;
+  // }
+  //
+  // getSnapshotBeforeUpdate(prevProps, prevState) {
+  //   console.log('getSnapshotBeforeUpdate PERSON', this.props.name)
+  //   return {snapshot: 'returned from getSnapshotBeforeUpdate'};
+  // }
+  //
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   console.log('componentDidUpdate PERSON', this.props.name)
+  //   console.log(snapshot)
+  // }
+  //
+  // componentDidMount() {
+  //   console.log('componentDidMount PERSON', this.props.name)
+  // }
+  //
+  // componentWillUnmount() {
+  //   console.log('componentWillUnmount PERSON', this.props.name)
+  // }
 
   render() {
-    console.log('Render from PERSON', this.props.name)
+    // console.log('Render from PERSON', this.props.name)
     return <div className={personStyles.person}>
       <label htmlFor={`set_${this.props.id}`}>To reset the name </label>
       <input type="text" id={`set_${this.props.id}`}/>
