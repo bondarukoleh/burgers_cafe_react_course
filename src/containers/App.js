@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import '../css/App.css';
+import classes from '../css/App.css';
 import Persons from "../components/Persons/Persons";
 import Header from '../components/Header/Header';
+import WithClass from "../components/hoc/WithClasshoc";
+import withClasshocFunc from "../components/hoc/withClasshocFunc";
 
 class App extends Component {
   // static getDerivedStateFromProps(props, state) {
@@ -32,7 +34,7 @@ class App extends Component {
 
   handleSetName = (e, personId) => {
     const input = document.querySelector(`#set_${personId}`);
-    console.log(input)
+    console.log(input);
     if (!input.value) {
       return;
     }
@@ -44,13 +46,16 @@ class App extends Component {
   };
 
   render() {
-    return <div className="App">
-      <p>{this.props.title}</p>
-      <Header hidePersonsHandler={this.toggleShowingPersons} showPersons={this.state.showPersons}/>
-      <main>
-        <Persons persons={this.state.persons} showPersons={this.state.showPersons} deletePerson={this.deletePerson} handleSetName={this.handleSetName}/>
-      </main>
-    </div>;
+    return (
+      <WithClass classes={"App"}>
+        <p>{this.props.title}</p>
+        <Header hidePersonsHandler={this.toggleShowingPersons} showPersons={this.state.showPersons}/>
+        <main>
+          <Persons persons={this.state.persons} showPersons={this.state.showPersons} deletePerson={this.deletePerson}
+                   handleSetName={this.handleSetName}/>
+        </main>
+      </WithClass>
+    );
   }
 
   // shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -71,4 +76,6 @@ class App extends Component {
   // }
 }
 
-export default App;
+/* You can use it in different ways */
+// export default App;
+export default withClasshocFunc(App, classes.App);

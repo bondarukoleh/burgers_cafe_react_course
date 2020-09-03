@@ -1,10 +1,12 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import Person from "./Person/Person";
 
-class Persons extends Component {
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return nextProps.persons !== this.props.persons || nextProps.showPersons !== this.props.showPersons;
-  }
+class Persons extends PureComponent {
+
+  /* Don't need this because of PureComponent */
+  // shouldComponentUpdate(nextProps, nextState, nextContext) {
+  //   return nextProps.persons !== this.props.persons || nextProps.showPersons !== this.props.showPersons;
+  // }
 
   renderPersons = () => {
     const {showPersons} = this.props;

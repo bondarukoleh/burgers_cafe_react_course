@@ -289,3 +289,69 @@ parameter to `componentDidUpdate()`. A snapshot value (or null) should be return
  canceling network requests, or cleaning up any subscriptions that were created should be done here. **DO NOT call**
  `setState()` here because the component will never be re-rendered. Once a component instance is unmounted, it will
   **`never be mounted again.**
+
+### React.memo
+It's a `higher-order component`, a function that takes a component and returns a new component. \
+React.memo - HOC that the way you can prevent functional component from rerendering if `props is not changed`. If function component wrapped in React.memo has a `useState` or `useContext` hook - it will still rerender when state or context change. \
+Prevent rerendering needed on demand, if you are confident that in most cases your component should be rerendered if parent is rerendered - you shouldn't add it. 
+```jsx
+function MyComponent(props) {
+  /* render using props */
+}
+function areEqual(prevProps, nextProps) {
+  /*
+  return true if passing nextProps are equal to prevProps and component
+needs to be rerendered. Inverse the shouldComponentUpdate() behavior.
+  */
+}
+export default React.memo(MyComponent, areEqual);
+```
+
+### PureComponent
+Same as component but inside there are check for props changes to update.
+```jsx
+class Persons extends PureComponent {
+  /* You don't need this check because it's in PureComponent already */
+  /*shouldComponentUpdate(nextProps, nextState, nextContext) {
+     return nextProps.a !== this.props.a || nextProps.b !== this.props.b;
+  }*/
+}
+```
+
+### React, virtual DOM and DOM
+`DOM` \
+DOM stands for *Document Object Model*, while HTML is a text, the DOM is an in-memory representation of this text.
+The DOM provides an interface (HTML DOM API) to traverse and modify the nodes. Methods like *getElementById* or
+*removeChild*. It's a heavy operation to change the DOM, and we should do it as little as possible.
+
+`Virtual DOM` \
+The Virtual DOM is an abstraction of the HTML DOM (not invented, but used by React). Since the DOM itself was already
+an abstraction, the virtual DOM is, `an abstraction of an abstraction`. Virtual DOM is DOM representation in JavaScript.
+
+`render()` method doesn't update the DOM explicitly. It compares Virtual DOMs. It has *old* and *new* virtual DOM
+ versions. When the difference found - React updates the DOM with differences. \
+
+### React.createElement
+You cannot return two nodes because:
+```jsx
+const heading = props => (
+  <h1>{props.title}</h1>
+  <h2>{props.subtitle}</h2>
+);
+```
+becomes:
+```jsx
+const heading = props => React.createElement('h1', {}, props.title) React.createElement('h2', {}, props.subtitle);
+```
+You should return either one element or array of elements.
+```jsx
+const heading = props => React.createElement('h1', {key: 'i1'}, props.title);
+// or
+const heading = props => [
+React.createElement('h1', {key: 'i1'}, props.title),
+React.createElement('h2', {key: 'i2'}, props.subtitle)
+];
+// and there are React.Fragment as HOC to help sometimes, or you can create your own HOC component
+// For this you don't need import React, because we don't doing any jsx here.
+const HOCComponent = props => props.children; // This is the same as React.Fragment
+``` 
