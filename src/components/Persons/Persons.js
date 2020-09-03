@@ -1,28 +1,36 @@
-import React from "react";
+import React, {Component} from "react";
 import Person from "./Person/Person";
 
-const Persons = (props) => {
-  const renderPersons = () => {
-    const {showPersons} = props;
+class Persons extends Component {
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return nextProps.persons !== this.props.persons || nextProps.showPersons !== this.props.showPersons;
+  }
+
+  renderPersons = () => {
+    const {showPersons} = this.props;
     let persons = null;
     if (showPersons) {
       persons = <div className="person-wrap">
         {
-          props.persons
+          this.props.persons
             .map(({name, age, hobbies, id}) => {
               return <Person
                 key={id}
                 name={name}
                 age={age}
                 id={id}
-                deleteButtonHandler={() => props.deletePerson(id)  } handleSetName={(e) => props.handleSetName(e, id)}>{hobbies}</Person>
+                deleteButtonHandler={() => this.props.deletePerson(id)}
+                handleSetName={(e) => this.props.handleSetName(e, id)}>{hobbies}</Person>;
             })
         }
       </div>;
     }
     return persons;
   };
-  return renderPersons();
-};
+
+  render() {
+    return this.renderPersons();
+  }
+}
 
 export default Persons;
