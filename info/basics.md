@@ -123,6 +123,20 @@ Event names: onToggle.
 ### State
 `this.setState({})` - will `MERGE` everything that you pass there with original state, no need to recreate all state 
 again, you just need to pass changed value there. It's sometimes not very convenient of course.
+React update state in async way. So there a few moments about updating. When you update state without referring to 
+previous - no problem.
+```jsx
+this.setState({newProp: 'newProp'});
+```
+But when you want to rely on previous state, you should use function, that way React guaranties that first argument 
+will be the previous state.
+```jsx
+this.setState({newProp: this.state.oldProp + 1}); /* - WRONG, because you don't know for sure that this is previous
+state, maybe it's already changed to new.*/
+this.setState((prevState, props) => ({newProp: state.oldProp + 1}); /* Correct, this way you know that you are working 
+with state before the change */
+```
+
 
 If state or props changed - everything that depend on that is re-rendered.
 
@@ -354,4 +368,28 @@ React.createElement('h2', {key: 'i2'}, props.subtitle)
 // and there are React.Fragment as HOC to help sometimes, or you can create your own HOC component
 // For this you don't need import React, because we don't doing any jsx here.
 const HOCComponent = props => props.children; // This is the same as React.Fragment
+/* With some functionality */
+const withClasshocFunc = (WrappedComponent, classes) => {
+  return props => (
+    <div className={classes}>
+      <WrappedComponent {...props} />
+    </div>
+  );
+};
+// Usage
+withClasshocFunc(CompIWantToWrap, "css_class");
 ``` 
+
+### Validation
+#### prop-types
+Package that typing your props you are using in component.
+```jsx
+Article.propTypes = {
+  articleData: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired
+  }),
+  otherData: PropTypes.number,
+  news: PropTypes.array.isRequired;
+};
+```
