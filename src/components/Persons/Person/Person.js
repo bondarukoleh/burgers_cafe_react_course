@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import personStyles from './Person.module.css';
 import buttonStyles from '../../../css/Button.module.css';
+import PropTypes from 'prop-types';
+import AuthContext from "../../../context/authContext";
 
 /* Example os styled-components usage
 import styled, {css} from 'styled-components';
@@ -28,35 +30,14 @@ class Person extends Component {
   const [personState, setPersonState] = useState({name: props.name, age: props.age});
    const [personHobbies] = useState(props.children);
   */
-
-  // shouldComponentUpdate(nextProps, nextState, nextContext) {
-  //   console.log('shouldComponentUpdate PERSON', this.props.name)
-  //   return nextProps.name !== this.props.name;
-  // }
-  //
-  // getSnapshotBeforeUpdate(prevProps, prevState) {
-  //   console.log('getSnapshotBeforeUpdate PERSON', this.props.name)
-  //   return {snapshot: 'returned from getSnapshotBeforeUpdate'};
-  // }
-  //
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   console.log('componentDidUpdate PERSON', this.props.name)
-  //   console.log(snapshot)
-  // }
-  //
-  // componentDidMount() {
-  //   console.log('componentDidMount PERSON', this.props.name)
-  // }
-  //
-  // componentWillUnmount() {
-  //   console.log('componentWillUnmount PERSON', this.props.name)
-  // }
+  focusInput = (inputElem) => {
+    inputElem && inputElem.focus();
+  }
 
   render() {
-    // console.log('Render from PERSON', this.props.name)
-    return <div className={personStyles.person}>
-      <label htmlFor={`set_${this.props.id}`}>To reset the name </label>
-      <input type="text" id={`set_${this.props.id}`}/>
+    const person = <div className={personStyles.person}>
+      <label ref={(l) => this.l = l} htmlFor={`set_${this.props.id}`}>To reset the name </label>
+      <input ref={this.focusInput} type="text" id={`set_${this.props.id}`}/>
       <button key={1} className={buttonStyles.btn} onClick={this.props.handleSetName}>Set the name</button>
       <p>My name is {this.props.name}! I'm {this.props.age} years old.</p>
       <p>My hobbies are: {this.props.children.join(', ')}.</p>
@@ -64,7 +45,19 @@ class Person extends Component {
               onClick={this.props.deleteButtonHandler}>Delete person
       </button>
     </div>;
+
+    return <AuthContext.Consumer>
+      {(context) => context.authenticated ? person : <p>Please log in</p>}
+    </AuthContext.Consumer>
   }
+}
+
+Person.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  age: PropTypes.number.isRequired,
+  deleteButtonHandler: PropTypes.func.isRequired,
+  handleSetName: PropTypes.func.isRequired
 }
 
 export default Person;

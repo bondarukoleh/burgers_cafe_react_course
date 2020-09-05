@@ -16,13 +16,17 @@ class Persons extends PureComponent {
         {
           this.props.persons
             .map(({name, age, hobbies, id}) => {
-              return <Person
-                key={id}
-                name={name}
-                age={age}
-                id={id}
-                deleteButtonHandler={() => this.props.deletePerson(id)}
-                handleSetName={(e) => this.props.handleSetName(e, id)}>{hobbies}</Person>;
+              return (
+                <Person
+                  key={id}
+                  name={name}
+                  age={age}
+                  id={id}
+                  deleteButtonHandler={() => this.props.deletePerson(id)}
+                  handleSetName={(e) => this.props.handleSetName(e, id)}>
+                  {hobbies}
+                </Person>
+              );
             })
         }
       </div>;

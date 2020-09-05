@@ -4,6 +4,7 @@ import Persons from "../components/Persons/Persons";
 import Header from '../components/Header/Header';
 import WithClass from "../components/hoc/WithClasshoc";
 import withClasshocFunc from "../components/hoc/withClasshocFunc";
+import AuthContext from "../context/authContext";
 
 class App extends Component {
   // static getDerivedStateFromProps(props, state) {
@@ -16,7 +17,8 @@ class App extends Component {
     persons: [
       {id: 'oleh', name: "Oleh", age: 30, hobbies: ['Programming', 'Bicycling', 'Guitar']},
       {id: 'vasia', name: "Vasia", age: 24, hobbies: ['Beer', 'Movies', 'Music']}
-    ]
+    ],
+    authenticated: false
   };
 
   toggleShowingPersons = function (e) {
@@ -45,15 +47,29 @@ class App extends Component {
     input.value = '';
   };
 
+  loginHandle = (e) => {
+    console.log('Checking login.')
+    this.setState({authenticated: true})
+  }
+
   render() {
     return (
       <WithClass classes={"App"}>
         <p>{this.props.title}</p>
-        <Header hidePersonsHandler={this.toggleShowingPersons} showPersons={this.state.showPersons}/>
-        <main>
-          <Persons persons={this.state.persons} showPersons={this.state.showPersons} deletePerson={this.deletePerson}
-                   handleSetName={this.handleSetName}/>
-        </main>
+        <AuthContext.Provider value={{authenticated: this.state.authenticated, loginHandle: this.loginHandle}}>
+          <Header
+            hidePersonsHandler={this.toggleShowingPersons}
+            showPersons={this.state.showPersons}
+          />
+          <main>
+            <Persons
+              persons={this.state.persons}
+              showPersons={this.state.showPersons}
+              deletePerson={this.deletePerson}
+              handleSetName={this.handleSetName}
+            />
+          </main>
+        </AuthContext.Provider>
       </WithClass>
     );
   }
@@ -64,15 +80,6 @@ class App extends Component {
   //
   // componentDidUpdate(prevProps, prevState, snapshot) {
   //   console.log('componentDidUpdate APP');
-  // }
-
-  // componentDidMount() {
-  //   console.log('componentDidMount APP');
-  //   setTimeout(_ => {
-  //     const persons = [...this.state.persons];
-  //     persons[0].name = 'Oleh updated'
-  //     this.setState({persons})
-  //   }, 2000)
   // }
 }
 

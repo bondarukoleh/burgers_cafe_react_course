@@ -182,6 +182,42 @@ const Header = (props) => {
 ```
 > useEffect(_ => _ => {}, []) - will never run, since we are watching nothing. 
 
+#### Context
+There is a problem with props that we forced to pass thru many of the components. e.g. You have a component A that holds
+some data that component D is interested in. So we should path is thru the chain A -> B-> C-> D. But B and C don't give
+a hoot about this prop, which adds redundancy to the code and make those components less reusable since we should alweys
+pass those props to them. \   
+Solution is React Context feature.
+```jsx
+const AuthContext = React.createContext({someProp: 'defaultValue'});
+export default AuthContext;
+```
+It's a value (not restricted to the object) that we can decide where and what component can have access to.
+> Changes only to context values - won't trigger the rerender. You need to bind them with state.
+
+`createContext` returns special HOC component, to provide the context you need `ContextComponent.Provider` and to get
+context you need `ContextComponent.Consumer`. \
+You grab components that you want to have access to context, and initiate a context (or use default values):
+```jsx
+<AuthContext.Provider value={{someProp: 'newValue'}}>
+  <BodyComponent>
+    {/* Assume in body component there are two more
+      <Header/>
+      <Main/> 
+    */}
+  </BodyComponent>
+</AuthContext.Provider>
+```
+Then you get the context in directly in needed element (you don't need to pass it thru BodyComponent):
+```jsx
+class Header {
+  render() {
+    return <AuthContext.Consumer> 
+    {(constext) => <p>{constext.someProp}</p>}
+    </AuthContext.Consumer>
+  }
+}
+```
 
 ### CSS
 You can add style in .css file near your component file, and then just import it in component.
