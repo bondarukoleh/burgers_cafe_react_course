@@ -213,10 +213,27 @@ Then you get the context in directly in needed element (you don't need to pass i
 class Header {
   render() {
     return <AuthContext.Consumer> 
-    {(constext) => <p>{constext.someProp}</p>}
+      {(constext) => <p>{constext.someProp}</p>}
     </AuthContext.Consumer>
   }
 }
+```
+**But there is a trouble** you cannot use context *\<AuthContext.Consumer>* way in dome `js` code, only in `jsx`. And
+when you need that context in some `componentDidMount` method or somewhere in `js` code there are alternatives. \
+For class based components, after initiating `contextType` with context hoc component. After that this component will 
+have access to `this.context` property:
+```jsx
+class Header {
+  static contextType = AuthContext;
+  render() {
+    return <p>{this.constext.someProp}</p>}
+  }
+}
+``` 
+For function components `useContext()` React hook.
+```jsx
+/* Somewhere in func component */
+const authContext = useContext(AuthContext);
 ```
 
 ### CSS

@@ -1,9 +1,3 @@
 .App {
   text-align: center;
 }
-
-.person-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}

@@ -34,6 +34,8 @@ class Person extends Component {
     inputElem && inputElem.focus();
   }
 
+  static contextType = AuthContext;
+
   render() {
     const person = <div className={personStyles.person}>
       <label ref={(l) => this.l = l} htmlFor={`set_${this.props.id}`}>To reset the name </label>
@@ -46,9 +48,7 @@ class Person extends Component {
       </button>
     </div>;
 
-    return <AuthContext.Consumer>
-      {(context) => context.authenticated ? person : <p>Please log in</p>}
-    </AuthContext.Consumer>
+    return this.context.authenticated ? person : <p>Please log in</p>
   }
 }
 

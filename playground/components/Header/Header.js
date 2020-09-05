@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useContext} from 'react';
 import AuthContext from "../../context/authContext";
 
 const Header = (props) => {
@@ -12,6 +12,8 @@ const Header = (props) => {
   // })
 
   const toggle = useRef(null);
+  const authContext = useContext(AuthContext);
+
   useEffect(() => {
     /* componentDidMount */
     toggle.current.click();
@@ -25,9 +27,7 @@ const Header = (props) => {
       <input ref={toggle} type='checkbox' id='showPersons' onChange={props.hidePersonsHandler}/>
       <label htmlFor='showPersons' style={hideStyle()}> Hide persons.</label>
       <br/>
-      <AuthContext.Consumer>
-        {(context) => <button onClick={context.loginHandle}>Click to log in</button>}
-      </AuthContext.Consumer>
+      <button onClick={authContext.loginHandle}>Click to log in</button>
     </header>
   );
 };
