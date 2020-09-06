@@ -1,5 +1,4 @@
 @import '../../sass/config';
-
 .Burger {
   width: 80%;
   margin: auto;
@@ -9,6 +8,12 @@
   font-size: 1.2rem;
   max-width: $website-width;
   padding: 1rem;
+
+  &.no-ingredient {
+    text-align: center;
+    border: #228c1d solid 2px;
+    border-radius: 20px;
+  }
 }
 
 @media (max-width: $tablet-width) {
