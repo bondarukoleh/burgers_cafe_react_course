@@ -1,0 +1,31 @@
+@import '../../sass/config';
+
+.Burger {
+  width: 80%;
+  margin: auto;
+  height: 35rem;
+  overflow-y: auto;
+  font-weight: bold;
+  font-size: 1.2rem;
+  max-width: $website-width;
+  padding: 1rem;
+}
+
+@media (max-width: $tablet-width) {
+  .Burger {
+    height: 500px;
+  }
+}
+
+@media (max-width: $smartphones-width) {
+  .Burger {
+    height: 400px;
+  }
+}
+
+@media (max-height: $landscape-high) {
+  .Burger {
+    width: 60%;
+    height: 300px;
+  }
+}

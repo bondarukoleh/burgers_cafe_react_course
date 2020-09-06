@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import classes from '../css/App.css';
+import classes from '../css/App.module.css';
 import Persons from "../components/Persons/Persons";
 import Header from '../components/Header/Header';
 import WithClass from "../components/hoc/WithClasshoc";
