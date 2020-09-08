@@ -12,7 +12,7 @@ const Burger = (props) => {
   const renderIngredients = () => {
     const ingredients = Object.entries(props.ingredients).map(([type, times]) => createIngredient(type, times));
     const addIngredients = <div className={styles.noIngredient}>You can add ingredients here!</div>;
-    return ingredients.length ? ingredients : addIngredients;
+    return ingredients.flat().length ? ingredients : addIngredients;
   }
 
   return (
