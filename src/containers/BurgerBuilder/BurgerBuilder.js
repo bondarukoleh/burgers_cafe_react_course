@@ -7,34 +7,36 @@ const INGREDIENT_PRICES = {
   salad: 0.50,
   cheese: 0.75,
   meat: 1,
-}
+};
 
 class BurgerBuilder extends Component {
-  state =  {
-      ingredients: {
-        bacon: 1,
-        salad: 1,
-        cheese: 1,
-        meat: 1,
-      },
-      price: 2.75
-  }
+  state = {
+    ingredients: {
+      bacon: 1,
+      salad: 1,
+      cheese: 1,
+      meat: 1,
+    },
+    price: 2.75
+  };
 
   componentDidMount = () => {
     this.countBurgerPrice();
-  }
+  };
 
   addIngredientHandler = (type) => {
-      const oldIngredients = {...this.state.ingredients}
-      oldIngredients[type]++;
-      this.setState({ingredients: oldIngredients});
-  }
+    const oldIngredients = {...this.state.ingredients};
+    oldIngredients[type]++;
+    this.setState({ingredients: oldIngredients});
+  };
 
   removeIngredientHandler = (type) => {
-    const oldIngredients = {...this.state.ingredients}
-    oldIngredients[type]--;
-    this.setState({ingredients: oldIngredients});
-  }
+    const oldIngredients = {...this.state.ingredients};
+    if (!(oldIngredients[type] === 0)) {
+      oldIngredients[type]--;
+      this.setState({ingredients: oldIngredients});
+    }
+  };
 
   countBurgerPrice = () => {
     const oldPrice = this.state.price;
@@ -44,17 +46,23 @@ class BurgerBuilder extends Component {
         return newPrice;
       }, 0);
     if (oldPrice !== newPrice) {
-      this.setState({price: newPrice})
+      this.setState({price: newPrice});
     }
-  }
+  };
 
   render() {
+    const disabledControls = {...this.state.ingredients};
+    for (const type in disabledControls){
+      disabledControls[type] = !disabledControls[type];
+    }
+
     return (
       <React.Fragment>
         <Burger
           ingredients={this.state.ingredients}
         />
         <BuildControls
+          disabledControls={disabledControls}
           addIngredient={this.addIngredientHandler}
           removeIngredient={this.removeIngredientHandler}
         />
