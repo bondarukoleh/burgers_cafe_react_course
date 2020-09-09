@@ -18,14 +18,14 @@ class BurgerBuilder extends Component {
       meat: 0,
     },
     price: 0,
-    purchasable: true
+    purchasable: false
   };
 
   componentDidMount = () => {
     this.countBurgerPrice();
   };
 
-  getPurchasableState = (price) => !(price > 0);
+  getPurchasableState = (price) => price > 0;
 
   addIngredientHandler = (type) => {
     const oldIngredients = {...this.state.ingredients};
