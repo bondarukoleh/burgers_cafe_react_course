@@ -12,29 +12,38 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component {
   state = {
     ingredients: {
-      bacon: 1,
-      salad: 1,
-      cheese: 1,
-      meat: 1,
+      bacon: 0,
+      salad: 0,
+      cheese: 0,
+      meat: 0,
     },
-    price: 2.75
+    price: 0,
+    purchasable: true
   };
 
   componentDidMount = () => {
     this.countBurgerPrice();
   };
 
+  getPurchasableState = (price) => !(price > 0);
+
   addIngredientHandler = (type) => {
     const oldIngredients = {...this.state.ingredients};
     oldIngredients[type]++;
-    this.setState({ingredients: oldIngredients});
+    this.setState((prevState) => {
+      const newPrice = prevState.price + INGREDIENT_PRICES[type];
+      return {price: newPrice, ingredients: oldIngredients, purchasable: this.getPurchasableState(newPrice)};
+    });
   };
 
   removeIngredientHandler = (type) => {
     const oldIngredients = {...this.state.ingredients};
     if (!(oldIngredients[type] === 0)) {
       oldIngredients[type]--;
-      this.setState({ingredients: oldIngredients});
+      this.setState((prevState) => {
+        const newPrice = prevState.price - INGREDIENT_PRICES[type];
+        return {price: newPrice, ingredients: oldIngredients, purchasable: this.getPurchasableState(newPrice)};
+      });
     }
   };
 
@@ -52,7 +61,7 @@ class BurgerBuilder extends Component {
 
   render() {
     const disabledControls = {...this.state.ingredients};
-    for (const type in disabledControls){
+    for (const type in disabledControls) {
       disabledControls[type] = !disabledControls[type];
     }
 
@@ -62,9 +71,11 @@ class BurgerBuilder extends Component {
           ingredients={this.state.ingredients}
         />
         <BuildControls
+          price={this.state.price}
           disabledControls={disabledControls}
           addIngredient={this.addIngredientHandler}
           removeIngredient={this.removeIngredientHandler}
+          purchasable={this.state.purchasable}
         />
       </React.Fragment>
     );
@@ -72,3 +83,4 @@ class BurgerBuilder extends Component {
 }
 
 export default BurgerBuilder;
+export const ingredientPrices = INGREDIENT_PRICES;

@@ -133,7 +133,7 @@ will be the previous state.
 ```jsx
 this.setState({newProp: this.state.oldProp + 1}); /* - WRONG, because you don't know for sure that this is previous
 state, maybe it's already changed to new.*/
-this.setState((prevState, props) => ({newProp: state.oldProp + 1}); /* Correct, this way you know that you are working 
+this.setState((prevState, props) => ({newProp: prevState.oldProp + 1}); /* Correct, this way you know that you are working 
 with state before the change */
 ```
 
