@@ -1,0 +1,25 @@
+/* I know about % - but I want to experiment in Button component */
+.Button {
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 10px;
+  margin: 10px;
+  font-weight: bold;
+  border: 3px solid rgba(105,105,105,0.5);
+
+  &:hover {
+    background-color: rgba(210, 210, 210, 0.3);
+  }
+}
+
+.Success {
+  @extend .Button;
+  color: #5c9210;
+}
+
+.Fail {
+  @extend .Button;
+  color: #944317;
+}

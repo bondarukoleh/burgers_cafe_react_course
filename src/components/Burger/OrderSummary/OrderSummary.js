@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './OrderSummary.module.scss';
+import Button from "../../UI/Button/Button";
 
 function OrderSummary(props) {
   const renderIngredients = () => {
@@ -16,8 +16,14 @@ function OrderSummary(props) {
       </ul>
       <p><b>Total price is: {props.price} $</b></p>
       <p>Continue to checkout?</p>
-      <button className={styles.Success}>Continue</button>
-      <button className={styles.Danger} onClick={props.purchasingHandler}>Cancel</button>
+      <Button
+        clickHandler={props.purchasingHandler}
+        buttonType={'Fail'}
+      >Cancel</Button>
+      <Button
+        clickHandler={() => {}}
+        buttonType={'Success'}
+      >Continue</Button>
     </React.Fragment>
   );
 }

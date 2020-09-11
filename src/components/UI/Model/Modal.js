@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './Moral.module.scss';
-import Shade from '../Backdrop/Shade'
+import Shade from '../Shade/Shade'
 
 function Modal(props) {
   return (
