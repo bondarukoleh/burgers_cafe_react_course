@@ -1,0 +1,15 @@
+.NavigationItem {
+  & a {
+    color: white;
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+    margin: 0.2rem;
+    display: block;
+    height: 100%;
+
+    &:hover, &:active, &.active {
+      background-color: rgba(64, 164, 201, 0.5);
+      border-radius: 10px;
+    }
+  }
+}
