@@ -31,6 +31,10 @@ class BurgerBuilder extends Component {
   getPurchasableState = (price) => price > 0;
   purchasingHandler = () => this.setState((prevState) => ({purchasing: !prevState.purchasing}));
 
+  orderingHandler = () => {
+
+  }
+
   addIngredientHandler = (type) => {
     const oldIngredients = {...this.state.ingredients};
     oldIngredients[type]++;
@@ -72,7 +76,7 @@ class BurgerBuilder extends Component {
     return (
       <React.Fragment>
         <Modal purchasingHandler={this.purchasingHandler} show={this.state.purchasing}>
-          <OrderSummary price={this.state.price} ingredients={this.state.ingredients} purchasingHandler={this.purchasingHandler}/>
+          <OrderSummary price={this.state.price} ingredients={this.state.ingredients} purchasingHandler={this.purchasingHandler} orderingHandler={this.orderingHandler}/>
         </Modal>
         <Burger ingredients={this.state.ingredients}/>
         <BuildControls

@@ -13,7 +13,7 @@ const BuildControls = (props) => {
 
   return (
     <div className={styles.BuildControls}>
-      <p>Current price: {props.price} $</p>
+      <p>Current price: <span style={{fontWeight: 'bold'}}>{props.price} $</span></p>
       {controls.map(({label, type}) => {
         return <BuildControl
           disabled={props.disabledControls[type]}

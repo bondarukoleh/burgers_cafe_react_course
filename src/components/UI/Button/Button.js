@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Button.module.scss';
+import PropTypes from 'prop-types';
 
 function Button(props) {
   return (
@@ -9,5 +10,10 @@ function Button(props) {
     >{props.children}</button>
   );
 }
+
+Button.propTypes = {
+  clickHandler: PropTypes.func.isRequired,
+  buttonType: PropTypes.string
+};
 
 export default Button;

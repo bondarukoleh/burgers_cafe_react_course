@@ -21,7 +21,7 @@ function OrderSummary(props) {
         buttonType={'Fail'}
       >Cancel</Button>
       <Button
-        clickHandler={() => {}}
+        clickHandler={props.orderingHandler}
         buttonType={'Success'}
       >Continue</Button>
     </React.Fragment>
