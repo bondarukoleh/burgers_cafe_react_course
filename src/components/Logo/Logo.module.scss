@@ -3,10 +3,17 @@
   background-color: white;
   border-radius: 5px;
   align-self: center;
-  justify-self: end;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   & img {
     height: 80%;
-    padding-top: 0.2rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .Logo {
+    border: 3px solid #8f5c2c;
   }
 }

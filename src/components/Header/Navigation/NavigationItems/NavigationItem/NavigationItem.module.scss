@@ -4,13 +4,29 @@
   & a {
     color: white;
     text-decoration: none;
-    padding: 0.80rem 1rem;
+    padding: .8rem 1rem;
     margin-right: 0.2rem;
     display: block;
 
     &:hover, &:active, &.active {
       background-color: rgba(64, 164, 201, 0.5);
       border-bottom: rgb(64, 164, 201) 5px solid;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .NavigationItem {
+    width: 100%;
+
+    & a {
+      color: #8f5c2c;
+      padding: .5rem 1rem;
+
+      &:hover, &:active, &.active {
+        color: #30a4c8;
+        background-color: white;
+      }
     }
   }
 }

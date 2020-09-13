@@ -1,6 +1,6 @@
 import React from 'react';
-import logo from '../../assets/images/burger-logo.png'
-import styles from './Logo.module.scss'
+import logo from '../../assets/images/burger-logo.png';
+import styles from './Logo.module.scss';
 
 function Logo(props) {
   return (

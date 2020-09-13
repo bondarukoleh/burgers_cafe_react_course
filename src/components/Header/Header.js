@@ -7,7 +7,9 @@ const Header = (props) => {
   return (
     <header className={styles.Header}>
       <div>MENU</div>
-      <Logo/>
+      <div style={{height: '100%'}}>
+        <Logo/>
+      </div>
       <NavigationItems/>
     </header>
   );
