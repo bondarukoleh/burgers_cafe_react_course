@@ -1,15 +1,16 @@
 .NavigationItem {
+  height: 100%;
+
   & a {
     color: white;
     text-decoration: none;
-    padding: 0.6rem 1rem;
-    margin: 0.2rem;
+    padding: 0.80rem 1rem;
+    margin-right: 0.2rem;
     display: block;
-    height: 100%;
 
     &:hover, &:active, &.active {
       background-color: rgba(64, 164, 201, 0.5);
-      border-radius: 10px;
+      border-bottom: rgb(64, 164, 201) 5px solid;
     }
   }
 }
