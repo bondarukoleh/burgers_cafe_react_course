@@ -6,10 +6,7 @@ function NavigationItems(props) {
   return (
     <nav>
       <ul className={styles.NavigationItems}>
-        <NavigationItem
-          active
-          link="/"
-        >Burger Builder</NavigationItem>
+        <NavigationItem active link="/">Burger Builder</NavigationItem>
         <NavigationItem link="/">Checkout</NavigationItem>
       </ul>
     </nav>

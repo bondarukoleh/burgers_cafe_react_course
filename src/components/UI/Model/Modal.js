@@ -5,11 +5,11 @@ import Shade from '../Shade/Shade'
 function Modal(props) {
   return (
     <React.Fragment>
-      <Shade purchasingHandler={props.purchasingHandler} show={props.show}/>
+      <Shade onClick={props.purchasingHandler} show={props.show}/>
       <div
         className={style.Modal}
         style={{
-          transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
+          transform: props.show ? 'translateY(0)' : 'translateY(-200vh)',
           opacity: props.show ? '1' : '0'
         }}
       >

@@ -1,0 +1,58 @@
+.MenuBtn {
+
+  input {
+    opacity: 0;
+  }
+
+  & > label {
+    display: flex;
+    align-items: center; /* to align column dashes */
+    justify-content: center;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    padding: 0.2rem;
+
+    /* hamburger */
+    & > span, & > span::before, > span::after {
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      background: #D39952;
+      transition-duration: .25s;
+    }
+
+    /* top dash */
+    & > span::before {
+      content: '';
+      top: -8px;
+    }
+
+    /* bottom dash */
+    & > span::after {
+      content: '';
+      top: 8px;
+    }
+  }
+
+
+  /* Will enable further
+   // Rotate dashes
+  & input:checked + label > span {
+    transform: rotate(45deg);
+  }
+  // rotate top dash
+  & input:checked + label > span::before {
+    top: 0;
+    transform: rotate(0);
+  }
+  // rotate bottom dash
+  & input:checked + label > span::after {
+    top: 0;
+    transform: rotate(90deg);
+  } */
+}
