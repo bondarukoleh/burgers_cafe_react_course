@@ -1,3 +1,5 @@
+@import '../../sass/config';
+
 .Header {
   width: 100%;
   position: fixed;
@@ -21,7 +23,7 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: $smartphones-width) {
   .DescTopOnly {
     display: none;
   }

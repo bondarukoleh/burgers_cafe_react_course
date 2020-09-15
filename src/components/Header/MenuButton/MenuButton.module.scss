@@ -1,3 +1,5 @@
+@import '../../../sass/config';
+
 .MenuBtn {
   input {
     opacity: 0;
@@ -60,8 +62,14 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: $smartphones-width) {
   .CrossBtn {
     padding-bottom: 1rem;
+  }
+}
+
+@media (min-width: $smartphones-width + 1) {
+  .MenuBtn {
+    display: none;
   }
 }

@@ -12,17 +12,23 @@ const Burger = (props) => {
     return Array.from(new Array(times)).map((v, i) => <Ingredient key={type+i} type={type} />)
   }
 
-  const renderIngredients = () => {
-    const ingredients = Object.entries(props.ingredients).map(([type, times]) => createIngredient(type, times));
-    const addIngredients = <div className={styles.noIngredient}>You can add ingredients here!</div>;
-    return ingredients.flat().length ? ingredients : addIngredients;
+  const noIngredients = () => {
+    return <div>You can add ingredients here!</div>
   }
+
+  const renderIngredients = () => {
+    return Object.entries(props.ingredients).map(([type, times]) => createIngredient(type, times));
+  }
+
+  const ingredients = renderIngredients();
+  const ingredientsLength = ingredients.flat().length;
+  const attachedClasses = [styles.Burger, !ingredientsLength && styles.noIngredients];
 
   return (
     <div className={utilities.wrapper}>
-      <div className={styles.Burger}>
+      <div className={attachedClasses.filter(i => !!i).join(' ')}>
         <Ingredient type={'bread-top'} />
-        {renderIngredients()}
+        {ingredientsLength ? ingredients : noIngredients()}
         <Ingredient type={'bread-bottom'} />
       </div>
     </div>

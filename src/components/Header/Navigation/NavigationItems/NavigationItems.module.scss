@@ -1,13 +1,13 @@
+@import '../../../../sass/config';
+
 .NavigationItems {
-  //margin: 0;
-  //padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
 
-@media (max-width: 500px) {
+@media (max-width: $smartphones-width) {
   .NavigationItems {
     flex-direction: column;
   }

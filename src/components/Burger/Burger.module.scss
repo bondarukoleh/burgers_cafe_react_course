@@ -8,11 +8,10 @@
   font-size: 1.2rem;
   max-width: $website-width;
   padding: 1rem;
+  transition: .3s ease-in-out;
 
-  &.no-ingredient {
-    text-align: center;
-    border: #228c1d solid 2px;
-    border-radius: 20px;
+  &.noIngredients {
+    padding-top: 5rem;
   }
 }
 
@@ -28,9 +27,13 @@
   }
 }
 
-@media (max-height: $landscape-high) {
+@media (max-height: $landscape-high) and (max-width: $tablet-width) {
   .Burger {
     width: 60%;
-    height: 300px;
+    height: 200px;
+
+    &.noIngredients {
+      padding-top: 2rem;
+    }
   }
 }
