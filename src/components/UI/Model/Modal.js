@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './Moral.module.scss';
+import style from './Modal.module.scss';
 import Shade from '../Shade/Shade'
 
 function Modal(props) {

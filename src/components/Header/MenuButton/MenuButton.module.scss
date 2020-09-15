@@ -1,5 +1,4 @@
 .MenuBtn {
-
   input {
     opacity: 0;
   }
@@ -38,21 +37,31 @@
       top: 8px;
     }
   }
+}
 
 
-  /* Will enable further
-   // Rotate dashes
-  & input:checked + label > span {
+.CrossBtn {
+  @extend .MenuBtn;
+  // Rotate dashes
+  & input + label > span {
     transform: rotate(45deg);
   }
+
   // rotate top dash
-  & input:checked + label > span::before {
+  & input + label > span::before {
     top: 0;
     transform: rotate(0);
   }
+
   // rotate bottom dash
-  & input:checked + label > span::after {
+  & input + label > span::after {
     top: 0;
     transform: rotate(90deg);
-  } */
+  }
+}
+
+@media (max-width: 500px) {
+  .CrossBtn {
+    padding-bottom: 1rem;
+  }
 }

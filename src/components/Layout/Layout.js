@@ -5,7 +5,7 @@ import SideDrawer from "../Header/SideDrawer/SideDrawer";
 import Shade from "../UI/Shade/Shade";
 
 const Layout = (props) => {
-  const [state, setState] = useState({showSideDrawer: true});
+  const [state, setState] = useState({showSideDrawer: false});
 
   const sideDrawerAppearance = () => setState((prevState => ({showSideDrawer: !prevState.showSideDrawer})));
 
