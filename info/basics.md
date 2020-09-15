@@ -359,8 +359,13 @@ parameter to `componentDidUpdate()`. A snapshot value (or null) should be return
 
 ### React.memo
 It's a `higher-order component`, a function that takes a component and returns a new component. \
-React.memo - HOC that the way you can prevent functional component from rerendering if `props is not changed`. If function component wrapped in React.memo has a `useState` or `useContext` hook - it will still rerender when state or context change. \
-Prevent rerendering needed on demand, if you are confident that in most cases your component should be rerendered if parent is rerendered - you shouldn't add it. 
+React.memo - HOC that the way you can prevent functional component from rerendering if `props is not changed`. 
+If function component wrapped in React.memo has a `useState` or `useContext` hook - it will still rerender when state
+or context change. \
+Prevent rerendering needed on demand, if you are confident that in most cases your component should be rerendered
+if parent is rerendered - you shouldn't add it. \
+If HOC component isn't updated - his children also aren't updated in most cases, so you can control children update 
+from parent.
 ```jsx
 function MyComponent(props) {
   /* render using props */

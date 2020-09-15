@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './MenuButton.module.scss'
 
 MenuButton.propTypes = {
-  btnCrossView: PropTypes.string
+  btnCrossView: PropTypes.bool
 };
 
 function MenuButton(props) {

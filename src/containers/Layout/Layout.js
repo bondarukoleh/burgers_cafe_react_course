@@ -1,14 +1,13 @@
 import React, {useState} from "react";
-import Header from "../Header/Header";
+import Header from "../../components/Header/Header";
 import styles from './Layout.module.scss';
-import SideDrawer from "../Header/SideDrawer/SideDrawer";
-import Shade from "../UI/Shade/Shade";
+import SideDrawer from "../../components/Header/SideDrawer/SideDrawer";
+import Shade from "../../components/UI/Shade/Shade";
 
 const Layout = (props) => {
   const [state, setState] = useState({showSideDrawer: false});
 
-  const sideDrawerAppearance = () => setState((prevState => ({showSideDrawer: !prevState.showSideDrawer})));
-
+  const sideDrawerAppearance = () => setState(prevState => ({showSideDrawer: !prevState.showSideDrawer}));
 
   const renderSideDrawer = () => {
     if(state.showSideDrawer) {
