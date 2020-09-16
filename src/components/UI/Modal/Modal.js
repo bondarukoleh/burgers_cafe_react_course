@@ -4,13 +4,13 @@ import Shade from '../Shade/Shade'
 
 class Modal extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return this.props.show !== nextProps.show;
+    return this.props.show !== nextProps.show || this.props.loading !== nextProps.loading;
   }
 
   render() {
     return (
       <React.Fragment>
-        <Shade onClick={this.props.purchasingHandler} show={this.props.show}/>
+        <Shade onClick={this.props.shadeClick} show={this.props.show}/>
         <div
           className={style.Modal}
           style={{

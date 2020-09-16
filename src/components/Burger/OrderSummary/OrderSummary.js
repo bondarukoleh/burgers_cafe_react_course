@@ -10,7 +10,6 @@ class OrderSummary extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.props.error && alert(`There is an error, your order hasn't came thru :(`)}
         <h3>Your Order</h3>
         <p>Delicious burger with the following ingredients:</p>
         <ul>

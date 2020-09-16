@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
-import Modal from "../../components/UI/Model/Modal";
+import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import {ordersRequest} from '../../helpers/api';
+import Spinner from "../../components/Burger/Spinner/Spinner";
+import WithErrorHandler from "../../components/UI/WithErrorHandler/WithErrorHandler";
 
 const INGREDIENT_PRICES = {
   bacon: 0.50,
@@ -23,7 +25,8 @@ class BurgerBuilder extends Component {
     price: 0,
     purchasable: false,
     purchasing: false,
-    error: null
+    error: null,
+    sendingOrder: false
   };
 
   componentDidMount = () => {
@@ -49,11 +52,14 @@ class BurgerBuilder extends Component {
       deliveryMethod: 'fast'
     };
 
+    this.setState({sendingOrder: true});
     try {
-      const response = await ordersRequest.post('/orders.json', order);
-      this.setState({purchasing: false});
+      // const result = await ordersRequest.post('/orders.json', order);
+      // this.setState({purchasing: false, sendingOrder: false});
+      // console.log(result);
+      throw new Error('AAAAAAAAAAAA')
     } catch (e) {
-      this.setState({error: e});
+      this.setState({sendingOrder: false});
       console.log(`Couldn't post the order `, e);
     }
   };
@@ -90,6 +96,17 @@ class BurgerBuilder extends Component {
     }
   };
 
+  loadingHandler = (loadingState) => this.setState({sendingOrder: loadingState});
+
+  renderOrderSummary = () => {
+    return (<OrderSummary price={this.state.price}
+                          ingredients={this.state.ingredients}
+                          purchasingHandler={this.purchasingHandler}
+                          orderingHandler={this.createOrder}
+                          show={this.state.purchasing}
+    />);
+  };
+
   render() {
     const disabledControls = {...this.state.ingredients};
     for (const type in disabledControls) {
@@ -98,14 +115,9 @@ class BurgerBuilder extends Component {
 
     return (
       <React.Fragment>
-        <Modal purchasingHandler={this.purchasingHandler} show={this.state.purchasing}>
-          <OrderSummary price={this.state.price}
-                        ingredients={this.state.ingredients}
-                        purchasingHandler={this.purchasingHandler}
-                        orderingHandler={this.createOrder}
-                        show={this.state.purchasing}
-                        error={this.state.error}
-          />
+        <Modal shadeClick={this.purchasingHandler} show={this.state.purchasing}
+               loading={this.state.sendingOrder}>
+          {this.state.sendingOrder ? <Spinner/> : this.renderOrderSummary()}
         </Modal>
         <Burger ingredients={this.state.ingredients}/>
         <BuildControls
@@ -121,5 +133,5 @@ class BurgerBuilder extends Component {
   }
 }
 
-export default BurgerBuilder;
+export default WithErrorHandler(BurgerBuilder, ordersRequest);
 export const ingredientPrices = INGREDIENT_PRICES;
