@@ -3,6 +3,7 @@ import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Model/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
+import {ordersRequest} from '../../helpers/api';
 
 const INGREDIENT_PRICES = {
   bacon: 0.50,
@@ -22,6 +23,7 @@ class BurgerBuilder extends Component {
     price: 0,
     purchasable: false,
     purchasing: false,
+    error: null
   };
 
   componentDidMount = () => {
@@ -31,9 +33,30 @@ class BurgerBuilder extends Component {
   getPurchasableState = (price) => price > 0;
   purchasingHandler = () => this.setState((prevState) => ({purchasing: !prevState.purchasing}));
 
-  orderingHandler = () => {
+  createOrder = async () => {
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.price,
+      customer: {
+        name: 'Oleh',
+        address: {
+          street: 'Test street 1',
+          zipCode: '1111AB',
+          country: 'Netherlands'
+        },
+        email: 'test@test.com'
+      },
+      deliveryMethod: 'fast'
+    };
 
-  }
+    try {
+      const response = await ordersRequest.post('/orders.json', order);
+      this.setState({purchasing: false});
+    } catch (e) {
+      this.setState({error: e});
+      console.log(`Couldn't post the order `, e);
+    }
+  };
 
   addIngredientHandler = (type) => {
     const oldIngredients = {...this.state.ingredients};
@@ -76,7 +99,13 @@ class BurgerBuilder extends Component {
     return (
       <React.Fragment>
         <Modal purchasingHandler={this.purchasingHandler} show={this.state.purchasing}>
-          <OrderSummary price={this.state.price} ingredients={this.state.ingredients} purchasingHandler={this.purchasingHandler} orderingHandler={this.orderingHandler} show={this.state.purchasing}/>
+          <OrderSummary price={this.state.price}
+                        ingredients={this.state.ingredients}
+                        purchasingHandler={this.purchasingHandler}
+                        orderingHandler={this.createOrder}
+                        show={this.state.purchasing}
+                        error={this.state.error}
+          />
         </Modal>
         <Burger ingredients={this.state.ingredients}/>
         <BuildControls
