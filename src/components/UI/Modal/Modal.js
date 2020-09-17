@@ -1,12 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import style from './Modal.module.scss';
 import Shade from '../Shade/Shade'
 
-class Modal extends Component {
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return this.props.show !== nextProps.show || this.props.loading !== nextProps.loading;
-  }
-
+class Modal extends PureComponent {
   render() {
     return (
       <React.Fragment>

@@ -53,14 +53,15 @@ class BurgerBuilder extends Component {
     };
 
     this.setState({sendingOrder: true});
+    console.log('setState From create order ', this.state.sendingOrder);
     try {
-      // const result = await ordersRequest.post('/orders.json', order);
-      // this.setState({purchasing: false, sendingOrder: false});
-      // console.log(result);
-      throw new Error('AAAAAAAAAAAA')
+      const result = await ordersRequest.post('/orders.jsons', order);
+      this.setState({purchasing: false, sendingOrder: false});
+      console.log(result);
     } catch (e) {
       this.setState({sendingOrder: false});
-      console.log(`Couldn't post the order `, e);
+      console.log(`Couldn't post the order `, e.message);
+      throw e;
     }
   };
 
@@ -115,8 +116,11 @@ class BurgerBuilder extends Component {
 
     return (
       <React.Fragment>
-        <Modal shadeClick={this.purchasingHandler} show={this.state.purchasing}
-               loading={this.state.sendingOrder}>
+        <Modal
+          shadeClick={this.purchasingHandler}
+          show={this.state.purchasing}
+          showSpinner={this.state.sendingOrder}
+        >
           {this.state.sendingOrder ? <Spinner/> : this.renderOrderSummary()}
         </Modal>
         <Burger ingredients={this.state.ingredients}/>
