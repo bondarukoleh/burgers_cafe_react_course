@@ -1,32 +1,38 @@
 import React, {Component} from 'react';
 import Modal from "../Modal/Modal";
+import Error from "../Error/Error";
 
 function WithErrorHandler(WrappedComponent, axios) {
   return class extends Component {
     state = {
       error: false
-    };
+    }
 
-    componentDidMount() {
+    setAxios () {
       axios.interceptors.request.use(request => {
-        this.setState({error: null});
+        this.setState({error: false});
         return request;
+      }, error => {
+        this.setState({error});
       });
 
-      axios.interceptors.response.use(response => response, error => {
+      axios.interceptors.response.use(response => {
+        return response;
+      }, error => {
         this.setState({error});
       });
     }
 
     errorConfirmed = () => {
-      this.setState({error: null})
+      this.setState({error: false});
     };
 
     render() {
+      this.setAxios()
       return (
         <React.Fragment>
-          <Modal show={this.state.error} shadeClick={this.errorConfirmed}>
-            {`There is an error, your order hasn't came thru :( ${this.state.error && this.state.error.message}`}
+          <Modal show={!!this.state.error} shadeClick={this.errorConfirmed}>
+            <Error error={this.state.error} errorConfirmed={this.errorConfirmed} />
           </Modal>
           <WrappedComponent {...this.props}/>
         </React.Fragment>

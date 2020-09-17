@@ -6,6 +6,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import {ordersRequest} from '../../helpers/api';
 import Spinner from "../../components/Burger/Spinner/Spinner";
 import WithErrorHandler from "../../components/UI/WithErrorHandler/WithErrorHandler";
+import Error from "../../components/UI/Error/Error";
 
 const INGREDIENT_PRICES = {
   bacon: 0.50,
@@ -16,21 +17,31 @@ const INGREDIENT_PRICES = {
 
 class BurgerBuilder extends Component {
   state = {
-    ingredients: {
-      bacon: 0,
-      salad: 0,
-      cheese: 0,
-      meat: 0,
-    },
+    ingredients: {},
     price: 0,
     purchasable: false,
     purchasing: false,
-    error: null,
-    sendingOrder: false
+    error: false,
+    sendingOrder: false,
   };
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     this.countBurgerPrice();
+    await this.getIngredients();
+  };
+
+  getIngredients = async () => {
+    try {
+      const result = await ordersRequest.get('/ingredients.json');
+      if(result && result.data) {
+        this.setState({ingredients: result.data});
+      } else {
+        this.setState({error: true})
+      }
+    } catch (e) {
+      this.setState({error: e})
+      console.log(`Couldn't post the order `, e.message);
+    }
   };
 
   getPurchasableState = (price) => price > 0;
@@ -53,15 +64,13 @@ class BurgerBuilder extends Component {
     };
 
     this.setState({sendingOrder: true});
-    console.log('setState From create order ', this.state.sendingOrder);
     try {
-      const result = await ordersRequest.post('/orders.jsons', order);
+      const result = await ordersRequest.post('/orders.json', order);
       this.setState({purchasing: false, sendingOrder: false});
       console.log(result);
     } catch (e) {
       this.setState({sendingOrder: false});
       console.log(`Couldn't post the order `, e.message);
-      throw e;
     }
   };
 
@@ -100,38 +109,58 @@ class BurgerBuilder extends Component {
   loadingHandler = (loadingState) => this.setState({sendingOrder: loadingState});
 
   renderOrderSummary = () => {
-    return (<OrderSummary price={this.state.price}
-                          ingredients={this.state.ingredients}
-                          purchasingHandler={this.purchasingHandler}
-                          orderingHandler={this.createOrder}
-                          show={this.state.purchasing}
-    />);
+    if (this.state.sendingOrder) {
+      return <Spinner/>;
+    }
+    if (Object.keys(this.state.ingredients).length) {
+      return (<OrderSummary price={this.state.price}
+                            ingredients={this.state.ingredients}
+                            purchasingHandler={this.purchasingHandler}
+                            orderingHandler={this.createOrder}
+                            show={this.state.purchasing}
+      />);
+    }
+    return null;
+  };
+
+  renderBurgerRelated = () => {
+    if (Object.keys(this.state.ingredients).length) {
+      const disabledControls = {...this.state.ingredients};
+      for (const type in disabledControls) {
+        disabledControls[type] = !disabledControls[type];
+      }
+
+      return (
+        <React.Fragment>
+          <Burger ingredients={this.state.ingredients}/>
+          <BuildControls
+            price={this.state.price}
+            disabledControls={disabledControls}
+            addIngredient={this.addIngredientHandler}
+            removeIngredient={this.removeIngredientHandler}
+            purchasable={this.state.purchasable}
+            purchasingHandler={this.purchasingHandler}
+          />
+        </React.Fragment>
+      );
+    }
+    if (this.state.error) {
+      return <Error error={this.state.error} errorConfirmed={() => {}} />;
+    } else {
+      return <Spinner/>;
+    }
   };
 
   render() {
-    const disabledControls = {...this.state.ingredients};
-    for (const type in disabledControls) {
-      disabledControls[type] = !disabledControls[type];
-    }
-
     return (
       <React.Fragment>
         <Modal
           shadeClick={this.purchasingHandler}
           show={this.state.purchasing}
-          showSpinner={this.state.sendingOrder}
-        >
-          {this.state.sendingOrder ? <Spinner/> : this.renderOrderSummary()}
+          showSpinner={this.state.sendingOrder}>
+          {this.renderOrderSummary()}
         </Modal>
-        <Burger ingredients={this.state.ingredients}/>
-        <BuildControls
-          price={this.state.price}
-          disabledControls={disabledControls}
-          addIngredient={this.addIngredientHandler}
-          removeIngredient={this.removeIngredientHandler}
-          purchasable={this.state.purchasable}
-          purchasingHandler={this.purchasingHandler}
-        />
+        {this.renderBurgerRelated()}
       </React.Fragment>
     );
   }
