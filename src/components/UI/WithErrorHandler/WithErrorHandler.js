@@ -4,6 +4,9 @@ import Error from "../Error/Error";
 
 function WithErrorHandler(WrappedComponent, axios) {
   return class extends Component {
+    reqInterceptor;
+    resInterceptor;
+
     constructor(props) {
       super(props);
       this.state = {
@@ -11,7 +14,7 @@ function WithErrorHandler(WrappedComponent, axios) {
       };
     }
 
-    setAxios = () => {
+    componentDidMount() {
       this.reqInterceptor = axios.interceptors.request.use(request => {
         this.setState({error: false});
         return request;
@@ -24,7 +27,7 @@ function WithErrorHandler(WrappedComponent, axios) {
       }, error => {
         this.setState({error});
       });
-    };
+    }
 
     errorConfirmed = () => {
       this.setState({error: false});
@@ -36,7 +39,6 @@ function WithErrorHandler(WrappedComponent, axios) {
     }
 
     render() {
-      this.setAxios();
       return (
         <React.Fragment>
           <Modal show={!!this.state.error} shadeClick={this.errorConfirmed}>

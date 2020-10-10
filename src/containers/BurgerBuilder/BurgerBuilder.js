@@ -33,14 +33,14 @@ class BurgerBuilder extends Component {
   getIngredients = async () => {
     try {
       const result = await ordersRequest.get('/ingredients.json');
-      if(result && result.data) {
+      if(result?.data) {
         this.setState({ingredients: result.data});
       } else {
         this.setState({error: true})
       }
     } catch (e) {
       this.setState({error: e})
-      console.log(`Couldn't post the order `, e.message);
+      console.log(`Couldn't Get the ingredients: `, e.message);
     }
   };
 

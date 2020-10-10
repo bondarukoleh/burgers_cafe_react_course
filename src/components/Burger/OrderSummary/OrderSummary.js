@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom'
 import Button from "../../UI/Button/Button";
 
 class OrderSummary extends Component {
@@ -22,7 +23,10 @@ class OrderSummary extends Component {
           buttonType={'Fail'}
         >Cancel</Button>
         <Button
-          clickHandler={this.props.orderingHandler}
+          clickHandler={() => {
+            this.props.orderingHandler();
+            this.props.history.push('/checkout');
+          }}
           buttonType={'Success'}
         >Continue</Button>
       </React.Fragment>
@@ -30,4 +34,4 @@ class OrderSummary extends Component {
   }
 }
 
-export default OrderSummary;
+export default withRouter(OrderSummary);

@@ -1,4 +1,5 @@
 import React from 'react';
+import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styles from './CheckoutSummary.module.scss'
 import Burger from "../../Burger/Burger";
@@ -11,14 +12,18 @@ const CheckoutSummary = props => {
       <div className={styles.BurgerWrap}>
         <Burger ingredients={props.ingredients}/>
       </div>
-      <Button buttonType={'Fail'} clickHandler={}>Cancel</Button>
-      <Button buttonType={'Success'} clickHandler={}>Continue</Button>
+      <div>
+        <Button buttonType={'Fail'} clickHandler={props.checkoutCanceled}>Cancel</Button>
+        <Button buttonType={'Success'} clickHandler={props.checkoutContinued}>Continue</Button>
+      </div>
     </div>
   );
 };
 
 CheckoutSummary.propTypes = {
-  ingredients: PropTypes.object.isRequired
+  ingredients: PropTypes.object.isRequired,
+  checkoutContinued: PropTypes.func.isRequired,
+  checkoutCanceled: PropTypes.func.isRequired
 };
 
-export default CheckoutSummary;
+export default withRouter(CheckoutSummary);
