@@ -11,9 +11,9 @@
 - cwup  - componentWillUpdate(nextProps, nextState) [DEPRECATION NOTE]: This method is deprecated in React 16.
 - disp - function mapDispatchToProps(dispatch)
 - est - Creates empty state object
-- **fcc** - Creates a React component class with FlowTypes
-- **fsc** - Creates a stateless React component with FlowTypes and ES6 module system
-- **fsf** - Creates a stateless React component as a named function with FlowTypes
+- fcc - Creates a React component class with FlowTypes
+- fsc - Creates a stateless React component with FlowTypes and ES6 module system
+- fsf - Creates a stateless React component as a named function with FlowTypes
 - gdsfp - static getDerivedStateFromProps(nextProps, prevState)
 - gsbu - getSnapshotBeforeUpdate(prevProps, prevState)
 - **props** - Access component's props, 
