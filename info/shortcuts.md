@@ -1,0 +1,52 @@
+### React shortcuts:
+- bnd - Binds `this` of a method. To be used inside a constructor.
+- cdc - componentDidCatch(error, info);
+- cdm - componentDidMount()
+- cdup - componentDidUpdate(prevProps, prevState)
+- con - constructor(props)
+- conc - constructor(props, context)
+- cwm  - componentWillMount()
+- cwr - componentWillReceiveProps(nextProps) [DEPRECATION NOTE]: This method is deprecated in React 16.
+- cwun - componentWillUnmount()
+- cwup  - componentWillUpdate(nextProps, nextState) [DEPRECATION NOTE]: This method is deprecated in React 16.
+- disp - function mapDispatchToProps(dispatch)
+- est - Creates empty state object
+- **fcc** - Creates a React component class with FlowTypes
+- **fsc** - Creates a stateless React component with FlowTypes and ES6 module system
+- **fsf** - Creates a stateless React component as a named function with FlowTypes
+- gdsfp - static getDerivedStateFromProps(nextProps, prevState)
+- gsbu - getSnapshotBeforeUpdate(prevProps, prevState)
+- **props** - Access component's props, 
+    - pta - PropTypes.array, ptar - PropTypes.array.isRequired
+    - ptao - PropTypes.arrayOf();
+    - ptb - PropTypes.bool, ptbr - PropTypes.bool.isRequired
+    - pte - PropTypes.oneOf(), pter" - PropTypes.oneOf().isRequired
+    - ptel - PropTypes.element, ptelr - PropTypes.element.isRequired
+    - ptet - PropTypes.oneOfType(), ptetr - PropTypes.oneOfType().isRequired
+    - ptf - PropTypes.func, ptfr
+    - pti - PropTypes.instanceOf(), ptir
+    - ptn - PropTypes.number, ptnd
+    - ptndr - PropTypes.node.isRequired, ptnr
+    - pto - PropTypes.object, ptor
+    - ptoo - PropTypes.objectOf(), ptoor
+    - pts - PropTypes.string, ptsr
+- **rcc** - Creates a React component class with ES6 module system
+- **rccp** Creates a React component class with PropTypes and ES6 module system
+- **rcfc** Creates a React component class with PropTypes and all lifecycle methods and ES6 module system
+- **rcjc** Creates a React component class with ES6 module system
+- rdp - Creates empty defaultProps declaration
+- ren - When called, it should examine this.props and this.state and return a single child element
+- **rpc** - Creates a React pure component class with PropTypes and ES6 module system
+- **rpt** - Creates empty propTypes declaration
+- **rrc** Creates a React component class connected to redux
+- **rrdc** Creates a React component class connected to redux with dispatch
+- **rsc** Creates a stateless React component without PropTypes and ES6 module system
+- **rscp** Creates a stateless React component with PropTypes and ES6 module system
+- **rsf** Creates a stateless React component as a named function without PropTypes
+- **rsfp** Creates a stateless React component as a named function with PropTypes
+- rsi Creates a stateless React component without PropTypes and ES6 module system but with Implicit Return and props
+- rwwd - Creates a React component class with constructor, empty state, proptypes and export in ES6 module system without imports.
+- scu - shouldComponentUpdate(nextProps, nextState)
+- ssf - this.setState((state, props) => { return  { }});
+- sst - this.setState();
+- state - this.state.
