@@ -6,10 +6,10 @@ import PropTypes from 'prop-types'
 
 const Burger = (props) => {
   const createIngredient = (type, times) => {
-    if(times < 0) {
+    if(times <= 0) {
       return null;
     }
-    return Array.from(new Array(times)).map((v, i) => <Ingredient key={type+i} type={type} />)
+    return Array.from(new Array(+times)).map((v, i) => <Ingredient key={type+i} type={type} />)
   }
 
   const noIngredients = () => {
@@ -20,7 +20,7 @@ const Burger = (props) => {
     return Object.entries(props.ingredients).map(([type, times]) => createIngredient(type, times));
   }
 
-  const ingredients = renderIngredients();
+  const ingredients = renderIngredients().filter(i => !!i);
   const ingredientsLength = ingredients.flat().length;
   const attachedClasses = [styles.Burger, !ingredientsLength && styles.noIngredients];
 
