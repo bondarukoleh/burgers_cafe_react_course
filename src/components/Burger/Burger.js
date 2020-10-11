@@ -9,6 +9,7 @@ const Burger = (props) => {
     if(times <= 0) {
       return null;
     }
+
     return Array.from(new Array(+times)).map((v, i) => <Ingredient key={type+i} type={type} />)
   }
 

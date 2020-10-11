@@ -53,12 +53,12 @@ class BurgerBuilder extends Component {
       price: this.state.price,
       customer: {
         name: 'Oleh',
+        email: 'test@test.com',
         address: {
           street: 'Test street 1',
           zipCode: '1111AB',
           country: 'Netherlands'
-        },
-        email: 'test@test.com'
+        }
       },
       deliveryMethod: 'fast'
     };

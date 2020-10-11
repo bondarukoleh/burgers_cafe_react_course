@@ -1,5 +1,6 @@
 import React from 'react';
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
+import ContactData from "./ContactData/ContactData";
 
 const Checkout = props => {
 
@@ -9,14 +10,18 @@ const Checkout = props => {
     ingredients[ingredient] = amount;
   }
 
-  const checkoutCanceledHandler = () => props.history.goBack();
-  const checkoutCanceledContinueHandler = () => props.history.replace('/checkout/contact-data');
+  const goBack = () => props.history.goBack();
+  const checkoutContinueHandler = () => props.history.replace('/checkout/contact-data');
+  const orderMadeHandler = () => props.history.replace('/checkout/contact-data');
 
-  return <CheckoutSummary
-    checkoutCanceled={checkoutCanceledHandler}
-    checkoutContinued={checkoutCanceledContinueHandler}
-    ingredients={ingredients}
-  />;
+  return  <div>
+    <CheckoutSummary
+      checkoutCanceled={goBack}
+      checkoutContinued={checkoutContinueHandler}
+      ingredients={ingredients}
+    />;
+    <ContactData orderCanceled={goBack} orderMade={orderMadeHandler}/>
+  </div>
 };
 
 export default Checkout;

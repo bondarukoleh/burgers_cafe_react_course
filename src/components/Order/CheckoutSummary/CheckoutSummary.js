@@ -12,7 +12,7 @@ const CheckoutSummary = props => {
       <div className={styles.BurgerWrap}>
         <Burger ingredients={props.ingredients}/>
       </div>
-      <div>
+      <div className={styles.Controls}>
         <Button buttonType={'Fail'} clickHandler={props.checkoutCanceled}>Cancel</Button>
         <Button buttonType={'Success'} clickHandler={props.checkoutContinued}>Continue</Button>
       </div>
