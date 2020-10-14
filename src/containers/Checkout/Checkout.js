@@ -1,26 +1,44 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import ContactData from "./ContactData/ContactData";
+import {Route} from 'react-router-dom';
 
 const Checkout = props => {
-
-  const ingredientsQuery = new URLSearchParams(props.location.search);
-  const ingredients = {}
-  for(const [ingredient, amount] of ingredientsQuery.entries()){
-    ingredients[ingredient] = amount;
-  }
+  const [state, setState] = useState({ingredients: {}, price: ''})
+  useEffect(() => {
+    const ingredientsQuery = new URLSearchParams(props.location.search);
+    const burgerIngredients = {}
+    let totalPrice;
+    for(const [ingredient, amount] of ingredientsQuery.entries()){
+      if (ingredient === 'price') {
+        totalPrice = amount;
+      } else {
+        burgerIngredients[ingredient] = amount;
+      }
+    }
+    setState({ingredients: burgerIngredients, price: totalPrice})
+  }, [])
 
   const goBack = () => props.history.goBack();
-  const checkoutContinueHandler = () => props.history.replace('/checkout/contact-data');
-  const orderMadeHandler = () => props.history.replace('/checkout/contact-data');
+  const checkoutContinueHandler = () => props.history.replace(`/checkout/contact-data`);
+  const orderMadeHandler = () => {
 
-  return  <div>
+  };
+
+  return <div>
     <CheckoutSummary
       checkoutCanceled={goBack}
       checkoutContinued={checkoutContinueHandler}
-      ingredients={ingredients}
+      ingredients={state.ingredients}
     />;
-    <ContactData orderCanceled={goBack} orderMade={orderMadeHandler}/>
+    <Route path={`${props.match.path}/contact-data`} render={() => {
+      return <ContactData
+        orderCanceled={goBack}
+        orderMade={orderMadeHandler}
+        ingredients={state.ingredients}
+        price={state.price}
+      />
+    }}/>
   </div>
 };
 

@@ -14,8 +14,6 @@ const OrderSummary = (props) => {
       style={{textTransform: 'capitalize'}}>{type}</span>: {amount}</li>);
   };
 
-  console.log('OrderSummary ingredients');
-  console.log(ingredients);
   return (
     <React.Fragment>
       <h3>Your Order</h3>
@@ -31,10 +29,9 @@ const OrderSummary = (props) => {
       >Cancel</Button>
       <Button
         clickHandler={() => {
-          props.orderingHandler();
           props.history.push({
             pathname: '/checkout',
-            search: `${Object.entries(ingredients).map(([type, amount]) => {
+            search: `${Object.entries({price: props.price, ...ingredients}).map(([type, amount]) => {
               return `${encodeURIComponent(type)}=${encodeURIComponent(amount)}`;
             }).join('&')}`
           });

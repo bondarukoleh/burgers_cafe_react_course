@@ -47,33 +47,6 @@ class BurgerBuilder extends Component {
   getPurchasableState = (price) => price > 0;
   purchasingHandler = () => this.setState((prevState) => ({purchasing: !prevState.purchasing}));
 
-  createOrder = async () => {
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.price,
-      customer: {
-        name: 'Oleh',
-        email: 'test@test.com',
-        address: {
-          street: 'Test street 1',
-          zipCode: '1111AB',
-          country: 'Netherlands'
-        }
-      },
-      deliveryMethod: 'fast'
-    };
-
-    this.setState({sendingOrder: true});
-    try {
-      const result = await ordersRequest.post('/orders.json', order);
-      this.setState({purchasing: false, sendingOrder: false});
-      console.log(result);
-    } catch (e) {
-      this.setState({sendingOrder: false});
-      console.log(`Couldn't post the order `, e.message);
-    }
-  };
-
   addIngredientHandler = (type) => {
     const oldIngredients = {...this.state.ingredients};
     oldIngredients[type]++;
@@ -116,8 +89,6 @@ class BurgerBuilder extends Component {
       return (<OrderSummary price={this.state.price}
                             ingredients={this.state.ingredients}
                             purchasingHandler={this.purchasingHandler}
-                            orderingHandler={this.createOrder}
-                            show={this.state.purchasing}
       />);
     }
     return null;
@@ -156,8 +127,7 @@ class BurgerBuilder extends Component {
       <React.Fragment>
         <Modal
           shadeClick={this.purchasingHandler}
-          show={this.state.purchasing}
-          showSpinner={this.state.sendingOrder}>
+          show={this.state.purchasing}>
           {this.renderOrderSummary()}
         </Modal>
         {this.renderBurgerRelated()}
