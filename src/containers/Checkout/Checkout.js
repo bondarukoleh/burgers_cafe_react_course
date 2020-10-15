@@ -21,9 +21,6 @@ const Checkout = props => {
 
   const goBack = () => props.history.goBack();
   const checkoutContinueHandler = () => props.history.replace(`/checkout/contact-data`);
-  const orderMadeHandler = () => {
-
-  };
 
   return <div>
     <CheckoutSummary
@@ -34,7 +31,6 @@ const Checkout = props => {
     <Route path={`${props.match.path}/contact-data`} render={() => {
       return <ContactData
         orderCanceled={goBack}
-        orderMade={orderMadeHandler}
         ingredients={state.ingredients}
         price={state.price}
       />

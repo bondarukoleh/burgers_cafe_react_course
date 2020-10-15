@@ -5,6 +5,7 @@ import Button from "../../../components/UI/Button/Button";
 import styles from './ContactData.module.scss';
 import {ordersRequest} from "../../../helpers/api";
 import Spinner from "../../../components/Burger/Spinner/Spinner";
+import Input from "../../../components/UI/Input/Input";
 
 const ContactData = props => {
   const [state, setState] = useState({
@@ -42,10 +43,10 @@ const ContactData = props => {
     <div className={styles.ContactData}>
       <h4>Enter your contact data:</h4>
       <form>
-        <input type="email" placeholder={'Your email...'}/>
-        <input type="text" placeholder={'Your name...'}/>
-        <input type="text" placeholder={'Your address...'}/>
-        <input type="text" placeholder={'Postal code...'}/>
+        <Input type="email" inputType={'input'} label={'Your email'}/>
+        <Input type="text" inputType={'input'} label={'Your name'}/>
+        <Input type="text" inputType={'input'} label={'Your address'}/>
+        <Input type="text" inputType={'input'} label={'Postal code'}/>
         <Button buttonType={'Fail'} clickHandler={props.orderCanceled}>Cancel</Button>
         <Button buttonType={'Success'} clickHandler={createOrder}>Order</Button>
       </form>
@@ -57,7 +58,6 @@ const ContactData = props => {
 
 ContactData.propTypes = {
   orderCanceled: PropTypes.func.isRequired,
-  orderMade: PropTypes.func.isRequired,
   ingredients: PropTypes.object.isRequired
 };
 
