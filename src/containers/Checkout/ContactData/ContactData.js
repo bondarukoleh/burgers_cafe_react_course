@@ -9,12 +9,58 @@ import Input from "../../../components/UI/Input/Input";
 
 const ContactData = props => {
   const [state, setState] = useState({
-    name: 'Oleh',
-    email: 'test@test.com',
-    address: {
-      street: 'Test street 1',
-      zipCode: '1111AB',
-      country: 'Netherlands'
+    form: {
+      name: {
+        elementProps: {
+          type: 'text',
+        },
+        label: 'Your Name',
+        inputType: 'input',
+        value: ''
+      },
+      email: {
+        elementProps: {
+          type: 'text',
+        },
+        label: 'Your email',
+        inputType: 'input',
+        value: ''
+      },
+      street: {
+        elementProps: {
+          type: 'text',
+        },
+        label: 'Your Street',
+        inputType: 'input',
+        value: ''
+      },
+      postalCode: {
+        elementProps: {
+          type: 'text',
+        },
+        label: 'Postal code',
+        inputType: 'input',
+        value: ''
+      },
+      country: {
+        elementProps: {
+          type: 'text',
+        },
+        label: 'Country',
+        inputType: 'input',
+        value: ''
+      },
+      deliveryMethod: {
+        elementProps: {
+          options: [
+            {value: 'fast', displayValue: 'Faster, expensive'},
+            {value: 'slow', displayValue: 'Slower, cheaper'},
+          ]
+        },
+        label: 'Delivery method',
+        inputType: 'select',
+        value: ''
+      },
     },
     loading: false
   });
@@ -43,15 +89,14 @@ const ContactData = props => {
     <div className={styles.ContactData}>
       <h4>Enter your contact data:</h4>
       <form>
-        <Input type="email" inputType={'input'} label={'Your email'}/>
-        <Input type="text" inputType={'input'} label={'Your name'}/>
-        <Input type="text" inputType={'input'} label={'Your address'}/>
-        <Input type="text" inputType={'input'} label={'Postal code'}/>
+        {Object.entries(state.form).map(([key, value]) => {
+          return <Input key={key} inputType={value.inputType} label={value.label} elementProps={value.elementProps} />
+        })}
         <Button buttonType={'Fail'} clickHandler={props.orderCanceled}>Cancel</Button>
         <Button buttonType={'Success'} clickHandler={createOrder}>Order</Button>
       </form>
     </div>
-  )
+  );
 
   return state.loading ? <Spinner/> : renderForm();
 };
