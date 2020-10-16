@@ -8,97 +8,112 @@ import Spinner from "../../../components/Burger/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
 
 const ContactData = props => {
-  const [state, setState] = useState({
-    form: {
-      name: {
-        elementProps: {
-          type: 'text',
-        },
-        label: 'Your Name',
-        inputType: 'input',
-        value: ''
+  const [form, setForm] = useState({
+    name: {
+      elementProps: {
+        type: 'text',
       },
-      email: {
-        elementProps: {
-          type: 'text',
-        },
-        label: 'Your email',
-        inputType: 'input',
-        value: ''
-      },
-      street: {
-        elementProps: {
-          type: 'text',
-        },
-        label: 'Your Street',
-        inputType: 'input',
-        value: ''
-      },
-      postalCode: {
-        elementProps: {
-          type: 'text',
-        },
-        label: 'Postal code',
-        inputType: 'input',
-        value: ''
-      },
-      country: {
-        elementProps: {
-          type: 'text',
-        },
-        label: 'Country',
-        inputType: 'input',
-        value: ''
-      },
-      deliveryMethod: {
-        elementProps: {
-          options: [
-            {value: 'fast', displayValue: 'Faster, expensive'},
-            {value: 'slow', displayValue: 'Slower, cheaper'},
-          ]
-        },
-        label: 'Delivery method',
-        inputType: 'select',
-        value: ''
-      },
+      label: 'Your Name',
+      inputType: 'input',
+      value: '',
     },
-    loading: false
+    email: {
+      elementProps: {
+        type: 'text',
+      },
+      label: 'Your email',
+      inputType: 'input',
+      value: '',
+    },
+    street: {
+      elementProps: {
+        type: 'text',
+      },
+      label: 'Your Street',
+      inputType: 'input',
+      value: '',
+    },
+    postalCode: {
+      elementProps: {
+        type: 'text',
+      },
+      label: 'Postal code',
+      inputType: 'input',
+      value: '',
+    },
+    country: {
+      elementProps: {
+        type: 'text',
+      },
+      label: 'Country',
+      inputType: 'input',
+      value: '',
+    },
+    deliveryMethod: {
+      elementProps: {
+        options: [
+          {value: 'fast', displayValue: 'Faster, expensive'},
+          {value: 'slow', displayValue: 'Slower, cheaper'},
+        ]
+      },
+      label: 'Delivery method',
+      inputType: 'select',
+      value: 'fast'
+    }
   });
+  const [loading, setLoading] = useState(false);
 
 
   const createOrder = async () => {
     const order = {
       ingredients: props.ingredients,
       price: props.price,
-      customer: state.customer,
+      customer: form,
     };
 
-    setState({loading: true});
+    setLoading(true);
     try {
       const result = await ordersRequest.post('/orders.json', order);
-      setState({loading: false});
+      setLoading(false);
       props.history.push('/');
       console.log(result);
     } catch (e) {
-      setState({loading: false});
+      setLoading(false);
       console.log(`Couldn't post the order `, e.message);
     }
+  };
+
+  const inputChangeHandler = (e, inputName) => {
+    const newForm = {...form};
+    const newFormElement = {...newForm[inputName]}
+    newFormElement.value = e.target.value
+    newForm[inputName] = newFormElement;
+    setForm(newForm);
   };
 
   const renderForm = () => (
     <div className={styles.ContactData}>
       <h4>Enter your contact data:</h4>
       <form>
-        {Object.entries(state.form).map(([key, value]) => {
-          return <Input key={key} inputType={value.inputType} label={value.label} elementProps={value.elementProps} />
+        {Object.entries(form).map(([key, value]) => {
+          return <Input
+            key={key}
+            inputType={value.inputType}
+            label={value.label}
+            changed={(e) => inputChangeHandler(e, key)}
+            elementProps={value.elementProps}/>;
         })}
+        <Button buttonType={'Success'} clickHandler={(e) => {
+          e.preventDefault();
+          console.log(form);
+        }}>Print</Button>
         <Button buttonType={'Fail'} clickHandler={props.orderCanceled}>Cancel</Button>
         <Button buttonType={'Success'} clickHandler={createOrder}>Order</Button>
       </form>
     </div>
   );
 
-  return state.loading ? <Spinner/> : renderForm();
+  return loading ? <Spinner/> : renderForm();
 };
 
 ContactData.propTypes = {
