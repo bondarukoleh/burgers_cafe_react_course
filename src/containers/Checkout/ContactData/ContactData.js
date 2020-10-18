@@ -68,7 +68,10 @@ const ContactData = props => {
     const order = {
       ingredients: props.ingredients,
       price: props.price,
-      customer: form,
+      customer: Object.entries(form).reduce((customerObj, [dataKey, data]) => {
+        customerObj[dataKey] = data.value;
+        return customerObj;
+      }, {}),
     };
 
     setLoading(true);
@@ -94,7 +97,7 @@ const ContactData = props => {
   const renderForm = () => (
     <div className={styles.ContactData}>
       <h4>Enter your contact data:</h4>
-      <form>
+      <form onSubmit={createOrder}>
         {Object.entries(form).map(([key, value]) => {
           return <Input
             key={key}
@@ -108,7 +111,7 @@ const ContactData = props => {
           console.log(form);
         }}>Print</Button>
         <Button buttonType={'Fail'} clickHandler={props.orderCanceled}>Cancel</Button>
-        <Button buttonType={'Success'} clickHandler={createOrder}>Order</Button>
+        <Button buttonType={'Success'} type='submit'>Order</Button>
       </form>
     </div>
   );

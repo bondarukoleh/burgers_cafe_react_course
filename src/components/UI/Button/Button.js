@@ -12,7 +12,7 @@ function Button(props) {
 }
 
 Button.propTypes = {
-  clickHandler: PropTypes.func.isRequired,
+  clickHandler: PropTypes.func,
   buttonType: PropTypes.string
 };
 
