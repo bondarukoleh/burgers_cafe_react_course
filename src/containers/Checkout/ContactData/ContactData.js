@@ -16,6 +16,9 @@ const ContactData = props => {
       label: 'Your Name',
       inputType: 'input',
       value: '',
+      validation: {
+        required: true
+      }
     },
     email: {
       elementProps: {
@@ -24,6 +27,9 @@ const ContactData = props => {
       label: 'Your email',
       inputType: 'input',
       value: '',
+      validation: {
+        required: true
+      }
     },
     street: {
       elementProps: {
@@ -32,6 +38,9 @@ const ContactData = props => {
       label: 'Your Street',
       inputType: 'input',
       value: '',
+      validation: {
+        required: true
+      }
     },
     postalCode: {
       elementProps: {
@@ -40,6 +49,9 @@ const ContactData = props => {
       label: 'Postal code',
       inputType: 'input',
       value: '',
+      validation: {
+        required: true
+      }
     },
     country: {
       elementProps: {
@@ -48,6 +60,9 @@ const ContactData = props => {
       label: 'Country',
       inputType: 'input',
       value: '',
+      validation: {
+        required: true
+      }
     },
     deliveryMethod: {
       elementProps: {
@@ -64,7 +79,8 @@ const ContactData = props => {
   const [loading, setLoading] = useState(false);
 
 
-  const createOrder = async () => {
+  const createOrder = async (e) => {
+    e.preventDefault();
     const order = {
       ingredients: props.ingredients,
       price: props.price,
@@ -88,33 +104,48 @@ const ContactData = props => {
 
   const inputChangeHandler = (e, inputName) => {
     const newForm = {...form};
-    const newFormElement = {...newForm[inputName]}
-    newFormElement.value = e.target.value
+    const newFormElement = {...newForm[inputName]};
+    newFormElement.value = e.target.value;
+    newFormElement.valid = validationCheck(newFormElement.value, newFormElement.validation);
     newForm[inputName] = newFormElement;
     setForm(newForm);
   };
 
-  const renderForm = () => (
-    <div className={styles.ContactData}>
-      <h4>Enter your contact data:</h4>
-      <form onSubmit={createOrder}>
-        {Object.entries(form).map(([key, value]) => {
-          return <Input
-            key={key}
-            inputType={value.inputType}
-            label={value.label}
-            changed={(e) => inputChangeHandler(e, key)}
-            elementProps={value.elementProps}/>;
-        })}
-        <Button buttonType={'Success'} clickHandler={(e) => {
-          e.preventDefault();
-          console.log(form);
-        }}>Print</Button>
-        <Button buttonType={'Fail'} clickHandler={props.orderCanceled}>Cancel</Button>
-        <Button buttonType={'Success'} type='submit'>Order</Button>
-      </form>
-    </div>
-  );
+  const validationCheck = (value, rules) => {
+    let validValue = false;
+
+    if (rules.required) {
+      validValue = !!value;
+    }
+
+    return validValue;
+  };
+
+  const renderForm = () => {
+    return (
+      <div className={styles.ContactData}>
+        <h4>Enter your contact data:</h4>
+        <form onSubmit={createOrder}>
+          {Object.entries(form).map(([key, value]) => {
+            return <Input
+              key={key}
+              inputType={value.inputType}
+              label={value.label}
+              changed={(e) => inputChangeHandler(e, key)}
+              elementProps={value.elementProps}
+              valid={value.valid}
+            />
+          })}
+          <Button buttonType={'Success'} clickHandler={(e) => {
+            e.preventDefault();
+            console.log(form);
+          }}>Print</Button>
+          <Button buttonType={'Fail'} clickHandler={props.orderCanceled}>Cancel</Button>
+          <Button buttonType={'Success'} type='submit'>Order</Button>
+        </form>
+      </div>
+    );
+  };
 
   return loading ? <Spinner/> : renderForm();
 };
