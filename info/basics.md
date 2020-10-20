@@ -451,3 +451,101 @@ Article.propTypes = {
   news: PropTypes.array.isRequired;
 };
 ```
+
+# Redux
+### redux
+Component fire Action, Action do some logic, getting/posting/etc something, when work is done - it dispatches some Action,
+dispatched action caught by Reducer, Reducer update the Store, Store fires all subscribed (connected) components by 
+changing their props on changed state, changing props firing re-rendering Component.    
+
+`redux` has `createStore(rootReducer)`, created store has `.subscribe(() => {})`, `.dispatch({action: ''})`, as simple
+as that.
+
+```jsx
+import {createStore, applyMiddleware, combineReducers} from 'redux'
+import thunk from 'redux-thunk';
+
+const MainComponentReducer = (state, action) => {
+  if(action.type === 'SOME_ACTION') {
+      return {...state, someProp: action.payload}
+    }
+  return state
+}
+
+const AnotherReducer = (state, action) => state;
+
+const rootReducer = combineReducers({main: MainComponentReducer, another: AnotherReducer})
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+store.subscribe(() => console.log('we have a new state ', store.getState()))
+
+store.dispatch({type: 'SOME_ACTION', payload: 'someValue'});
+``` 
+
+### redux-thunk
+To return from action creators function, that have (dispatch, getState) => {} as an arguments and gives you ability to
+decide what you want to return depend on some logic, or async action. That's cool because you don't need to return 
+object with payload immediately, instead you can do some job and decide what you want to return as a payload.
+
+```jsx
+const UserClickedButton = () => {
+  // I need to find out something from DB,
+  // so I need return an object after async function, and it will be in callbacks
+  return {}
+}
+
+//with thunk
+const UserClickedButton = () => async (dispatch, getState) => {
+  const response = await axios.get('/api/current_user');
+  if(response.error) {
+    return dispatch({
+      type: AuthActions.Error,
+      payload: response.error
+    });
+  }
+  return dispatch({
+    type: AuthActions.currentUser,
+    payload: response.data
+  });
+}
+``` 
+
+### react-redux
+This package helps to connect redux Store to react Component. \
+`connect` waits for **properties** needs to be connected with the store, subscription on those properties changes will 
+re-render the component. Second arguments it is the **actions creators** we want to dispatch a state change.
+
+```jsx
+// in root component
+import {Provider} from 'react-redux';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+```
+
+```jsx
+// in some component we want to connect
+import {connect} from 'react-redux';
+import buyClickedHandler from 'actions'
+
+const Header = ({user, buyClicked}) => <button onClick={() => buyClicked(user.id)}>Buy this!</button>
+
+const mapStateToProps = store => {
+  return {
+    user: store.auth.user;
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    buyClicked: (userID) => dispatch(buyClickedHandler(userID));
+  }
+}
+
+export default connect(mapStateToProps, mapActionCreatorsToProps)(Header)
+``` 
