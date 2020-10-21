@@ -4,6 +4,7 @@ import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
 import Checkout from "./Checkout/Checkout";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Orders from "./Orders/Orders";
+import {connect} from 'react-redux'
 
 class App extends Component {
   render() {
@@ -21,4 +22,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (store) => {
+  return {
+    burger: store.burger
+  }
+}
+
+export default connect(mapStateToProps)(App);

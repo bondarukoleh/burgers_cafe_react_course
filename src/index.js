@@ -3,23 +3,8 @@ import ReactDOM from 'react-dom';
 import './sass/index.scss';
 import App from './containers/App';
 import * as serviceWorker from './helpers/serviceWorker';
-import {createStore} from 'redux'
 import {Provider} from 'react-redux';
-
-const reducer = (state = {initial: 0}, action) => {
-  if(action.type === 'SOME_ACTION') {
-    return {...state, someProp: action.payload}
-  }
-  return state
-}
-
-const store = createStore(reducer);
-
-store.subscribe(() => {
-  console.log('we have a new state ', store.getState())
-})
-
-store.dispatch({type: 'SOME_ACTION', payload: 'someValue'});
+import {store} from './store';
 
 ReactDOM.render(
   <React.StrictMode>

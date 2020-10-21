@@ -521,7 +521,7 @@ re-render the component. Second arguments it is the **actions creators** we want
 import {Provider} from 'react-redux';
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={index}>
     <App />
   </Provider>,
   document.getElementById('root')
