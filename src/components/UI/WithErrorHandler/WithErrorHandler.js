@@ -1,37 +1,24 @@
 import React, {Component} from 'react';
 import Modal from "../Modal/Modal";
 import Error from "../Error/Error";
+import {errorOccurred, removeError} from "../../../store/actions/errorActionCreator";
+import {connect} from "react-redux";
 
-function WithErrorHandler(WrappedComponent, axios) {
-  return class extends Component {
+const WithErrorHandler = (WrappedComponent, axios) => {
+  class Wrapper extends Component {
     reqInterceptor;
     resInterceptor;
 
-    constructor(props) {
-      super(props);
-      this.state = {
-        error: false
-      };
-    }
-
     componentDidMount() {
       this.reqInterceptor = axios.interceptors.request.use(request => {
-        this.setState({error: false});
+        this.props.errorConfirmed();
         return request;
-      }, error => {
-        this.setState({error});
-      });
+      }, error => this.props.errorOccurred(error));
 
       this.resInterceptor = axios.interceptors.response.use(response => {
         return response;
-      }, error => {
-        this.setState({error});
-      });
+      }, error => this.props.errorOccurred(error));
     }
-
-    errorConfirmed = () => {
-      this.setState({error: false});
-    };
 
     componentWillUnmount() {
       axios.interceptors.request.eject(this.reqInterceptor)
@@ -41,14 +28,24 @@ function WithErrorHandler(WrappedComponent, axios) {
     render() {
       return (
         <React.Fragment>
-          <Modal show={!!this.state.error} shadeClick={this.errorConfirmed}>
-            <Error error={this.state.error} errorConfirmed={this.errorConfirmed}/>
+          <Modal show={!!this.props.error} shadeClick={this.props.errorRemoved}>
+            <Error error={this.props.error} errorConfirmed={this.props.errorRemoved}/>
           </Modal>
           <WrappedComponent {...this.props}/>
         </React.Fragment>
       );
     }
+  }
+
+  const mapStateToProps = store => ({error: store.error});
+  const mapDispatchToProps = dispatch => {
+    return {
+      errorOccurred: () => dispatch(errorOccurred()),
+      errorRemoved: () => dispatch(removeError()),
+    }
   };
+
+  return connect(mapStateToProps, mapDispatchToProps)(Wrapper)
 }
 
 export default WithErrorHandler;

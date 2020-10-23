@@ -1,4 +1,5 @@
-import {Actions} from '../actions/ActionConstants'
+import {Actions} from '../actions/ActionConstants';
+import {INGREDIENT_PRICES} from "../../data/constants";
 
 const initialState = {
   ingredients: {},
@@ -6,12 +7,28 @@ const initialState = {
 };
 
 export function burgerReducer(state = initialState, action) {
+  let newState = null;
+  let newIngredients = null;
+
   switch (action.type) {
-    case Actions.ingredientAdded:
-      const newState = {...state};
-      const newIngredients = {...newState.ingredients}
-      newIngredients[action.payload.ingredient] = action.payload.amount;
+    case Actions.ingredientGot:
+      newState = {...state};
+      newIngredients = action.payload
       newState.ingredients = newIngredients
+      return newState;
+    case Actions.ingredientAdded:
+      newState = {...state};
+      newIngredients = {...newState.ingredients}
+      newIngredients[action.payload]++;
+      newState.ingredients = newIngredients
+      newState.price += INGREDIENT_PRICES[action.payload];
+      return newState;
+    case Actions.ingredientRemoved:
+      newState = {...state};
+      newIngredients = {...newState.ingredients}
+      newIngredients[action.payload]--;
+      newState.ingredients = newIngredients
+      newState.price -= INGREDIENT_PRICES[action.payload];
       return newState;
     default:
       return state;

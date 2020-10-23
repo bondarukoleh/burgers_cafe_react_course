@@ -19,7 +19,7 @@ function Error(props) {
 }
 
 Error.propTypes = {
-  error: PropTypes.any.isRequired,
+  error: PropTypes.any,
   errorConfirmed: PropTypes.func.isRequired
 }
 

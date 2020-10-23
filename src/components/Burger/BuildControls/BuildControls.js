@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './BuildControls.module.scss'
 import BuildControl from "./BuildControl/BuildControl";
-import {ingredientPrices} from  '../../../containers/BurgerBuilder/BurgerBuilder'
+import {INGREDIENT_PRICES} from "../../../data/constants";
 
 const BuildControls = (props) => {
   const controls = [
@@ -21,7 +21,7 @@ const BuildControls = (props) => {
           label={label}
           addIngredient={() => props.addIngredient(type)}
           removeIngredient={() => props.removeIngredient(type)}
-          ingredientPrice={ingredientPrices[label.toLowerCase()]}
+          ingredientPrice={INGREDIENT_PRICES[label.toLowerCase()]}
         />
       })}
       <button
