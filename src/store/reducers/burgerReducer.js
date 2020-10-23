@@ -7,29 +7,32 @@ const initialState = {
 };
 
 export function burgerReducer(state = initialState, action) {
-  let newState = null;
-  let newIngredients = null;
-
   switch (action.type) {
     case Actions.ingredientGot:
-      newState = {...state};
-      newIngredients = action.payload
-      newState.ingredients = newIngredients
-      return newState;
+      return {
+        ...state,
+        ingredients: {
+          ...action.payload
+        }
+      }
     case Actions.ingredientAdded:
-      newState = {...state};
-      newIngredients = {...newState.ingredients}
-      newIngredients[action.payload]++;
-      newState.ingredients = newIngredients
-      newState.price += INGREDIENT_PRICES[action.payload];
-      return newState;
+      return {
+        ...state,
+        ingredients: {
+          ...state.ingredients,
+          [action.payload]: ++state.ingredients[action.payload]
+        },
+        price: state.price + INGREDIENT_PRICES[action.payload]
+      }
     case Actions.ingredientRemoved:
-      newState = {...state};
-      newIngredients = {...newState.ingredients}
-      newIngredients[action.payload]--;
-      newState.ingredients = newIngredients
-      newState.price -= INGREDIENT_PRICES[action.payload];
-      return newState;
+      return {
+        ...state,
+        ingredients: {
+          ...state.ingredients,
+          [action.payload]: --state.ingredients[action.payload]
+        },
+        price: state.price - INGREDIENT_PRICES[action.payload]
+      }
     default:
       return state;
   }
