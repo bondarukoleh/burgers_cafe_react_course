@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import Button from "../../../components/UI/Button/Button";
 import styles from './ContactData.module.scss';
-import {ordersRequest} from "../../../helpers/api";
 import Spinner from "../../../components/Burger/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
+import {sendOrder} from "../../../store/actions/orderActionCreator";
+import {connect} from "react-redux";
 
 const ContactData = props => {
   const [form, setForm] = useState({
@@ -76,7 +77,6 @@ const ContactData = props => {
       value: 'fast'
     }
   });
-  const [loading, setLoading] = useState(false);
 
   const createOrder = async (e) => {
     e.preventDefault();
@@ -88,17 +88,8 @@ const ContactData = props => {
         return customerObj;
       }, {}),
     };
-
-    setLoading(true);
-    try {
-      const result = await ordersRequest.post('/orders.json', order);
-      setLoading(false);
-      props.history.push('/');
-      console.log(result);
-    } catch (e) {
-      setLoading(false);
-      console.log(`Couldn't post the order `, e.message);
-    }
+    await props.sendTheOrder(Math.floor(Math.random() * 10000), order)
+    props.history.push('/');
   };
 
   const inputChangeHandler = (e, inputName) => {
@@ -146,13 +137,26 @@ const ContactData = props => {
     );
   };
 
-  return loading ? <Spinner/> : renderForm();
+  return props.loading ? <Spinner/> : renderForm();
 };
 
 ContactData.propTypes = {
   orderCanceled: PropTypes.func.isRequired,
   ingredients: PropTypes.object.isRequired,
-  price: PropTypes.string.isRequired
+  price: PropTypes.number.isRequired
 };
 
-export default withRouter(ContactData);
+const mapStateToProps = (store) => {
+  return {
+    loading: store.order.loading,
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    sendTheOrder: (id, order) => dispatch(sendOrder(id, order)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ContactData));

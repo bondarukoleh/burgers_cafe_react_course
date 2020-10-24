@@ -517,7 +517,9 @@ const UserClickedButton = () => async (dispatch, getState) => {
   }
   return dispatch({
     type: AuthActions.currentUser,
-    payload: response.data
+    // Also we can prepare some data for reducer to update, depend on current state
+    // But we shouldn't overuse getState, better pass data you need to action creator via arguments
+    payload: {user: response.data, bonuses: getState().bonuses}
   });
 }
 ``` 
@@ -551,6 +553,7 @@ const mapStateToProps = store => {
     user: store.auth.user;
   }
 }
+
 
 const mapDispatchToProps = dispatch => {
   return {

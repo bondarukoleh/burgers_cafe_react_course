@@ -1,16 +1,15 @@
 import {Actions} from './ActionConstants';
-import {ordersRequest} from "../../helpers/api";
 
 const errorOccurred = (e = {message: "Unknown Error"}) => (dispatch) => {
   dispatch({
-    type: Actions.error,
+    type: Actions.errorOccurred,
     payload: e
   })
 };
 
 const removeError = _ => (dispatch) => {
   dispatch({
-    type: Actions.error,
+    type: Actions.errorRemoved,
     payload: null
   })
 };

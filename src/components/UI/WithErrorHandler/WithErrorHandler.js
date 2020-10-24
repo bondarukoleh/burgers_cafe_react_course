@@ -40,7 +40,7 @@ const WithErrorHandler = (WrappedComponent, axios) => {
   const mapStateToProps = store => ({error: store.error});
   const mapDispatchToProps = dispatch => {
     return {
-      errorOccurred: () => dispatch(errorOccurred()),
+      errorOccurred: (e) => dispatch(errorOccurred(e)),
       errorRemoved: () => dispatch(removeError()),
     }
   };
