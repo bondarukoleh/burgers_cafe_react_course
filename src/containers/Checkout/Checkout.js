@@ -5,6 +5,7 @@ import {Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 const Checkout = props => {
+  /* I'll keep this as an example of parsing */
   // const [state, setState] = useState({ingredients: {}, price: ''})
   // useEffect(() => {
   //   const ingredientsQuery = new URLSearchParams(props.location.search);

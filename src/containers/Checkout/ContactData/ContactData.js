@@ -78,7 +78,6 @@ const ContactData = props => {
   });
   const [loading, setLoading] = useState(false);
 
-
   const createOrder = async (e) => {
     e.preventDefault();
     const order = {
@@ -152,7 +151,8 @@ const ContactData = props => {
 
 ContactData.propTypes = {
   orderCanceled: PropTypes.func.isRequired,
-  ingredients: PropTypes.object.isRequired
+  ingredients: PropTypes.object.isRequired,
+  price: PropTypes.string.isRequired
 };
 
 export default withRouter(ContactData);

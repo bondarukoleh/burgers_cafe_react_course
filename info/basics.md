@@ -476,7 +476,18 @@ const AnotherReducer = (state, action) => state;
 
 const rootReducer = combineReducers({main: MainComponentReducer, another: AnotherReducer})
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const myMiddleware = (store) => {
+  return (next) => {
+    return (action) => {
+      console.log('[Middleware] Dispatching ', action);
+      const result = next(store);
+      console.log('[Middleware] Action result ', result, '. Current store state: ', store.getState());
+      return result;
+    } 
+  }
+}
+
+const store = createStore(rootReducer, applyMiddleware(thunk, myMiddleware));
 
 store.subscribe(() => console.log('we have a new state ', store.getState()))
 
@@ -549,3 +560,6 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapActionCreatorsToProps)(Header)
 ``` 
+
+### Redux debugger
+Nice feature with logging the actions, changing store, and reverting the state to some phase. Traveling in time basically. 
