@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import Order from "../../components/Order/Order/Order";
-import {ordersRequest} from "../../helpers/api";
+import {axiosRequest} from "../../helpers/api";
 import styles from './Orders.module.scss';
 import {Link} from "react-router-dom";
 
@@ -8,7 +8,7 @@ function Orders(props) {
   const [state, setState] = useState({orders: {}});
 
   useEffect(() => {
-    ordersRequest.get('/orders.json')
+    axiosRequest.get('/orders.json')
       .then(r => {
         // TODO: filter by user
         setState({orders: r.data})

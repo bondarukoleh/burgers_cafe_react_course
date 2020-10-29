@@ -1,0 +1,29 @@
+@import '../../sass/config';
+
+.Auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+
+  form {
+    text-align: center;
+    border: 2px $dark solid;
+    padding: 2rem;
+
+    label {
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .Auth {
+    width: 100%;
+
+    form {
+      width: 80%;
+    }
+  }
+}

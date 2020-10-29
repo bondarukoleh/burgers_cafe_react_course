@@ -1,10 +1,10 @@
 import {Actions} from './ActionConstants';
-import {ordersRequest} from "../../helpers/api";
+import {axiosRequest} from "../../helpers/api";
 
 const sendOrder = (id, order) => async (dispatch) => {
   dispatch({type: Actions.orderSendingState, payload: true})
   try {
-    await ordersRequest.post('/orders.json', order);
+    await axiosRequest.post('/orders.json', order);
     dispatch({type: Actions.orderSendingState, payload: false})
     dispatch({type: Actions.orderSentSuccess, payload: {id, order}})
   } catch (e) {

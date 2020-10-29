@@ -1,9 +1,9 @@
 import {Actions} from './ActionConstants';
-import {ordersRequest} from "../../helpers/api";
+import {axiosRequest} from "../../helpers/api";
 
 const getIngredients = () => async (dispatch) => {
   try {
-    const result = await ordersRequest.get('/ingredients.json');
+    const result = await axiosRequest.get('/ingredients.json');
     if(result?.data) {
       dispatch({
         type: Actions.ingredientGot,
@@ -11,13 +11,13 @@ const getIngredients = () => async (dispatch) => {
       });
     } else {
       dispatch({
-        type: Actions.error,
+        type: Actions.errorOccurred,
         error: true
       })
     }
   } catch (e) {
     dispatch({
-      type: Actions.error,
+      type: Actions.errorOccurred,
       error: e
     })
   }

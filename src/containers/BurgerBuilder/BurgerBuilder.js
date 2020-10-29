@@ -9,7 +9,7 @@ import Error from "../../components/UI/Error/Error";
 import {INGREDIENT_PRICES} from "../../data/constants";
 import {connect} from "react-redux";
 import {addIngredient, getIngredients, removeIngredient} from "../../store/actions/burgerActionCreator";
-import {ordersRequest} from "../../helpers/api";
+import {axiosRequest} from "../../helpers/api";
 
 class BurgerBuilder extends Component {
   state = {
@@ -110,4 +110,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithErrorHandler(BurgerBuilder, ordersRequest));
+export default connect(mapStateToProps, mapDispatchToProps)(WithErrorHandler(BurgerBuilder, axiosRequest));

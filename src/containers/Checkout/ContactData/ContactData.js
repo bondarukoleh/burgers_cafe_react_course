@@ -103,11 +103,9 @@ const ContactData = props => {
 
   const validationCheck = (value, rules) => {
     let validValue = false;
-
     if (rules.required) {
       validValue = !!value;
     }
-
     return validValue;
   };
 
@@ -126,10 +124,6 @@ const ContactData = props => {
               valid={value.valid}
             />
           })}
-          <Button buttonType={'Success'} clickHandler={(e) => {
-            e.preventDefault();
-            console.log(form);
-          }}>Print</Button>
           <Button buttonType={'Fail'} clickHandler={props.orderCanceled}>Cancel</Button>
           <Button buttonType={'Success'} type='submit'>Order</Button>
         </form>

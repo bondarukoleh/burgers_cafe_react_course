@@ -1,3 +1,3 @@
-import {ordersRequest} from './axios';
+import {axiosRequest} from './axios';
 
-export {ordersRequest};
+export {axiosRequest};

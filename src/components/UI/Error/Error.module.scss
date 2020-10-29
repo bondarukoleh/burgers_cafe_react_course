@@ -1,3 +1,5 @@
+@import '../../../sass/config';
+
 .Error {
   background-color: #9f5a4a;
   width: 100%;
@@ -18,7 +20,7 @@
     margin: 0 .5rem 1rem;
     background-color: inherit;
     color: white;
-    box-shadow: #333 1px 2px;
+    box-shadow: $dark 1px 2px;
   }
 
   & button:hover {
