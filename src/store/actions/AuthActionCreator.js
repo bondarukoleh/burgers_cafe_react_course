@@ -1,9 +1,9 @@
 import {Actions} from './ActionConstants';
-import {axiosRequest} from "../../helpers/api";
+import {loginRequest} from "../../helpers/api";
 
 const loginUser = (userData) => async (dispatch) => {
   try {
-    const result = await axiosRequest.post('/users.json', userData);
+    const result = await loginRequest.post('',{returnSecureToken: true, ...userData});
     if(result?.data) {
       dispatch({
         type: Actions.userLogin,

@@ -1,3 +1,1 @@
-import {axiosRequest} from './axios';
-
-export {axiosRequest};
+export {axiosRequest, loginRequest} from './axios';

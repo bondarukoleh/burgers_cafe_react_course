@@ -2,6 +2,9 @@
 .vscode
 .idea
 
+# passwords
+/src/config/config.js
+
 # Dependency directories
 node_modules/
 

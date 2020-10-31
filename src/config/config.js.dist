@@ -1,0 +1,4 @@
+// Please rename this file without dist and add an Firebase API Token.
+const firebaseAPIToken = '';
+
+export {firebaseAPIToken}
