@@ -1,9 +1,12 @@
 import {Actions} from './ActionConstants';
-import {loginRequest} from "../../helpers/api";
+import {signUpRequest, signInRequest} from "../../helpers/api";
 
-const loginUser = (userData) => async (dispatch) => {
+const loginUser = (userData, signIn) => async (dispatch) => {
   try {
-    const result = await loginRequest.post('',{returnSecureToken: true, ...userData});
+
+    const result = signIn
+      ? await signInRequest.post('',{returnSecureToken: true, ...userData})
+      : await signUpRequest.post('',{returnSecureToken: true, ...userData});
     if(result?.data) {
       dispatch({
         type: Actions.userLogin,

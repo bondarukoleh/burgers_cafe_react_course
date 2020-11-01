@@ -29,6 +29,7 @@ const Auth = props => {
       }
     },
   });
+  const [userState, setUserState] = useState({signIn: null});
 
   const inputChangeHandler = (e, inputName) => {
     const newForm = {...form};
@@ -63,29 +64,43 @@ const Auth = props => {
       email: form.email.value,
       password: form.password.value
     };
-    await props.loginAUser(userData);
+    await props.loginAUser(userData, userState.signIn);
     props.history.push('/');
+  };
+
+  const renderChooseUserState = () => {
+    return <div>
+      <Button
+        clickHandler={() => setUserState({signIn: false})}
+        className={'Success'}
+      >Signup</Button>
+      or
+      <Button
+        className={'Success'}
+        clickHandler={() => setUserState({signIn: true})}
+      >Sign in</Button>
+    </div>;
+  };
+
+  const renderForm = () => {
+    return <form onSubmit={authenticate}>
+      {Object.entries(form).map(([key, value]) => {
+        return <Input
+          key={key}
+          inputType={value.inputType}
+          label={value.label}
+          changed={(e) => inputChangeHandler(e, key)}
+          elementProps={value.elementProps}
+          valid={value.valid}
+        />;
+      })}
+      <Button buttonType={'Success'} type='submit'>{userState.signIn ? 'Sign in' : 'Signup'}</Button>
+    </form>;
   };
 
   return (
     <div className={styles.Auth}>
-      <form onSubmit={authenticate}>
-        {Object.entries(form).map(([key, value]) => {
-          return <Input
-            key={key}
-            inputType={value.inputType}
-            label={value.label}
-            changed={(e) => inputChangeHandler(e, key)}
-            elementProps={value.elementProps}
-            valid={value.valid}
-          />;
-        })}
-        <Button buttonType={'Success'} clickHandler={(e) => {
-          e.preventDefault();
-          console.log(form);
-        }}>Print</Button>
-        <Button buttonType={'Success'} type='submit'>Login</Button>
-      </form>
+     {userState.signIn === null ? renderChooseUserState() : renderForm()}
     </div>
   );
 };
@@ -99,7 +114,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loginAUser: (userData) => dispatch(loginUser(userData))
+    loginAUser: (userData, signIn) => dispatch(loginUser(userData, signIn))
   };
 };
 

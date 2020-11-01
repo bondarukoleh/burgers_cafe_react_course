@@ -1,1 +1,1 @@
-export {axiosRequest, loginRequest} from './axios';
+export {axiosRequest, signUpRequest, signInRequest} from './axios';
