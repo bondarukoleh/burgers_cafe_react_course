@@ -12,13 +12,13 @@ const getIngredients = () => async (dispatch) => {
     } else {
       dispatch({
         type: Actions.errorOccurred,
-        error: true
+        payload: true
       })
     }
   } catch (e) {
     dispatch({
       type: Actions.errorOccurred,
-      error: e
+      payload: e
     })
   }
 }

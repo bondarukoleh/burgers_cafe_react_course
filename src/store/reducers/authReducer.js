@@ -6,16 +6,17 @@ const initialState = {
 
 export function authReducer(state = initialState, action) {
   switch (action.type) {
-    case Actions.userLogin:
+    case Actions.userSignIn:
+      const {idToken, kind, localId, refreshToken} = action.payload;
       return {
         ...state,
-        user: action.payload
-      }
-    case Actions.userLogout:
+        user: {idToken, kind, refreshToken, localId}
+      };
+    case Actions.userSighOut:
       return {
         ...state,
         user: null
-      }
+      };
     default:
       return state;
   }

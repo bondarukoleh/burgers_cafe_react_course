@@ -9,19 +9,19 @@ const loginUser = (userData, signIn) => async (dispatch) => {
       : await signUpRequest.post('',{returnSecureToken: true, ...userData});
     if(result?.data) {
       dispatch({
-        type: Actions.userLogin,
+        type: Actions.userSignIn,
         payload: result.data
       });
     } else {
       dispatch({
         type: Actions.errorOccurred,
-        error: true
+        payload: true
       })
     }
   } catch (e) {
     dispatch({
       type: Actions.errorOccurred,
-      error: e
+      payload: e
     })
   }
 }
@@ -29,7 +29,7 @@ const loginUser = (userData, signIn) => async (dispatch) => {
 const logoutUser = () => (dispatch) => {
   console.log('Logout')
   dispatch({
-    type: Actions.userLogout
+    type: Actions.userSighOut
   })
 }
 
