@@ -27,7 +27,6 @@ const loginUser = (userData, signIn) => async (dispatch) => {
 }
 
 const logoutUser = () => (dispatch) => {
-  console.log('Logout')
   dispatch({
     type: Actions.userSighOut
   })

@@ -20,7 +20,6 @@ function Orders(props) {
 
   const renderOrders = () => {
     const orders = Object.entries(state.orders).map(([key, value]) => {
-      console.log(key, value);
       return (<Order
         key={key}
         ingredients={value.ingredients}
@@ -36,12 +35,12 @@ function Orders(props) {
     )
   };
 
-  const userHaveOrders = Object.entries(state.orders).length;
+  const userHasOrders = Object.entries(state.orders).length;
   const noOrders = () => <h1>You have no orders made. Maybe you <Link to={'/'}>want something now?</Link></h1>;
 
   return (
     <div className={styles.Orders}>
-      {userHaveOrders ? renderOrders() : noOrders()}
+      {userHasOrders ? renderOrders() : noOrders()}
     </div>
   );
 }
