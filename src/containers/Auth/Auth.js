@@ -73,7 +73,7 @@ const Auth = props => {
       <Button
         clickHandler={() => setUserState({signIn: false})}
         className={'Success'}
-      >Signup</Button>
+      >Sign up</Button>
       or
       <Button
         className={'Success'}
@@ -94,7 +94,7 @@ const Auth = props => {
           valid={value.valid}
         />;
       })}
-      <Button buttonType={'Success'} type='submit'>{userState.signIn ? 'Sign in' : 'Signup'}</Button>
+      <Button buttonType={'Success'} type='submit'>{userState.signIn ? 'Sign in' : 'Sign up'}</Button>
     </form>;
   };
 
