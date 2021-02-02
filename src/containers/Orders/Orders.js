@@ -3,12 +3,13 @@ import Order from "../../components/Order/Order/Order";
 import {axiosRequest} from "../../helpers/api";
 import styles from './Orders.module.scss';
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 
 function Orders(props) {
   const [state, setState] = useState({orders: {}});
 
   useEffect(() => {
-    axiosRequest.get('/orders.json')
+    axiosRequest.get(`/orders.json?auth=${props?.user?.idToken}`)
       .then(r => {
         // TODO: filter by user
         setState({orders: r.data})
@@ -45,4 +46,17 @@ function Orders(props) {
   );
 }
 
-export default Orders;
+const mapStateToProps = (store) => {
+  return {
+    user: store.auth.user
+  }
+}
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//   };
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(WithErrorHandler(BurgerBuilder, axiosRequest));
+export default connect(mapStateToProps)(Orders);
+

@@ -7,7 +7,6 @@ const loginUser = (userData, signIn) => async (dispatch) => {
       ? await signInRequest.post('',{returnSecureToken: true, ...userData})
       : await signUpRequest.post('',{returnSecureToken: true, email: userData.email, password: userData.password});
     if(result?.data) {
-      console.log(result);
       dispatch({
         type: Actions.userSignIn,
         payload: result.data

@@ -88,7 +88,7 @@ const ContactData = props => {
         return customerObj;
       }, {}),
     };
-    await props.sendTheOrder(Math.floor(Math.random() * 10000), order)
+    await props.sendTheOrder(props.user.idToken, {id: Math.floor(Math.random() * 10000), order})
     props.history.push('/');
   };
 
@@ -143,13 +143,13 @@ ContactData.propTypes = {
 const mapStateToProps = (store) => {
   return {
     loading: store.order.loading,
-
+    user: store.auth.user
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendTheOrder: (id, order) => dispatch(sendOrder(id, order)),
+    sendTheOrder: (token, {id, order}) => dispatch(sendOrder(token, {id, order})),
   }
 }
 

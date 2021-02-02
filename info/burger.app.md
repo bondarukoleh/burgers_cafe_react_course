@@ -6,3 +6,21 @@
 
 Authentication and authorization in identitytoolkit stored in firebase > authentication section. It's not in the DB or
 something it's provided out if the firebase box.
+
+In Firebase, in realtime databases, there is a tab rules. To turn on the authentication you need to type there the:
+```json
+{
+  "rules": {
+//    ".read": "true", - for everyone
+//    ".read": "auth != null", // if user auth == null, means not authenticated - no acces. But this is for whole DB
+      "my_specific_document": { // here I'm adding specific rule for some doc. Be carefull general rules can rewrite those (maybe)
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+  }
+}
+```
+This `auth` is the query parameter that you can add to the request, so validation is very simple.
+```ts
+axiosRequest.get(`/orders.json?auth=${props?.user?.idToken}`);
+```

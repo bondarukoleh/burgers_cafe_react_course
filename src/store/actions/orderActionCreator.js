@@ -1,10 +1,10 @@
 import {Actions} from './ActionConstants';
 import {axiosRequest} from "../../helpers/api";
 
-const sendOrder = (id, order) => async (dispatch) => {
+const sendOrder = (token, {id, order}) => async (dispatch) => {
   dispatch({type: Actions.orderSendingState, payload: true})
   try {
-    await axiosRequest.post('/orders.json', order);
+    await axiosRequest.post(`/orders.json?auth=${token}`, order);
     dispatch({type: Actions.orderSendingState, payload: false})
     dispatch({type: Actions.orderSentSuccess, payload: {id, order}})
   } catch (e) {
