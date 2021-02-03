@@ -11,7 +11,7 @@ const Header = (props) => {
         <MenuButton onClick={props.sideDrawerAppearance}/>
         <Logo/>
         <div className={styles.DescTopOnly}>
-          <NavigationItems/>
+          <NavigationItems userAuthenticated={props.userAuthenticated}/>
         </div>
       </div>
     </header>
