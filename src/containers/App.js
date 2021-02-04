@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Auth from "./Auth/Auth";
 import Orders from "./Orders/Orders";
 import {connect} from 'react-redux'
+import Logout from "./Auth/Logout";
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
             <Route exact path={'/orders'} component={Orders}/>
             <Route exact path={'/auth'} component={Auth}/>
             <Route exact path={'/'} component={BurgerBuilder}/>
+            <Route exact path={'/logout'} component={Logout}/>
           </Switch>
         </Layout>
       </Router>

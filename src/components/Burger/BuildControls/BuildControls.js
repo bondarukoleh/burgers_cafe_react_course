@@ -1,4 +1,5 @@
 import React from "react";
+import {withRouter} from 'react-router-dom'
 import styles from './BuildControls.module.scss'
 import BuildControl from "./BuildControl/BuildControl";
 import {INGREDIENT_PRICES} from "../../../data/constants";
@@ -27,10 +28,14 @@ const BuildControls = (props) => {
       <button
         className={styles.OrderButton}
         disabled={!props.purchasable}
-        onClick={props.purchasingHandler}
-      >Make Order</button>
+        onClick={props.isAuthenticated
+          ? props.purchasingHandler
+          : () => props.history.push('/auth')
+        }>
+        {props.isAuthenticated ? 'Make Order' : 'Sign up to order'}
+      </button>
     </div>
   );
 };
 
-export default BuildControls;
+export default withRouter(BuildControls);

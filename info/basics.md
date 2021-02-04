@@ -154,7 +154,8 @@ const handleSomeEvent = () => { setSomeState({{stateProp: 'stateValue', newProp:
 const handleSomeAnotherEvent = () => { setSomeAnotherState(['diffStateValue', 'addingSomeValue']) }; /* And I haven't touch the previous state! */
 ```
 #### useEffect
-You can use it as `componentDidMount`, `componentDidUpdate` and `componentWillUnmount` from class based Lifecycle hooks `in function based` components.
+You can use it as `componentDidMount`, `componentDidUpdate` and `componentWillUnmount` from class based Lifecycle
+hooks `in function based` components. \
 It runs after `render` but you can pass an array of values that you want to 
 change subscribe, and it will fire only when they will be changed.
 ```jsx

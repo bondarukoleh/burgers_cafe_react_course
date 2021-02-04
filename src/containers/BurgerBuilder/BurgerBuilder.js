@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
@@ -7,7 +8,6 @@ import Spinner from "../../components/Burger/Spinner/Spinner";
 import WithErrorHandler from "../../components/UI/WithErrorHandler/WithErrorHandler";
 import Error from "../../components/UI/Error/Error";
 import {INGREDIENT_PRICES} from "../../data/constants";
-import {connect} from "react-redux";
 import {addIngredient, getIngredients, removeIngredient} from "../../store/actions/burgerActionCreator";
 import {axiosRequest} from "../../helpers/api";
 
@@ -70,6 +70,7 @@ class BurgerBuilder extends Component {
             removeIngredient={this.props.removeIngredientFromBurger}
             purchasable={this.props.price > 0}
             purchasingHandler={this.purchasingHandler}
+            isAuthenticated={this.props.userIsAuthenticated}
           />
         </React.Fragment>
       );
@@ -98,7 +99,8 @@ class BurgerBuilder extends Component {
 const mapStateToProps = (store) => {
   return {
     ingredients: store.burger.ingredients,
-    price: store.burger.price
+    price: store.burger.price,
+    userIsAuthenticated: !!store.auth.user
   }
 }
 
