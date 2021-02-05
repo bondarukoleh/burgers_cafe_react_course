@@ -7,8 +7,13 @@ import Auth from "./Auth/Auth";
 import Orders from "./Orders/Orders";
 import {connect} from 'react-redux'
 import Logout from "./Auth/Logout";
+import {checkUserAuthState} from '../store/actions/AuthActionCreator'
 
 class App extends Component {
+  componentDidMount() {
+    this.props.checkUserAuthDataInLocalStorage();
+  }
+
   render() {
     return (
       <Router>
@@ -32,4 +37,10 @@ const mapStateToProps = (store) => {
   }
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkUserAuthDataInLocalStorage: () => dispatch(checkUserAuthState)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
