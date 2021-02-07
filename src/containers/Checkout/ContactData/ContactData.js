@@ -87,6 +87,7 @@ const ContactData = props => {
         customerObj[dataKey] = data.value;
         return customerObj;
       }, {}),
+      userID: props.user.localId
     };
     await props.sendTheOrder(props.user.idToken, {id: Math.floor(Math.random() * 10000), order})
     props.history.push('/');
@@ -149,7 +150,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendTheOrder: (token, {id, order}) => dispatch(sendOrder(token, {id, order})),
+    sendTheOrder: (token, {id, order, userId}) => dispatch(sendOrder(token, {userId, id, order})),
   }
 }
 

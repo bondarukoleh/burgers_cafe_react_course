@@ -9,10 +9,19 @@ function Orders(props) {
   const [state, setState] = useState({orders: {}});
 
   useEffect(() => {
-    axiosRequest.get(`/orders.json?auth=${props?.user?.idToken}`)
+    const query = `auth=${props?.user?.idToken}&orderBy="userID"&equalTo="${props.user.localId}"`
+    axiosRequest.get(`/orders.json?${query}`) // Here we will get only needed orders
       .then(r => {
-        // TODO: filter by user
-        setState({orders: r.data})
+        /* if(r.data && Object.keys(r.data).length) { // THIS is filtering on frontend, but we don't want to get all the orders
+          const ordersByUser = Object.entries(r.data)
+            .filter(([orderID, orderObject]) => orderObject.userID === props.user.localId)
+            .reduce((acc, cur) => {
+              acc[cur[0]] = cur[1];
+              return acc;
+            }, {})
+          setState({orders: ordersByUser})
+        } else {} */
+          setState({orders: r.data})
       })
       .catch((err) => {
         console.log(err);

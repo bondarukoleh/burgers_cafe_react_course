@@ -24,3 +24,16 @@ This `auth` is the query parameter that you can add to the request, so validatio
 ```ts
 axiosRequest.get(`/orders.json?auth=${props?.user?.idToken}`);
 ```
+
+To make your data filter by something you need to add rule to DB 
+```json
+    "orders": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      ".indexOn": ["userID"]
+    },
+```
+Now you can filter by userID
+```ts
+axiosRequest.get(`/orders.json?auth=${token}&orderBy="userID"&equalTo="${user.id}"`) // Here we will get only needed orders
+```

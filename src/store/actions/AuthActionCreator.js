@@ -64,9 +64,9 @@ const checkUserAuthState = async (dispatch) => {
 
 const setLogoutExpirationTime = (expirationTime) => (dispatch) => {
   setTimeout(() => {
-    // TODO: fix bug with too big expiration time
+    // TODO: fix bug with expiration time
     logoutUser(dispatch);
-  }, expirationTime * 1000);
+  }, 3600 * 1000);
 };
 
 export {loginUser, setLogoutExpirationTime, logoutUser, checkUserAuthState}

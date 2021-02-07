@@ -567,3 +567,6 @@ export default connect(mapStateToProps, mapActionCreatorsToProps)(Header)
 
 ### Redux debugger
 Nice feature with logging the actions, changing store, and reverting the state to some phase. Traveling in time basically. 
+
+### Debug
+To debug some code you can put the breakpoint in Sources files, directly in js files from React.
