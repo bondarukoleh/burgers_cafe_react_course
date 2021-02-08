@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
+import React, {Component, Suspense} from 'react';
 import Layout from "./Layout/Layout";
 import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
-import Checkout from "./Checkout/Checkout";
 import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import Auth from "./Auth/Auth";
-import Orders from "./Orders/Orders";
 import {connect} from 'react-redux'
 import Logout from "./Auth/Logout";
 import {checkUserAuthState} from '../store/actions/AuthActionCreator'
+import Spinner from "../components/Burger/Spinner/Spinner";
 
 class App extends Component {
   componentDidMount() {
@@ -16,11 +15,13 @@ class App extends Component {
 
   loggedInRouts() {
     return <Switch>
-      <Route path={'/checkout'} component={Checkout}/>
-      <Route exact path={'/orders'} component={Orders}/>
-      <Route exact path={'/logout'} component={Logout}/>
-      <Route exact path={'/'} component={BurgerBuilder}/>
-      <Redirect to='/' /> {/* Anything unknown will be redirected to base page */}
+      <Suspense fallback={<Spinner/>}>
+        <Route path={'/checkout'} component={React.lazy(() => import('./Checkout/Checkout'))}/>
+        <Route exact path={'/orders'} component={React.lazy(() => import('./Orders/Orders'))}/>
+        <Route exact path={'/logout'} component={Logout}/>
+        <Route exact path={'/'} component={BurgerBuilder}/>
+        <Redirect to='/' /> {/* Anything unknown will be redirected to base page */}
+      </Suspense>
     </Switch>
   }
 
