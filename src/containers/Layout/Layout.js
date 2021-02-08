@@ -14,7 +14,8 @@ const Layout = (props) => {
     if(state.showSideDrawer) {
       return <React.Fragment>
         <Shade onClick={sideDrawerAppearance} show={true}/>
-        <SideDrawer open/>
+        {/* TODO: Create a context to avoid drilling */}
+        <SideDrawer open navItemsClick={sideDrawerAppearance}/>
       </React.Fragment>
     }
   }

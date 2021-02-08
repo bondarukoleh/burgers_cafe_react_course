@@ -16,7 +16,7 @@ const SideDrawer = (props) => {
       <div className={style.Logo}>
         <Logo/>
       </div>
-      <NavigationItems/>
+      <NavigationItems navItemClick={props.navItemsClick}/>
     </div>
   );
 };
