@@ -570,3 +570,30 @@ Nice feature with logging the actions, changing store, and reverting the state t
 
 ### Debug
 To debug some code you can put the breakpoint in Sources files, directly in js files from React.
+
+## Testing
+To emulate the Component that mount in some abstracts vacuum DOM, but not to create a tree of Components with 
+dependencies - we can use React test utils, or Enzyme library (it needs react-test-renderer and enzyme-adapter-react-16). \
+Keep in mind that you don't need to test React or that Redux stored the property, you need to test your code. \
+Isolated units, conditional properties something like that we can test.
+
+So in the end of the day, Components are just functions that rely on `properties`. So we can test those functions.
+
+```jsx
+/* Basic test */
+import React from "react";
+import {configure, shallow} from 'enzyme' 
+import Adapter from 'enzyme-adapter-react-16'
+import NavigationItems from './NavigationItems'
+import NavigationItem from './NavigationItem/NavigationItem'
+
+configure({adapter: new Adapter()}) // To make enzyme work
+
+describe(`<NavigationItems />`, () => {
+  it(`should render two <NavigationItem/> if User is not authenticated`, () => {
+    const navigationItemsWrapper = shallow(<NavigationItems/>) // creating not deep Component, passing the JSX!
+    expect(navigationItemsWrapper.find(NavigationItem)).toHaveLength(2); // Checking the return value, passing the JS!
+   // enzyme find method lets you to search for output from component, as far as I get
+  })
+});
+```
