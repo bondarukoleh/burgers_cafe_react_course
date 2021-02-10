@@ -597,3 +597,5 @@ describe(`<NavigationItems />`, () => {
   })
 });
 ```
+
+You can find a lot of useful info about enzyme [here](https://enzymejs.github.io/enzyme/docs/api/);
