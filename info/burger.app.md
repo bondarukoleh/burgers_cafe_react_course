@@ -37,3 +37,12 @@ Now you can filter by userID
 ```ts
 axiosRequest.get(`/orders.json?auth=${token}&orderBy="userID"&equalTo="${user.id}"`) // Here we will get only needed orders
 ```
+
+#### Hosting
+Hosting is done via firebase
+```shell
+npm install -g firebase-tools;
+firebase login;
+firebase init;
+firebase deploy;
+```

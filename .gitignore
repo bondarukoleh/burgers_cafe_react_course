@@ -2,6 +2,9 @@
 .vscode
 .idea
 
+# firebase
+.firebase
+
 # passwords
 /src/config/config.js
 
