@@ -599,3 +599,16 @@ describe(`<NavigationItems />`, () => {
 ```
 
 You can find a lot of useful info about enzyme [here](https://enzymejs.github.io/enzyme/docs/api/);
+
+### Note about Webpack
+It greps all js files and bundles them to one, same stuff it does with all css files -> makes one bundle.css, optimize
+the pictures. \
+WebPack needs some **entry file**, that entry file has some dependencies those dependencies have more dependencies and that's
+how webpack will build this tree, but it needs some entry point to start from. \
+To load js or css or any other file Webpack needs **loaders**. For js - babel-loader, for css - css-loader and so on. Loaders
+make file-type dependent transformation;
+After all files tree built and concatenated in one e.g. .js file - we can use some **plugins** to do some global 
+transformations, like uglifier.
+
+Entry point (App.js) -> loaders bundle all dependencies in one -> plugins -> dist/bundle.js
+
