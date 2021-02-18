@@ -5,16 +5,31 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server"
+    "wds": "webpack serve",
+    "build:prod": "webpack --config webpack.config.prod.js"
   },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ],
   "keywords": [
     "webpack"
   ],
   "author": "Oleh Bondaruk",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "5.22.0",
-    "webpack-cli": "4.2.0",
+    "@babel/core": "7.12.17",
+    "@babel/plugin-proposal-class-properties": "7.12.13",
+    "@babel/preset-env": "7.12.17",
+    "@babel/preset-react": "7.12.13",
+    "@babel/preset-stage-2": "7.8.3",
+    "autoprefixer": "10.2.4",
+    "babel-loader": "8.2.2",
+    "css-loader": "5.0.2",
+    "html-webpack-plugin": "5.1.0",
+    "style-loader": "2.0.0",
+    "webpack": "5.10.0",
+    "webpack-cli": "4.5.0",
     "webpack-dev-server": "3.11.0"
   },
   "dependencies": {

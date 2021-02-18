@@ -612,3 +612,26 @@ transformations, like uglifier.
 
 Entry point (App.js) -> loaders bundle all dependencies in one -> plugins -> dist/bundle.js
 
+To explain to the webpack that he can work with jsx we need transpiler babel. Hell of the `babelrc` file, damn.
+```shell
+npm i @babel/core @babel/preset-env @babel/preset-react @babel/preset-stage-2 babel-loader @babel/plugin-proposal-class-properties
+```
+
+For css we can add:
+```shell
+npm i -DE css-loader style-loader postcss-loader autoprefixer
+```
+css-loader will resolve all teh css import and generate the content and style-loader should inject it to html (not sure). \
+postcss-loader with autoprefixer - will prefix the css for different browsers;
+
+For images we need:
+```shell
+npm i -DE url-loader
+```
+Helps to load images.
+
+To inject all stuff in html
+```shell
+npm i -DE html-webpack-plugin
+```
+
