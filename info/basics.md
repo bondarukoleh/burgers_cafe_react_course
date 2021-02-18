@@ -635,3 +635,10 @@ To inject all stuff in html
 npm i -DE html-webpack-plugin
 ```
 
+### Next JS
+When a user hits some url of your App - NextJS will pre render that page on the server so that server returns that pre
+rendered html code to the response. \
+Next is built upon React. \
+Next.js is built around the concept of pages. A page is a React Component exported from a .js, .jsx, .ts, or .tsx file
+in the pages directory. Pages are associated with a route based on their file name. For example `pages/about.js` is
+mapped to `/about`. You can even add dynamic route parameters with the filename.
