@@ -642,3 +642,79 @@ Next is built upon React. \
 Next.js is built around the concept of pages. A page is a React Component exported from a .js, .jsx, .ts, or .tsx file
 in the pages directory. Pages are associated with a route based on their file name. For example `pages/about.js` is
 mapped to `/about`. You can even add dynamic route parameters with the filename.
+
+#### css in next
+We cannot use css modules in our components next rendering because we cannot enter webpack config Next uses, so there is
+another way to work with css in Next, main are:
+1. Next.js supports CSS Modules using the name.module.css file naming convention. CSS Modules locally scope CSS by 
+   automatically creating a unique class name. This allows you to use the same CSS class name in different files
+   without worrying about collisions.
+
+You do not need to worry about .error {} colliding with any other `.css` or `.module.css` files! \
+`Button.module.css:`
+```css
+.error {
+ color: white;
+ background-color: red; 
+}
+```
+`Button.jsx:`
+```jsx
+import styles from './Button.module.css'
+export function Button() {
+  return (
+    <button
+      type="button"
+      // Note how the "error" class is accessed as a property on the imported
+      // `styles` object.
+      className={styles.error}
+    >
+      Destroy
+    </button>
+  )
+}
+```
+2. CSS-in-JS. Because Next has build in `styled-css` package that help him to resolve this `style jsx` tag.
+
+```jsx
+function HelloWorld() {
+  return (
+    <div>
+      Hello world
+      <style jsx>{`
+        p {
+          color: blue;
+        }
+        div {
+          background: red;
+        }
+        @media (max-width: 600px) {
+          div {
+            background: blue;
+          }
+        }
+      `}</style>
+      <style global jsx>{`
+        body {
+          background: black;
+        }
+      `}</style>
+    </div>
+  )
+}
+
+export default HelloWorld
+```
+3. Global css files should be added to `pages/_app.js`
+```jsx
+import '../styles.css'
+
+// This default export is required in a new `pages/_app.js` file.
+export default function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />
+}
+```
+
+To deploy app you need to `build` it first, which will create `.next` folder with optimized app, this app you need to
+deploy. \
+`start` command will spin the `.next` folder on your localhost.

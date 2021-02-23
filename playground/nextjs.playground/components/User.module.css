@@ -1,0 +1,8 @@
+.User {
+  border: 1px solid #eee;
+  box-shadow: 1px 3px 15px #878787;
+  padding: 20px;
+  text-align: center;
+  margin: 1rem;
+  background: burlywood;
+}
