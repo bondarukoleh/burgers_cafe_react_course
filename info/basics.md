@@ -569,7 +569,7 @@ export default connect(mapStateToProps, mapActionCreatorsToProps)(Header)
 Nice feature with logging the actions, changing store, and reverting the state to some phase. Traveling in time basically. 
 
 ### Debug
-To debug some code you can put the breakpoint in Sources files, directly in js files from React.
+To debug some code you can put the breakpoint in Sources files, in chrome devtools, directly in js files from React.
 
 ## Testing
 To emulate the Component that mount in some abstracts vacuum DOM, but not to create a tree of Components with 
@@ -718,3 +718,34 @@ export default function MyApp({ Component, pageProps }) {
 To deploy app you need to `build` it first, which will create `.next` folder with optimized app, this app you need to
 deploy. \
 `start` command will spin the `.next` folder on your localhost.
+
+
+### Animations
+If you control the components display with the state like:
+```jsx
+<Component>
+ {state.display ? <InnerOne className={'in_out_animation'}/> : null} {/* out animation won't be shown*/}
+</Component>
+```
+Then out animation won't be shown, because when React rerenders page - it just won't create the element, means Browser
+won't run the pretty out animation for an element that disapears because from Browser point of view there is no element. \
+
+> `display` blocks css `transition` property, use opacity but don't forget that hide elements mess with the readers  
+
+You can change it to something like
+```jsx
+<Component>
+ <InnerOne className={state.display ? 'in_animation' : 'out_animation'}/>
+</Component>
+```
+
+Or use react-transition-group that should help us to manage the transition animation:
+```shell
+npm i -ED react-transition-group
+```
+const transitionStyles = {
+entering: { opacity: 1 },
+entered:  { opacity: 1 },
+exiting:  { opacity: 0 },
+exited:  { opacity: 0 },
+};
