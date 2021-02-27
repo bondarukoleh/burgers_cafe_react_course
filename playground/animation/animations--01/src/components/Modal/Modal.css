@@ -20,3 +20,21 @@
 .ModalClosed {
     opacity: 0;
 }
+
+.fade-slide-enter {
+    opacity: 1;
+    background: #3a5695;
+}
+
+.fade-slide-enter-active {
+    opacity: 1;
+    background: #5c9210;
+}
+
+.fade-slide-exit {
+    opacity: 1;
+}
+
+.fade-slide-exit-active {
+    opacity: 0;
+}

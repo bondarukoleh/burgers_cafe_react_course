@@ -867,9 +867,54 @@ import Transition from 'react-transition-group/Transition';
   timeout={{enter: 4000, exit: 3000}} // this is how you controll the start and end, but I have an issue with enter
   mountOnEnter
   unmountOnExit
+  /* From these callbacks you can do something depends on where you are in your animation. End one and finish another. */
+  onEnter={() => console.log('onEnter-1: Fires the before we enter the entering mode')}
+  onEntering={() => console.log('onEntering-2: Fires when we are in the entering mode')}
+  onEntered={() => console.log('onEntered-3: Fires when we are in the entered mode')}
+  onExit={() => console.log('onExit-4: Fires before exiting')}
+  onExiting={() => console.log('onExiting-5: Fires in exiting mode')}
+  onExited={() => console.log('onExited-6: Fires in exited mode')}
 >
   {(state) => ( /* Four states: entering, entered, exiting, exited */
     <Modal closed={() => this.toggleShowModal()} show={state}/>
   )}
 </Transition>
 ```
+
+It's a slightly different way to control the animation with more predifined stuff:
+```jsx
+import CSSTransition from 'react-transition-group/CSSTransition';
+
+<CSSTransition
+        in={props.show}
+        timeout={{enter: 4000, exit: 3000}}
+        mountOnEnter
+        unmountOnExit
+        classNames={'my-animation-class'}
+>
+   <div className={'Modal'}/>
+</CSSTransition>
+```
+But you need to create `my-animation-class` with postfixes
+```css
+.my-animation-class-enter {
+   opacity: 1;
+   background: #3a5695;
+}
+
+.my-animation-class-enter-active {
+   opacity: 1;
+   background: #5c9210;
+}
+
+.my-animation-class-exit {
+   opacity: 1;
+}
+
+.my-animation-class-exit-active {
+   opacity: 0;
+}
+```
+
+They will be used automatically in appropriate animation states (modes) so you don't need manually to manage those 
+statuses.   
