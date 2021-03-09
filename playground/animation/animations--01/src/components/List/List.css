@@ -20,3 +20,20 @@
 .ListItem:active {
     background-color: #ccc;
 }
+
+.fade-animation-starts {
+    opacity: 0;
+}
+
+.fade-animation-running {
+    opacity: 1;
+    transition: opacity .3s ease-out;
+}
+
+.fade-animation-exiting {
+    opacity: 1;
+}
+.fade-animation-exited {
+    opacity: 0;
+    transition: opacity .3s ease-out;
+}

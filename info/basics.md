@@ -917,4 +917,45 @@ But you need to create `my-animation-class` with postfixes
 ```
 
 They will be used automatically in appropriate animation states (modes) so you don't need manually to manage those 
-statuses.   
+statuses.
+
+There also ability to use different css class on different animation statuses:
+```jsx
+<CSSTransition
+        in={props.show}
+        timeout={{enter: 4000, exit: 3000}}
+        mountOnEnter
+        unmountOnExit
+        /* classNames={'my-animation-class'}  instead of set one class, you can set object with your classes
+        * so you don't need postfixes like "-enter", -enter-active, etc. */
+        classNames={{
+          enter: 'myEnter',
+          enterActive: 'myEnterActive',
+          exit: '',
+          exitActive: '',
+          appear: '', 
+          appearActive: '',
+        }}
+>
+   <div className={'Modal'}/>
+</CSSTransition>
+```
+
+For lists animation we can use TransitionGroup, be aware that it won't work without Transition inside:
+```jsx
+import TransitionGroup from 'react-transition-group/TransitionGroup'
+<TransitionGroup /* This one controls the show property for the CSSTransition */
+  component={'ul'}
+  className="List">
+    <CSSTransition
+      key={index}
+      classNames={'fade'}
+      timeout={{enter:3000, exit: 3000}}
+    >
+      <li className="ListItem"</li>
+    </CSSTransition>
+</TransitionGroup>
+```
+
+Alternatives for animation is `react-motion`, `React-Move`, `React router transition` (gives you ability to animate
+switch between pages).

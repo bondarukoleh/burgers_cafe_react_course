@@ -7,7 +7,7 @@ import List from "./components/List/List";
 
 class App extends Component {
   state = {
-    modalShow: true
+    modalShow: false
   };
 
   toggleShowModal() {
