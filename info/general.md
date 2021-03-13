@@ -960,14 +960,14 @@ Alternatives for animation is `react-motion`, `React-Move`, `React router transi
 switch between pages).
 
 ### Redux Saga
-Redux Saga, a common alternative to Redux Thunk. \ 
+Redux Saga, a common alternative to Redux Thunk. \
+The idea is that you have **pure action creators** for updating your application state and **separately you have handling
+all the side effects** in your sagas, with some advantages of pausing and cancelling thread execution because of saga's
+generators, and some useful helpers that saga's providing.
+
 Redux Saga is a middleware library used to allow a Redux store to interact with resources outside of itself
 asynchronously, making HTTP requests, accessing browser storage, and executing I/O operations. These operations are
 also known as *side effects*. Redux Saga helps to organize these side effects in a way that is easier to manage.
-
-Redux store natively only knows how to dispatch actions and update its state using its root reducer.
-Actions represent an event describing something happening in your app and an intention to change your app's state.
-We have a problem - there isn't any place in your Redux application to put your side effects in.
 
 Redux middleware lies between an action and a reducer. This enables actions to contain something else other than a
 plain object. Redux Sagas are slightly different in that a separate set of actions are defined in your Redux application,
@@ -975,7 +975,3 @@ which is captured exclusively by watcher functions (as part of your saga). Upon 
 execute the corresponding logic and dispatch a resultant action to your application's reducer. The saga essentially acts
 as a separate thread to your application, listening for specific actions from your main application to perform complex
 asynchronous tasks and updating your application's state once it is completed.
-
-The idea is that a saga is similar to a separate thread in your app that’s solely responsible for side effects.
-However, unlike Redux-Thunk, which utilizes callback functions, a Redux-Saga thread can be started, paused and cancelled
-from the main application with normal Redux actions.
