@@ -39,11 +39,17 @@ const loginUser = (userData, signIn) => async (dispatch) => {
   }
 }
 
-const logoutUser = (dispatch) => {
-  localStorage.clear()
+const logoutUserInitiated = (dispatch) => {
+  /* localStorage.clear() moved that side effect to logoutSaga */
   dispatch({
-    type: Actions.userSighOut
+    type: Actions.userInitiateSighOut
   })
+}
+
+const logoutUserSucceed = () => {
+  return {
+    type: Actions.userSighOut
+  }
 }
 
 const checkUserAuthState = async (dispatch) => {
@@ -51,7 +57,7 @@ const checkUserAuthState = async (dispatch) => {
   if (idToken) {
     if (Date.now() > localStorage.getItem('expiresIn')) {
       /* logout is token is expired */
-      dispatch(logoutUser)
+      dispatch(logoutUserInitiated)
     } else {
       const userData = {};
       for (const key of ['idToken', 'kind', 'localId', 'refreshToken', 'expiresIn']) {
@@ -65,8 +71,8 @@ const checkUserAuthState = async (dispatch) => {
 const setLogoutExpirationTime = (expirationTime) => (dispatch) => {
   setTimeout(() => {
     // TODO: fix bug with expiration time
-    logoutUser(dispatch);
+    logoutUserInitiated(dispatch);
   }, 3600 * 1000);
 };
 
-export {loginUser, setLogoutExpirationTime, logoutUser, checkUserAuthState}
+export {loginUser, setLogoutExpirationTime, logoutUserInitiated, logoutUserSucceed, checkUserAuthState}

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import {logoutUser} from "../../store/actions/AuthActionCreator";
+import {logoutUserInitiated} from "../../store/actions/AuthActionCreator";
 
 const Logout = (props) => {
   useEffect(() => {
@@ -19,7 +19,7 @@ const Logout = (props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logoutUser: () => dispatch(logoutUser)
+    logoutUser: () => dispatch(logoutUserInitiated)
   };
 };
 

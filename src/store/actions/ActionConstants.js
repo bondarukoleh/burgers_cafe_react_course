@@ -10,6 +10,7 @@ export const Actions = {
   errorOccurred: 'ERROR_OCCURRED',
   errorRemoved: 'ERROR_REMOVED',
 
-  userSignIn: 'USER_SIGNIN',
-  userSighOut: 'USER_SIGNOUT',
+  userSignIn: 'USER_SIGN_IN',
+  userSighOut: 'USER_SIGN_OUT',
+  userInitiateSighOut: 'USER_INITIATE_SIGH_OUT',
 }
