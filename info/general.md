@@ -975,3 +975,8 @@ which is captured exclusively by watcher functions (as part of your saga). Upon 
 execute the corresponding logic and dispatch a resultant action to your application's reducer. The saga essentially acts
 as a separate thread to your application, listening for specific actions from your main application to perform complex
 asynchronous tasks and updating your application's state once it is completed.
+
+
+### Hooks
+useSate's second item in result array, `setState` has a difference with class-bases `this.setState` function
+class-based **merges** passed object with current state, hook's setState - **replaces** it.
