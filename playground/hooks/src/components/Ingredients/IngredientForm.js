@@ -1,16 +1,16 @@
 import React from 'react';
-import {useState} from 'react'
+import {useState} from 'react';
 import Card from '../UI/Card';
 import './IngredientForm.css';
 
 const IngredientForm = React.memo(props => {
-  const [state, setState] = useState({title: '', amount: ''});
+  const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState('');
   const submitHandler = event => {
     event.preventDefault();
-  };
-
-  const updateStateValue = (title, value) => {
-    setState((oldState) => ({...oldState, [title]: value}));
+    props.addIngredient({id: Math.ceil(Math.random() * 10000000).toString(), title, amount});
+    setAmount('');
+    setTitle('');
   };
 
   return (
@@ -22,8 +22,8 @@ const IngredientForm = React.memo(props => {
             <input
               type="text"
               id="title"
-              value={state.title}
-              onChange={(e) => updateStateValue('title', e.target.value)}
+              value={title}
+              onChange={e => setTitle(e.target.value)}
             />
           </div>
           <div className="form-control">
@@ -31,8 +31,8 @@ const IngredientForm = React.memo(props => {
             <input
               type="number"
               id="amount"
-              value={state.amount}
-              onChange={(e) => updateStateValue('amount', e.target.value)}
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
             />
           </div>
           <div className="ingredient-form__actions">

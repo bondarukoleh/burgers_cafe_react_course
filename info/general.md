@@ -978,5 +978,10 @@ asynchronous tasks and updating your application's state once it is completed.
 
 
 ### Hooks
-useSate's second item in result array, `setState` has a difference with class-bases `this.setState` function
+*useState's* second item in result array, `setState` has a difference with class-bases `this.setState` function
 class-based **merges** passed object with current state, hook's setState - **replaces** it.
+
+You cannot use hook `useState` in some nasted functions or conditions of your func component, only in root component
+function, or in roo level of other hooks.
+
+
