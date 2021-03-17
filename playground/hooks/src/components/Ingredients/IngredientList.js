@@ -7,12 +7,12 @@ const IngredientList = ({ingredients, onRemoveItem}) => {
     <section className="ingredient-list">
       <h2>Loaded Ingredients</h2>
       <ul>
-        {ingredients.map(ig => (
-          <li key={ig.id} onClick={() => onRemoveItem(ig.id)}>
+        {ingredients.map(ig => {
+          return <li key={ig.id} onClick={() => onRemoveItem(ig.id)}>
             <span>{ig.title}</span>
             <span>{ig.amount}x</span>
           </li>
-        ))}
+        })}
       </ul>
     </section>
   );

@@ -1,41 +1,52 @@
-import React, {useState} from 'react';
-
+import React, {useState, useEffect} from 'react';
 import IngredientForm from './IngredientForm';
 import Search from './Search';
-import IngredientList from './IngredientList'
-import {apiUrl} from "../../data/urls";
+import IngredientList from './IngredientList';
+import {request} from '../../api/request';
 
 function Ingredients() {
   const [ingredients, setIngredients] = useState([]);
 
-  const removeIngredient = (id) => {
-    const removingIndex = ingredients.findIndex((elem) => elem.id === id)
-    ingredients.splice(removingIndex, 1);
-    setIngredients([...ingredients]);
-  }
+  useEffect(() => {
+    request({path: `/ingredients.json`})
+      .then(ingredientsDB => {
+        if(Object.keys(ingredientsDB).length) {
+          const mappedIngredients = Object.entries(ingredientsDB).map(([id, {title, amount}]) => {
+            return {id, title, amount}
+          });
+          setIngredients(mappedIngredients);
+        }
+      })
+      .catch(err => console.log(`Something went wrong, couldn't get the ingredients`, err))
+  }, [])
 
-  const addIngredient =  async (ing) => {
-    try {
-      const response = await fetch(`${apiUrl}/ingredients.json`,
-        {method: 'POST', body: JSON.stringify(ing), headers: {'Content-Type': 'application/json'}});
-      if(response.status < 400) {
-        const createdIng = await response.json();
-        setIngredients(ingredients.concat({...ing, id: createdIng.name}));
-      } else {
-        const error = await response.text()
-        throw new Error(error ? error : `Couldn't create ingredient! ${response.status}, ${response.statusText}`);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+  const removeIngredient = (id) => {
+    request({path: `/ingredients/${id}.json`, method: 'DELETE'})
+      .then(() => {
+        setIngredients(oldIngredients => {
+          const removingIndex = oldIngredients.findIndex((elem) => elem.id === id);
+          oldIngredients.splice(removingIndex, 1);
+          return [...oldIngredients];
+        })
+      })
+      .catch(err => console.log(`Something went wrong, couldn't delete the ingredients`, err))
+  };
+
+  const addIngredient = async (ing) => {
+    const response = await request({
+      path: '/ingredients.json',
+      method: 'POST',
+      body: JSON.stringify(ing)
+    });
+    setIngredients(ingredients.concat({...ing, id: response.name}));
   };
 
   return (
     <div className="App">
       <IngredientForm addIngredient={addIngredient}/>
       <section>
-        <Search />
-        <IngredientList ingredients={ingredients} onRemoveItem={removeIngredient}  />
+        <Search/>
+        <IngredientList ingredients={ingredients} onRemoveItem={removeIngredient}/>
       </section>
     </div>
   );
