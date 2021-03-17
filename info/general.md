@@ -984,4 +984,4 @@ class-based **merges** passed object with current state, hook's setState - **rep
 You cannot use hook `useState` in some nasted functions or conditions of your func component, only in root component
 function, or in roo level of other hooks.
 
-
+Test mode in firebase DB - real easy way to create some dumb API to play with. 
