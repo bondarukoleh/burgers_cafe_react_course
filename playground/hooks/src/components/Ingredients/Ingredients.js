@@ -10,7 +10,7 @@ function Ingredients() {
   useEffect(() => {
     request({path: `/ingredients.json`})
       .then(ingredientsDB => {
-        if(Object.keys(ingredientsDB).length) {
+        if(ingredientsDB && Object.keys(ingredientsDB).length) {
           const mappedIngredients = Object.entries(ingredientsDB).map(([id, {title, amount}]) => {
             return {id, title, amount}
           });
@@ -41,11 +41,15 @@ function Ingredients() {
     setIngredients(ingredients.concat({...ing, id: response.name}));
   };
 
+  const setFilteredIngredients = (ingredients) => {
+   setIngredients(ingredients)
+  }
+
   return (
     <div className="App">
       <IngredientForm addIngredient={addIngredient}/>
       <section>
-        <Search/>
+        <Search onFilteredIngredients={setFilteredIngredients}/>
         <IngredientList ingredients={ingredients} onRemoveItem={removeIngredient}/>
       </section>
     </div>

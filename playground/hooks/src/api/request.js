@@ -13,7 +13,6 @@ export async function request({path, headers = {'Content-Type': 'application/jso
   if (body) {
     opts.body = body;
   }
-  console.log(opts);
   try {
     const response = await fetch(`${apiUrl}${path}`, opts);
     if (response.status < 400) {
