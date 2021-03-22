@@ -986,3 +986,12 @@ function, or in roo level of other hooks.
 
 Test mode in firebase DB - real easy way to create some dumb API to play with.
 To filter the JSON - you need to add rules 
+
+`useCallback` - cashes passed function, so it won't be recreated during lifecycle. You can pass function
+dependencies, if they are canged - function re-recreated with new dependencies.
+
+```tsx
+  const setFilteredIngredients = useCallback((ingredients) => {
+    setIngredients(ingredients)
+  }, []);
+```

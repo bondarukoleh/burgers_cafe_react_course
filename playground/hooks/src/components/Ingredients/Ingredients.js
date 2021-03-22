@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
@@ -6,19 +6,6 @@ import {request} from '../../api/request';
 
 function Ingredients() {
   const [ingredients, setIngredients] = useState([]);
-
-  useEffect(() => {
-    request({path: `/ingredients.json`})
-      .then(ingredientsDB => {
-        if(ingredientsDB && Object.keys(ingredientsDB).length) {
-          const mappedIngredients = Object.entries(ingredientsDB).map(([id, {title, amount}]) => {
-            return {id, title, amount}
-          });
-          setIngredients(mappedIngredients);
-        }
-      })
-      .catch(err => console.log(`Something went wrong, couldn't get the ingredients`, err))
-  }, [])
 
   const removeIngredient = (id) => {
     request({path: `/ingredients/${id}.json`, method: 'DELETE'})
@@ -41,9 +28,9 @@ function Ingredients() {
     setIngredients(ingredients.concat({...ing, id: response.name}));
   };
 
-  const setFilteredIngredients = (ingredients) => {
-   setIngredients(ingredients)
-  }
+  const setFilteredIngredients = useCallback((ingredients) => {
+    setIngredients(ingredients)
+  }, []);
 
   return (
     <div className="App">
