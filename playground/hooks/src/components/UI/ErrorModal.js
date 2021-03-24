@@ -8,10 +8,10 @@ const ErrorModal = React.memo(props => {
       <div className="backdrop" onClick={props.onClose} />
       <div className="error-modal">
         <h2>An Error Occurred!</h2>
-        <p>{props.children}</p>
+        <div>{props.children}</div>
         <div className="error-modal__actions">
           <button type="button" onClick={props.onClose}>
-            Okay
+            Close
           </button>
         </div>
       </div>

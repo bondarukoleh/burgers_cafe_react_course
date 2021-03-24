@@ -23,6 +23,6 @@ export async function request({path, headers = {'Content-Type': 'application/jso
     }
   } catch (err) {
     console.log(err);
-    return err;
+    throw err;
   }
 }

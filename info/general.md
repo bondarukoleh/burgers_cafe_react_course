@@ -995,3 +995,15 @@ dependencies, if they are canged - function re-recreated with new dependencies.
     setIngredients(ingredients)
   }, []);
 ```
+
+Two synchronous setState hooks in one function will be executed in one state update cycle, not that firstly one function
+will trigger rerender, and then next one will do it.
+```tsx
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const onButtonClick = () => {
+     /* Those two will change state at once, not separated. */
+     setLoading(true);
+     setError(true);
+  };
+```
