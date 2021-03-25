@@ -1,4 +1,4 @@
-import React, {useCallback, useReducer} from 'react';
+import React, {useCallback, useMemo, useReducer} from 'react';
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
@@ -56,7 +56,7 @@ function Ingredients() {
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState({present: false, message: ''}); */
 
-  const removeIngredient = (id) => {
+  const removeIngredient = useCallback((id) => {
     dispatchRequestReducer({type: ApiRequestActionTypes.sending})
     request({path: `/ingredients/${id}.json`, method: 'DELETE'})
       .then((response) => {
@@ -66,39 +66,40 @@ function Ingredients() {
       .catch(err => {
         dispatchRequestReducer({type: ApiRequestActionTypes.error, error: getDefaultIfEmpty(err.message, 'Remove ingredient.') });
       })
-  };
-
-  const addIngredient = async (ing) => {
+  }, []);
+  const addIngredient = useCallback(async (ing) => {
     dispatchRequestReducer({type: ApiRequestActionTypes.sending});
-    request({
-      path: '/ingredients.json',
-      method: 'POST',
-      body: JSON.stringify(ing)
-    })
-      .then(res => {
-        dispatchRequestReducer({type: ApiRequestActionTypes.success})
-        dispatchIngredients({type: IngredientActionTypes.add, ingredient: {...ing, id: res.name}})
-        /*setIngredients(ingredients.concat({...ing, id: res.name}));*/
+    try {
+      const result = await request({
+        path: '/ingredients.json',
+        method: 'POST',
+        body: JSON.stringify(ing)
       })
-      .catch(err => {
-        dispatchRequestReducer({type: ApiRequestActionTypes.error, error: getDefaultIfEmpty(err)});
-        /* with use state:
-         setLoading(false);
-         setError({present: true, message: err.message}); */
-      });
-  };
-
+      dispatchRequestReducer({type: ApiRequestActionTypes.success})
+      dispatchIngredients({type: IngredientActionTypes.add, ingredient: {...ing, id: result.name}})
+      /*setIngredients(ingredients.concat({...ing, id: res.name}));*/
+    } catch (err) {
+      dispatchRequestReducer({type: ApiRequestActionTypes.error, error: getDefaultIfEmpty(err)});
+      /* with use state:
+       setLoading(false);
+       setError({present: true, message: err.message}); */
+    }
+  }, []);
   const setFilteredIngredients = useCallback((ingredients) => {
     dispatchIngredients({type: IngredientActionTypes.set, ingredients})
     /* setIngredients(ingredients) */
   }, []);
+
+  const ingredientList = useMemo(() => {
+    return <IngredientList ingredients={ingredients} onRemoveItem={removeIngredient}/>
+  }, [ingredients, removeIngredient])
 
   return (
     <div className="App">
       <IngredientForm addIngredient={addIngredient} loading={apiRequestState.loading}/>
       <section>
         <Search onFilteredIngredients={setFilteredIngredients}/>
-        <IngredientList ingredients={ingredients} onRemoveItem={removeIngredient}/>
+        {ingredientList}
         {apiRequestState.error && <ErrorModal onClose={() => dispatchRequestReducer({type: ApiRequestActionTypes.clear_error})}>
           <p>{apiRequestState.error}</p>
         </ErrorModal>}
