@@ -1,12 +1,26 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useReducer} from 'react';
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
 import ErrorModal from '../UI/ErrorModal'
 import {request} from '../../api/request';
 
+const ingredientReducer = (currentIgredients, action) => {
+  switch (action.type) {
+    case 'SET':
+      return action.ingredients;
+    case 'ADD':
+      return currentIgredients.concat(action.ingredient);
+    case 'REMOVE':
+      return currentIgredients.filter((elem) => elem.id !== action.id);
+    default:
+      throw Error("Shouldn't get here in ingredientReducer!");
+  }
+}
+
 function Ingredients() {
-  const [ingredients, setIngredients] = useState([]);
+  const [ingredients, dispatchIngredients] = useReducer(ingredientReducer, []);
+  /* With useState const [ingredients, setIngredients] = useState([]); */
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({present: false, message: ''});
 
@@ -15,11 +29,7 @@ function Ingredients() {
     request({path: `/ingredients/${id}.json`, method: 'DELETE'})
       .then((response) => {
         setLoading(false);
-        setIngredients(oldIngredients => {
-          const removingIndex = oldIngredients.findIndex((elem) => elem.id === id);
-          oldIngredients.splice(removingIndex, 1);
-          return [...oldIngredients];
-        })
+        dispatchIngredients({type: 'REMOVE', id: id})
       })
       .catch(err => {
         setLoading(false);
@@ -36,7 +46,8 @@ function Ingredients() {
     })
       .then(res => {
         setLoading(false);
-        setIngredients(ingredients.concat({...ing, id: res.name}));
+        dispatchIngredients({type: 'ADD', ingredient: {...ing, id: res.name}})
+        /*setIngredients(ingredients.concat({...ing, id: res.name}));*/
       })
       .catch(err => {
         setLoading(false);
@@ -45,7 +56,8 @@ function Ingredients() {
   };
 
   const setFilteredIngredients = useCallback((ingredients) => {
-    setIngredients(ingredients)
+    dispatchIngredients({type: 'SET', ingredients})
+    /* setIngredients(ingredients) */
   }, []);
 
   return (

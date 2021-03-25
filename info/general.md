@@ -1007,3 +1007,48 @@ will trigger rerender, and then next one will do it.
      setError(true);
   };
 ```
+```tsx
+console.log(name); // prints name state, e.g. 'Bob'
+setName('Max');
+console.log(name); // ??? what gets printed? 'Max'?
+```
+You could think that accessing the name state after setName('Max'); should yield the new value (e.g. 'Max')
+but this is **NOT** the case. Keep in mind, that the `new state value is only available in the next component render cycle`
+(which gets scheduled by calling setName()). \
+This behaves in the same way for both functional components with hooks as well as class-based components with
+this.setState()!
+
+**useReducer**
+```tsx
+const [state, dispatch] = useReducer(reducer, initialArg, init);
+```
+useReducer is usually preferable to useState when you have complex state logic that involves multiple sub-values or
+when the next state depends on the previous one. \
+useReducer also lets you optimize performance for components that trigger deep updates because you can pass dispatch
+function within context provider elements instead of callbacks from Component to Component.
+
+```tsx
+const initialState = {count: 0};
+
+function reducer(state, action) {
+   switch (action.type) {
+      case 'increment':
+         return {count: state.count + 1};
+      case 'decrement':
+         return {count: state.count - 1};
+      default:
+         throw new Error();
+   }
+}
+
+function Counter() {
+   const [state, dispatch] = useReducer(reducer, initialState);
+   return (
+           <>
+              Count: {state.count}
+              <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+              <button onClick={() => dispatch({type: 'increment'})}>+</button>
+           </>
+   );
+}
+```
