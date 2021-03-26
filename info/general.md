@@ -1065,3 +1065,9 @@ you wouldn’t normally do while rendering. For example, side effects belong in 
 *useCallback* vs *useMemo*
 useCallback gives you referential equality between renders for **functions**. \
 useMemo gives you referential equality between renders for **values**.
+
+**customHooks**
+Created custom hook can use all other hooks within, and for every component there will be separate instance of custom
+hook provided, so it's not just function shared between components, ideal is share logic not data.
+
+
