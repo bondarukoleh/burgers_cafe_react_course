@@ -1,4 +1,4 @@
-import React, {Component, Suspense} from 'react';
+import React, {useEffect, Suspense} from 'react';
 import Layout from "./Layout/Layout";
 import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
 import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
@@ -8,12 +8,10 @@ import Logout from "./Auth/Logout";
 import {checkUserAuthState} from '../store/actions/AuthActionCreator'
 import Spinner from "../components/Burger/Spinner/Spinner";
 
-class App extends Component {
-  componentDidMount() {
-    this.props.checkUserAuthDataInLocalStorage();
-  }
+function App (props) {
+  useEffect(() => props.checkUserAuthDataInLocalStorage(), []);
 
-  loggedInRouts() {
+  const loggedInRouts = () => {
     return <Switch>
       <Suspense fallback={<Spinner/>}>
         <Route path={'/checkout'} component={React.lazy(() => import('./Checkout/Checkout'))}/>
@@ -25,7 +23,7 @@ class App extends Component {
     </Switch>
   }
 
-  notLoggedInRouts() {
+  const notLoggedInRouts = () => {
     return <Switch>
       <Route exact path={'/auth'} component={Auth}/>
       <Route exact path={'/'} component={BurgerBuilder}/>
@@ -33,15 +31,13 @@ class App extends Component {
     </Switch>
   }
 
-  render() {
     return (
       <Router>
         <Layout>
-            {this.props.user ? this.loggedInRouts() : this.notLoggedInRouts()}
+            {props.user ? loggedInRouts() : notLoggedInRouts()}
         </Layout>
       </Router>
     );
-  }
 }
 
 const mapStateToProps = (store) => {
