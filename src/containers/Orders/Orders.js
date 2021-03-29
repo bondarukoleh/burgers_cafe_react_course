@@ -5,16 +5,16 @@ import styles from './Orders.module.scss';
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 
-function Orders(props) {
+function Orders({user}) {
   const [state, setState] = useState({orders: {}});
 
   useEffect(() => {
-    const query = `auth=${props?.user?.idToken}&orderBy="userID"&equalTo="${props.user.localId}"`
+    const query = `auth=${user?.idToken}&orderBy="userID"&equalTo="${user.localId}"`
     axiosRequest.get(`/orders.json?${query}`) // Here we will get only needed orders
       .then(r => {
         /* if(r.data && Object.keys(r.data).length) { // THIS is filtering on frontend, but we don't want to get all the orders
           const ordersByUser = Object.entries(r.data)
-            .filter(([orderID, orderObject]) => orderObject.userID === props.user.localId)
+            .filter(([orderID, orderObject]) => orderObject.userID === user.localId)
             .reduce((acc, cur) => {
               acc[cur[0]] = cur[1];
               return acc;
@@ -26,7 +26,7 @@ function Orders(props) {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [user]);
 
   const renderOrders = () => {
     const orders = Object.entries(state.orders).map(([key, value]) => {

@@ -1,60 +1,50 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Modal from "../Modal/Modal";
 import Error from "../Error/Error";
-import {errorOccurred, removeError} from "../../../store/actions/errorActionCreator";
+import {errorContext} from '../../../context/error'
 
-const WithErrorHandler = (WrappedComponent, axios) => {
-  const [error, setError] = useState(null)
-  let reqInterceptor = null;
-  let resInterceptor = null;
+const WithErrorHandler = ({axios, children}) => {
+  const {removeError, errorOccurred, error} = useContext(errorContext)
+  const [reqInterceptor, setReqInterceptor] = useState(null)
+  const [resInterceptor, setResInterceptor] = useState(null)
 
   useEffect(() => {
-    reqInterceptor = axios.interceptors.request.use(request => {
-      removeError()
-      setError(error)
+    setReqInterceptor(axios.interceptors.request.use(request => {
+      removeError();
       return request;
     }, error => {
-      errorOccurred(error)
-      setError(error)
-    });
-    resInterceptor = axios.interceptors.response.use(response => {
+      errorOccurred(error);
+    }));
+    setResInterceptor(axios.interceptors.response.use(response => {
+      removeError();
       return response;
     }, error => {
-      setError(error)
-      errorOccurred(error)
-    });
-  }, []);
+      errorOccurred(error);
+    }));
+  }, [axios, removeError, errorOccurred]);
 
   useEffect(() => {
+    let unmounted = false;
+    if(unmounted) {
+      async function clearInterceptors() {
+        await axios.interceptors.request.eject(reqInterceptor);
+        await axios.interceptors.response.eject(resInterceptor);
+      }
+      clearInterceptors();
+    }
     return () => {
-      axios.interceptors.request.eject(reqInterceptor);
-      axios.interceptors.response.eject(resInterceptor);
-    };
+      unmounted = true;
+    }
   });
 
-  return props => {
     return (
       <React.Fragment>
-        <Modal show={!!error} shadeClick={() => {
-          setError(null);
-          props.errorRemoved(error);
-        }}>
-          <Error error={error} errorConfirmed={props.errorRemoved}/>
+        <Modal show={!!error} shadeClick={removeError}>
+          <Error error={error} errorConfirmed={removeError}/>
         </Modal>
-        <WrappedComponent {...props}/>
+        {children}
       </React.Fragment>
     );
-  };
-
-  // const mapStateToProps = store => ({error: store.error});
-  // const mapDispatchToProps = dispatch => {
-  //   return {
-  //     errorOccurred: (e) => dispatch(),
-  //     errorRemoved: () => dispatch(removeError()),
-  //   };
-  // };
-  //
-  // return connect(mapStateToProps, mapDispatchToProps)(Wrapper);
 };
 
 export default WithErrorHandler;

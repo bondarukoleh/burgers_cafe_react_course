@@ -7,9 +7,10 @@ import {connect} from 'react-redux'
 import Logout from "./Auth/Logout";
 import {checkUserAuthState} from '../store/actions/AuthActionCreator'
 import Spinner from "../components/Burger/Spinner/Spinner";
+import ErrorProvider from "../context/error";
 
-function App (props) {
-  useEffect(() => props.checkUserAuthDataInLocalStorage(), []);
+function App ({user, checkUserAuthDataInLocalStorage}) {
+  useEffect(() => checkUserAuthDataInLocalStorage(), [checkUserAuthDataInLocalStorage]);
 
   const loggedInRouts = () => {
     return <Switch>
@@ -32,11 +33,13 @@ function App (props) {
   }
 
     return (
-      <Router>
-        <Layout>
-            {props.user ? loggedInRouts() : notLoggedInRouts()}
-        </Layout>
-      </Router>
+      <ErrorProvider>
+        <Router>
+          <Layout>
+            {user ? loggedInRouts() : notLoggedInRouts()}
+          </Layout>
+        </Router>
+      </ErrorProvider>
     );
 }
 

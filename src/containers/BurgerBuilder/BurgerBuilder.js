@@ -84,14 +84,14 @@ class BurgerBuilder extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <WithErrorHandler axios={axiosRequest}>
         <Modal
           shadeClick={this.purchasingHandler}
           show={this.state.purchasing}>
           {this.renderOrderSummary()}
         </Modal>
         {this.renderBurgerRelated()}
-      </React.Fragment>
+      </WithErrorHandler>
     );
   }
 }
@@ -112,4 +112,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithErrorHandler(BurgerBuilder, axiosRequest));
+export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);

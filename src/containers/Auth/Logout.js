@@ -3,11 +3,11 @@ import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import {logoutUserInitiated} from "../../store/actions/AuthActionCreator";
 
-const Logout = (props) => {
+const Logout = ({logoutUser}) => {
   useEffect(() => {
-    props.logoutUser();
+    logoutUser();
     // props.history.push('/'); We can do it like this
-  }, [])
+  }, [logoutUser])
 
   return (
     <div>
