@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux'
+import React, {useContext, useEffect} from 'react';
 import {Redirect} from 'react-router-dom'
-import {logoutUserInitiated} from "../../store/actions/AuthActionCreator";
+import {authContext} from '../../context/auth'
 
-const Logout = ({logoutUser}) => {
+const Logout = () => {
+  const {logoutUser} = useContext(authContext);
   useEffect(() => {
     logoutUser();
     // props.history.push('/'); We can do it like this
@@ -17,10 +17,4 @@ const Logout = ({logoutUser}) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    logoutUser: () => dispatch(logoutUserInitiated)
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Logout);
+export default Logout;

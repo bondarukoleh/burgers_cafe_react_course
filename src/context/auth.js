@@ -1,4 +1,4 @@
-import React, {useState, createContext, useContext} from "react";
+import React, {useState, createContext, useContext, useEffect} from "react";
 import {signInRequest, signUpRequest} from "../helpers/api";
 import {errorContext} from "./error";
 
@@ -8,6 +8,8 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const {errorOccurred} = useContext(errorContext)
 
+  useEffect(() => checkUserAuthState(), [])
+
   const setLogoutExpirationTime = (expirationTime) => {
     setTimeout(() => {
       // TODO: fix bug with expiration time
@@ -15,21 +17,20 @@ const AuthProvider = ({ children }) => {
     }, 3600 * 1000);
   };
 
-  const checkUserAuthState = async (dispatch) => {
+  const checkUserAuthState = () => {
     const idToken = localStorage.getItem('idToken');
     if (idToken) {
-      if (Date.now() > localStorage.getItem('expiresIn')) {
-        /* logout is token is expired */
-        // dispatch(logoutUserInitiated)
-      } else {
+      // if (Date.now() > localStorage.getItem('expiresIn')) {
+      //   /* logout is token is expired */
+      //   // dispatch(logoutUserInitiated)
+      // } else {
         const userData = {};
         for (const key of ['idToken', 'kind', 'localId', 'refreshToken', 'expiresIn']) {
           userData[key] = localStorage.getItem(key);
         }
-        // dispatch(authenticateUser(userData))
+        setUser(userData)
       }
     }
-  }
 
   const loginUser = async (userData, signIn) => {
     try {
@@ -38,7 +39,7 @@ const AuthProvider = ({ children }) => {
         : await signUpRequest.post('',{returnSecureToken: true, email: userData.email, password: userData.password});
       if(result?.data) {
         setUser(result.data)
-        setLogoutExpirationTime(result.expiresIn)
+        // setLogoutExpirationTime(result.expiresIn)
         let {idToken, kind, localId, refreshToken, expiresIn} = result.data;
         expiresIn = expiresIn + Date.now();
         setLocalStorageUserAuthData({idToken, kind, localId, refreshToken, expiresIn});
@@ -50,15 +51,20 @@ const AuthProvider = ({ children }) => {
     }
   }
 
+  const logoutUser = () => {
+    localStorage.clear();
+    setUser(null)
+  }
+
   const setLocalStorageUserAuthData = (userData) => {
     for (const [key, value] of Object.entries(userData)) {
       localStorage.setItem(key, value)
     }
   }
 
-  return <authContext.Provider value={{user, loginUser}}>
+  return <authContext.Provider value={{user, loginUser, logoutUser}}>
     {children}
   </authContext.Provider>;
-};
+}
 
 export default AuthProvider;

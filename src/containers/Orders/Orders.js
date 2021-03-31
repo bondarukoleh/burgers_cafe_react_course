@@ -1,15 +1,19 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useContext, useEffect, useState} from 'react';
 import Order from "../../components/Order/Order/Order";
 import {axiosRequest} from "../../helpers/api";
 import styles from './Orders.module.scss';
 import {Link} from "react-router-dom";
-import {connect} from "react-redux";
+import {authContext} from "../../context/auth";
+import {errorContext} from "../../context/error";
 
-function Orders({user}) {
+function Orders() {
   const [state, setState] = useState({orders: {}});
+  const {user} = useContext(authContext);
+  const {errorOccurred} = useContext(errorContext);
+
 
   useEffect(() => {
-    const query = `auth=${user?.idToken}&orderBy="userID"&equalTo="${user.localId}"`
+    const query = `auth=${user?.idToken}&orderBy="userID"&equalTo="${user?.localId}"`
     axiosRequest.get(`/orders.json?${query}`) // Here we will get only needed orders
       .then(r => {
         /* if(r.data && Object.keys(r.data).length) { // THIS is filtering on frontend, but we don't want to get all the orders
@@ -24,9 +28,9 @@ function Orders({user}) {
           setState({orders: r.data})
       })
       .catch((err) => {
-        console.log(err);
+        errorOccurred(err);
       });
-  }, [user]);
+  }, []);
 
   const renderOrders = () => {
     const orders = Object.entries(state.orders).map(([key, value]) => {
@@ -55,17 +59,6 @@ function Orders({user}) {
   );
 }
 
-const mapStateToProps = (store) => {
-  return {
-    user: store.auth.user
-  }
-}
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//   };
-// };
-
 // export default connect(mapStateToProps, mapDispatchToProps)(WithErrorHandler(BurgerBuilder, axiosRequest));
-export default connect(mapStateToProps)(Orders);
+export default Orders;
 

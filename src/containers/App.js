@@ -1,19 +1,21 @@
-import React, {useEffect, Suspense} from 'react';
+import React, {useEffect, Suspense, useContext} from 'react';
 import Layout from "./Layout/Layout";
 import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
 import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import Auth from "./Auth/Auth";
-import {connect} from 'react-redux'
 import Logout from "./Auth/Logout";
-import {checkUserAuthState} from '../store/actions/AuthActionCreator'
 import Spinner from "../components/Burger/Spinner/Spinner";
 import ErrorProvider from "../context/error";
 import PriceProvider from "../context/price";
 import IngredientsProvider from "../context/ingredients";
-import AuthProvider from "../context/auth";
+import AuthProvider, {authContext} from "../context/auth";
 
-function App ({user, checkUserAuthDataInLocalStorage}) {
-  useEffect(() => checkUserAuthDataInLocalStorage(), [checkUserAuthDataInLocalStorage]);
+function App() {
+  const {user} = useContext(authContext);
+  useEffect(() => {
+      console.log('HELLO FROM');
+      console.log(user);
+  }, [user])
 
   const loggedInRouts = () => {
     return <Switch>
@@ -22,47 +24,47 @@ function App ({user, checkUserAuthDataInLocalStorage}) {
         <Route exact path={'/orders'} component={React.lazy(() => import('./Orders/Orders'))}/>
         <Route exact path={'/logout'} component={Logout}/>
         <Route exact path={'/'} component={BurgerBuilder}/>
-        <Redirect to='/' /> {/* Anything unknown will be redirected to base page */}
+        <Redirect to='/'/> {/* Anything unknown will be redirected to base page */}
       </Suspense>
-    </Switch>
-  }
+    </Switch>;
+  };
 
   const notLoggedInRouts = () => {
     return <Switch>
       <Route exact path={'/auth'} component={Auth}/>
       <Route exact path={'/'} component={BurgerBuilder}/>
-      <Redirect to='/' />
-    </Switch>
-  }
+      <Redirect to='/'/>
+    </Switch>;
+  };
 
-    return (
-      <ErrorProvider>
-        <AuthProvider>
-          <PriceProvider>
-            <IngredientsProvider>
-              <Router>
-                <Layout>
-                  {user ? loggedInRouts() : notLoggedInRouts()}
-                </Layout>
-              </Router>
-            </IngredientsProvider>
-          </PriceProvider>
-        </AuthProvider>
-      </ErrorProvider>
-    );
+  return (
+    <ErrorProvider>
+      <AuthProvider>
+        <PriceProvider>
+          <IngredientsProvider>
+            <Router>
+              <Layout>
+                {user ? loggedInRouts() : notLoggedInRouts()}
+              </Layout>
+            </Router>
+          </IngredientsProvider>
+        </PriceProvider>
+      </AuthProvider>
+    </ErrorProvider>
+  );
 }
 
-const mapStateToProps = (store) => {
-  return {
-    burger: store.burger,
-    user: store.auth.user
-  }
-}
+// const mapStateToProps = (store) => {
+//   return {
+//     burger: store.burger,
+//   }
+// }
+//
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     checkUserAuthDataInLocalStorage: () => dispatch(checkUserAuthState)
+//   }
+// }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    checkUserAuthDataInLocalStorage: () => dispatch(checkUserAuthState)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import ContactData from "./ContactData/ContactData";
 import {Route} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {ingredientsContext} from '../../context/ingredients'
+import {priceContext} from '../../context/price'
 
 const Checkout = props => {
   /* I'll keep this as an example of parsing */
@@ -21,6 +23,8 @@ const Checkout = props => {
   //   setState({ingredients: burgerIngredients, price: totalPrice})
   // }, [])
 
+  const {ingredients} = useContext(ingredientsContext)
+  const {price} = useContext(priceContext)
   const goBack = () => props.history.goBack();
   const checkoutContinueHandler = () => props.history.replace(`/checkout/contact-data`);
 
@@ -28,23 +32,16 @@ const Checkout = props => {
     <CheckoutSummary
       checkoutCanceled={goBack}
       checkoutContinued={checkoutContinueHandler}
-      ingredients={props.ingredients}
+      ingredients={ingredients}
     />;
     <Route path={`${props.match.path}/contact-data`} render={() => {
       return <ContactData
         orderCanceled={goBack}
-        ingredients={props.ingredients}
-        price={props.price}
+        ingredients={ingredients}
+        price={price}
       />
     }}/>
   </div>
 };
 
-const mapStateToProps = (store) => {
-  return {
-    ingredients: store.burger.ingredients,
-    price: store.burger.price
-  }
-}
-
-export default connect(mapStateToProps)(Checkout);
+export default Checkout;

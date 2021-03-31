@@ -1,21 +1,23 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Modal from "../Modal/Modal";
 import Error from "../Error/Error";
+import {errorContext} from "../../../context/error";
 
 const WithErrorHandler = ({axios, children}) => {
   const [reqInterceptor, setReqInterceptor] = useState(null)
   const [resInterceptor, setResInterceptor] = useState(null)
+  const {error, errorOccurred, removeError} = useContext(errorContext)
 
   useEffect(() => {
     setReqInterceptor(axios.interceptors.request.use(request => {
       return request;
     }, error => {
-      console.log(error);
+      errorOccurred(error);
     }));
     setResInterceptor(axios.interceptors.response.use(response => {
       return response;
     }, error => {
-      console.log(error);
+      errorOccurred(error);
     }));
   }, [axios]);
 
@@ -35,8 +37,8 @@ const WithErrorHandler = ({axios, children}) => {
 
     return (
       <React.Fragment>
-        <Modal show={false} shadeClick={() => {}}>
-          <Error error={false} errorConfirmed={() => {}}/>
+        <Modal show={!!error} shadeClick={removeError}>
+          <Error error={error} errorConfirmed={removeError}/>
         </Modal>
         {children}
       </React.Fragment>

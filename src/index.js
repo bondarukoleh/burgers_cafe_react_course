@@ -5,11 +5,17 @@ import App from './containers/App';
 import * as serviceWorker from './helpers/serviceWorker';
 import {Provider} from 'react-redux';
 import {store} from './store';
+import AuthProvider from "./context/auth";
+import ErrorProvider from "./context/error";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-        <App />
+      <ErrorProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </ErrorProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
