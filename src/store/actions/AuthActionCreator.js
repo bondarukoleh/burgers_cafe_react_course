@@ -26,16 +26,8 @@ const loginUser = (userData, signIn) => async (dispatch) => {
       expiresIn = expiresIn + Date.now();
       setLocalStorageUserAuthData({idToken, kind, localId, refreshToken, expiresIn});
     } else {
-      dispatch({
-        type: Actions.errorOccurred,
-        payload: true
-      })
     }
   } catch (e) {
-    dispatch({
-      type: Actions.errorOccurred,
-      payload: e
-    })
   }
 }
 

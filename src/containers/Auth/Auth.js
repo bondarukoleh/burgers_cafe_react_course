@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
-import {connect} from "react-redux";
+import React, {useContext, useState} from 'react';
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import styles from './Auth.module.scss';
-import {loginUser} from '../../store/actions/AuthActionCreator';
+import {authContext} from '../../context/auth'
 
 const Auth = props => {
   const [form, setForm] = useState({
@@ -30,6 +29,7 @@ const Auth = props => {
     },
   });
   const [userState, setUserState] = useState({signIn: null});
+  const {user, loginUser} = useContext(authContext);
 
   const inputChangeHandler = (e, inputName) => {
     const newForm = {...form};
@@ -64,7 +64,7 @@ const Auth = props => {
       email: form.email.value,
       password: form.password.value
     };
-    await props.loginAUser(userData, userState.signIn);
+    await loginUser(userData, userState.signIn);
     props.history.push('/');
   };
 
@@ -105,17 +105,4 @@ const Auth = props => {
   );
 };
 
-const mapStateToProps = store => {
-  return {
-    user: store.auth.user,
-    error: store.error
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    loginAUser: (userData, signIn) => dispatch(loginUser(userData, signIn))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default Auth;

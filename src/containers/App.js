@@ -8,6 +8,9 @@ import Logout from "./Auth/Logout";
 import {checkUserAuthState} from '../store/actions/AuthActionCreator'
 import Spinner from "../components/Burger/Spinner/Spinner";
 import ErrorProvider from "../context/error";
+import PriceProvider from "../context/price";
+import IngredientsProvider from "../context/ingredients";
+import AuthProvider from "../context/auth";
 
 function App ({user, checkUserAuthDataInLocalStorage}) {
   useEffect(() => checkUserAuthDataInLocalStorage(), [checkUserAuthDataInLocalStorage]);
@@ -34,11 +37,17 @@ function App ({user, checkUserAuthDataInLocalStorage}) {
 
     return (
       <ErrorProvider>
-        <Router>
-          <Layout>
-            {user ? loggedInRouts() : notLoggedInRouts()}
-          </Layout>
-        </Router>
+        <AuthProvider>
+          <PriceProvider>
+            <IngredientsProvider>
+              <Router>
+                <Layout>
+                  {user ? loggedInRouts() : notLoggedInRouts()}
+                </Layout>
+              </Router>
+            </IngredientsProvider>
+          </PriceProvider>
+        </AuthProvider>
       </ErrorProvider>
     );
 }

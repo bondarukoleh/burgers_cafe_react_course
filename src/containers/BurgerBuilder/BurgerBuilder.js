@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {connect} from "react-redux";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
@@ -10,99 +10,95 @@ import Error from "../../components/UI/Error/Error";
 import {INGREDIENT_PRICES} from "../../data/constants";
 import {addIngredient, getIngredients, removeIngredient} from "../../store/actions/burgerActionCreator";
 import {axiosRequest} from "../../helpers/api";
+import {errorContext} from "../../context/error";
+import {priceContext} from "../../context/price";
+import {ingredientsContext} from "../../context/ingredients";
 
-class BurgerBuilder extends Component {
-  state = {
-    purchasable: false,
-    purchasing: false,
-    error: false,
-    sendingOrder: false,
-  };
+const BurgerBuilder = (props) => {
+  const [purchasing, setPurchasing] = useState(false);
+  const {price, setPrice} = useContext(priceContext);
+  const {ingredients, getIngredients, addIngredient, removeIngredient} = useContext(ingredientsContext);
+  const {error, removeError} = useContext(errorContext);
+  const [sendingOrder, setSendingOrder] = useState(false);
 
-  componentDidMount = async () => {
-    this.countBurgerPrice();
-    await this.props.getIngredientsForBurger();
-  };
+  useEffect(() => {
+    countBurgerPrice();
+    getIngredients();
+  }, []);
 
-  purchasingHandler = () => this.setState((prevState) => ({purchasing: !prevState.purchasing}));
+  const purchasingHandler = () => setPurchasing((prevState) => !prevState);
 
-  countBurgerPrice = () => {
-    const oldPrice = this.props.price;
-    const newPrice = Object.entries(this.props.ingredients)
+  const countBurgerPrice = () => {
+    const oldPrice = price;
+    const newPrice = Object.entries(ingredients)
       .reduce((newPrice, [type, amount]) => {
         newPrice += INGREDIENT_PRICES[type] * amount;
         return newPrice;
       }, 0);
     if (oldPrice !== newPrice) {
-      this.setState({price: newPrice});
+      setPrice(newPrice)
     }
   };
 
-  loadingHandler = (loadingState) => this.setState({sendingOrder: loadingState});
-
-  renderOrderSummary = () => {
-    if (this.state.sendingOrder) {
+  const renderOrderSummary = () => {
+    if (sendingOrder) {
       return <Spinner/>;
     }
-    if (Object.keys(this.props.ingredients).length) {
-      return (<OrderSummary price={this.props.price}
-                            ingredients={this.props.ingredients}
-                            purchasingHandler={this.purchasingHandler}
+    if (Object.keys(ingredients).length) {
+      return (<OrderSummary price={price}
+                            ingredients={ingredients}
+                            purchasingHandler={purchasingHandler}
       />);
     }
     return null;
   };
 
-  renderBurgerRelated = () => {
-    if (Object.keys(this.props.ingredients).length) {
-      const disabledControls = {...this.props.ingredients};
+  const renderBurgerRelated = () => {
+    if (Object.keys(ingredients).length) {
+      const disabledControls = {...ingredients};
       for (const type in disabledControls) {
         disabledControls[type] = !disabledControls[type];
       }
 
       return (
         <React.Fragment>
-          <Burger ingredients={this.props.ingredients}/>
+          <Burger ingredients={ingredients}/>
           <BuildControls
-            price={this.props.price}
+            price={price}
             disabledControls={disabledControls}
-            addIngredient={this.props.addIngredientToBurger}
-            removeIngredient={this.props.removeIngredientFromBurger}
-            purchasable={this.props.price > 0}
-            purchasingHandler={this.purchasingHandler}
-            isAuthenticated={this.props.userIsAuthenticated}
+            addIngredient={addIngredient}
+            removeIngredient={removeIngredient}
+            purchasable={price > 0}
+            purchasingHandler={purchasingHandler}
+            isAuthenticated={props.userIsAuthenticated}
           />
         </React.Fragment>
       );
     }
-    if (this.state.error) {
-      return <Error error={this.state.error} errorConfirmed={() => {}} />;
+    if (error) {
+      return <Error error={error} errorConfirmed={removeError}/>;
     } else {
       return <Spinner/>;
     }
   };
 
-  render() {
-    return (
-      <WithErrorHandler axios={axiosRequest}>
-        <Modal
-          shadeClick={this.purchasingHandler}
-          show={this.state.purchasing}>
-          {this.renderOrderSummary()}
-        </Modal>
-        {this.renderBurgerRelated()}
-      </WithErrorHandler>
-    );
-  }
-}
+  return (
+    <WithErrorHandler axios={axiosRequest}>
+      <Modal
+        shadeClick={purchasingHandler}
+        show={purchasing}>
+        {renderOrderSummary()}
+      </Modal>
+      {renderBurgerRelated()}
+    </WithErrorHandler>
+  );
+};
 
 const mapStateToProps = (store) => {
   return {
-    ingredients: store.burger.ingredients,
-    price: store.burger.price,
     userIsAuthenticated: !!store.auth.user
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
