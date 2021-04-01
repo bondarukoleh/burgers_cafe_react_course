@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {connect} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
@@ -8,11 +8,12 @@ import Spinner from "../../components/Burger/Spinner/Spinner";
 import WithErrorHandler from "../../components/UI/WithErrorHandler/WithErrorHandler";
 import Error from "../../components/UI/Error/Error";
 import {INGREDIENT_PRICES} from "../../data/constants";
-import {addIngredient, getIngredients, removeIngredient} from "../../store/actions/burgerActionCreator";
+// import {addIngredient, getIngredients, removeIngredient} from "../../store/actions/burgerActionCreator";
 import {axiosRequest} from "../../helpers/api";
 import {errorContext} from "../../context/error";
 import {priceContext} from "../../context/price";
 import {ingredientsContext} from "../../context/ingredients";
+import {authContext} from "../../context/auth";
 
 const BurgerBuilder = (props) => {
   const [purchasing, setPurchasing] = useState(false);
@@ -20,6 +21,17 @@ const BurgerBuilder = (props) => {
   const {ingredients, getIngredients, addIngredient, removeIngredient} = useContext(ingredientsContext);
   const {error, removeError} = useContext(errorContext);
   const [sendingOrder, setSendingOrder] = useState(false);
+  const {user} = useState(authContext);
+
+  const dispatch = useDispatch();
+  const addIngredientToBurger = (name) => dispatch(addIngredient(name));
+  const removeIngredientFromBurger = (name) => dispatch(removeIngredient(name));
+  const getIngredientsForBurger = () => dispatch(getIngredients());
+
+  const userIsAuthenticated = useSelector(state => {
+    return state.userIsAuthenticated
+  })
+
 
   useEffect(() => {
     countBurgerPrice();
@@ -70,7 +82,7 @@ const BurgerBuilder = (props) => {
             removeIngredient={removeIngredient}
             purchasable={price > 0}
             purchasingHandler={purchasingHandler}
-            isAuthenticated={props.userIsAuthenticated}
+            isAuthenticated={!!user}
           />
         </React.Fragment>
       );
@@ -100,12 +112,4 @@ const mapStateToProps = (store) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addIngredientToBurger: (name) => dispatch(addIngredient(name)),
-    removeIngredientFromBurger: (name) => dispatch(removeIngredient(name)),
-    getIngredientsForBurger: () => dispatch(getIngredients()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);
+export default connect(mapStateToProps)(BurgerBuilder);

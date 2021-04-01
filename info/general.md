@@ -1071,3 +1071,22 @@ Created custom hook can use all other hooks within, and for every component ther
 hook provided, so it's not just function shared between components, ideal is share logic not data.
 
 
+**useDispatch**
+Alternative to `connect` function from redux, allows you to get the dispatch function inside the component, not outside
+with connect function.
+```tsx
+import {useDispatch} from "react-redux";
+/* In component */
+const dispatch = useDispatch();
+const addIngredientToBurger = (name) => dispatch(addIngredient(name));
+```
+
+**useSelector**
+Allows you to get separately the value from state. Makes code more readable and cleaner.
+```tsx
+import {useSelector} from "react-redux";
+/* In component */
+const userIsAuthenticated = useSelector(state => {
+  return state.userIsAuthenticated
+})
+```
