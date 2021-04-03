@@ -2,7 +2,7 @@ import React from 'react';
 import style from './Modal.module.scss';
 import Shade from '../Shade/Shade';
 
-function modal (props) {
+const Modal = (props) => {
   return (
     <React.Fragment>
       <Shade onClick={props.shadeClick} show={props.show}/>
@@ -17,6 +17,6 @@ function modal (props) {
       </div>
     </React.Fragment>
   );
-}
+};
 
-export default React.memo(modal);
+export default React.memo(Modal);

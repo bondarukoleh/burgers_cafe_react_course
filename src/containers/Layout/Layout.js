@@ -1,13 +1,12 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import Header from "../../components/Header/Header";
 import styles from './Layout.module.scss';
 import SideDrawer from "../../components/Header/SideDrawer/SideDrawer";
 import Shade from "../../components/UI/Shade/Shade";
-import {authContext} from '../../context/auth'
+import {connect} from "react-redux";
 
 const Layout = (props) => {
   const [state, setState] = useState({showSideDrawer: false});
-  const {user} = useContext(authContext)
 
   const sideDrawerAppearance = () => setState(prevState => ({showSideDrawer: !prevState.showSideDrawer}));
 
@@ -23,7 +22,7 @@ const Layout = (props) => {
 
   return (
     <React.Fragment>
-      <Header sideDrawerAppearance={sideDrawerAppearance} userAuthenticated={!!user}/>
+      <Header sideDrawerAppearance={sideDrawerAppearance} userAuthenticated={props.userAuthenticated}/>
       {renderSideDrawer()}
       <main className={styles.content}>
         {props.children}
@@ -32,4 +31,10 @@ const Layout = (props) => {
   );
 };
 
-export default Layout;
+const mapStateToProps = state => {
+  return {
+    userAuthenticated: !!state.auth?.user?.idToken
+  }
+}
+
+export default connect(mapStateToProps)(Layout);

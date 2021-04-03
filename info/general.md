@@ -218,7 +218,7 @@ There is a problem with props that we forced to pass thru many of the components
 some data that component D is interested in. So we should path is thru the chain A -> B-> C-> D. But B and C don't give
 a hoot about this prop, which adds redundancy to the code and make those components less reusable since we should alweys
 pass those props to them. \   
-Solution is React Context feature.
+Solution is React Context feature. But remember that we shouldn't use the context for frequently changed state.
 
 ```jsx
 const AuthContext = React.createContext({someProp: 'defaultValue'});

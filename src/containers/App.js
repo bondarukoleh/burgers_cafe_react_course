@@ -1,21 +1,17 @@
-import React, {useEffect, Suspense, useContext} from 'react';
+import React, {Suspense, useEffect} from 'react';
 import Layout from "./Layout/Layout";
 import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
 import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import Auth from "./Auth/Auth";
+import {connect} from 'react-redux';
 import Logout from "./Auth/Logout";
+import {checkUserAuthState} from '../store/actions/AuthActionCreator';
 import Spinner from "../components/Burger/Spinner/Spinner";
-import ErrorProvider from "../context/error";
-import PriceProvider from "../context/price";
-import IngredientsProvider from "../context/ingredients";
-import AuthProvider, {authContext} from "../context/auth";
 
-function App() {
-  const {user} = useContext(authContext);
+const App = (props) => {
   useEffect(() => {
-      console.log('HELLO FROM');
-      console.log(user);
-  }, [user])
+    props.checkUserAuthDataInLocalStorage();
+  }, [props]);
 
   const loggedInRouts = () => {
     return <Switch>
@@ -38,33 +34,25 @@ function App() {
   };
 
   return (
-    <ErrorProvider>
-      <AuthProvider>
-        <PriceProvider>
-          <IngredientsProvider>
-            <Router>
-              <Layout>
-                {user ? loggedInRouts() : notLoggedInRouts()}
-              </Layout>
-            </Router>
-          </IngredientsProvider>
-        </PriceProvider>
-      </AuthProvider>
-    </ErrorProvider>
+    <Router>
+      <Layout>
+        {props.user ? loggedInRouts() : notLoggedInRouts()}
+      </Layout>
+    </Router>
   );
-}
+};
 
-// const mapStateToProps = (store) => {
-//   return {
-//     burger: store.burger,
-//   }
-// }
-//
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     checkUserAuthDataInLocalStorage: () => dispatch(checkUserAuthState)
-//   }
-// }
+const mapStateToProps = (store) => {
+  return {
+    burger: store.burger,
+    user: store.auth.user
+  };
+};
 
-// export default connect(mapStateToProps, mapDispatchToProps)(App);
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkUserAuthDataInLocalStorage: () => dispatch(checkUserAuthState)
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
