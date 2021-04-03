@@ -218,7 +218,7 @@ There is a problem with props that we forced to pass thru many of the components
 some data that component D is interested in. So we should path is thru the chain A -> B-> C-> D. But B and C don't give
 a hoot about this prop, which adds redundancy to the code and make those components less reusable since we should alweys
 pass those props to them. \   
-Solution is React Context feature.
+Solution is React Context feature. But remember that we shouldn't use the context for frequently changed state.
 
 ```jsx
 const AuthContext = React.createContext({someProp: 'defaultValue'});
@@ -1071,3 +1071,22 @@ Created custom hook can use all other hooks within, and for every component ther
 hook provided, so it's not just function shared between components, ideal is share logic not data.
 
 
+**useDispatch**
+Alternative to `connect` function from redux, allows you to get the dispatch function inside the component, not outside
+with connect function.
+```tsx
+import {useDispatch} from "react-redux";
+/* In component */
+const dispatch = useDispatch();
+const addIngredientToBurger = (name) => dispatch(addIngredient(name));
+```
+
+**useSelector**
+Allows you to get separately the value from state. Makes code more readable and cleaner.
+```tsx
+import {useSelector} from "react-redux";
+/* In component */
+const userIsAuthenticated = useSelector(state => {
+  return state.userIsAuthenticated
+})
+```
