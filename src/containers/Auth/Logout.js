@@ -1,13 +1,13 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import {authContext} from '../../context/auth'
+import {logoutUserInitiated} from "../../store/actions/AuthActionCreator";
 
-const Logout = () => {
-  const {logoutUser} = useContext(authContext);
+const Logout = (props) => {
   useEffect(() => {
-    logoutUser();
+    props.logoutUser();
     // props.history.push('/'); We can do it like this
-  }, [logoutUser])
+  }, [props])
 
   return (
     <div>
@@ -17,4 +17,10 @@ const Logout = () => {
   );
 };
 
-export default Logout;
+const mapDispatchToProps = dispatch => {
+  return {
+    logoutUser: () => dispatch(logoutUserInitiated)
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Logout);
