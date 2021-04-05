@@ -13,4 +13,4 @@ export const Actions = {
   userSignIn: 'USER_SIGN_IN',
   userSighOut: 'USER_SIGN_OUT',
   userInitiateSighOut: 'USER_INITIATE_SIGH_OUT',
-}
+};

@@ -4,7 +4,7 @@ import {axiosRequest} from "../../helpers/api";
 const getIngredients = () => async (dispatch) => {
   try {
     const result = await axiosRequest.get('/ingredients.json');
-    if(result?.data) {
+    if (result?.data) {
       dispatch({
         type: Actions.ingredientGot,
         payload: result.data
@@ -13,15 +13,15 @@ const getIngredients = () => async (dispatch) => {
       dispatch({
         type: Actions.errorOccurred,
         payload: true
-      })
+      });
     }
   } catch (e) {
     dispatch({
       type: Actions.errorOccurred,
       payload: e
-    })
+    });
   }
-}
+};
 
 const addIngredient = (ingredientName) => (dispatch) => {
   dispatch({
