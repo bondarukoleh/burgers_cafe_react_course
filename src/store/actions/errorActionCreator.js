@@ -1,6 +1,7 @@
 import {Actions} from './ActionConstants';
 
 const errorOccurred = (e = {message: "Unknown Error"}) => (dispatch) => {
+  console.log('AAAAAAAAAAAAAAAAAA')
   dispatch({
     type: Actions.errorOccurred,
     payload: e

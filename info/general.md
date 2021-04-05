@@ -1090,3 +1090,5 @@ const userIsAuthenticated = useSelector(state => {
   return state.userIsAuthenticated
 })
 ```
+
+Interesting site with react open source projects [react rocks](https://react.rocks/)

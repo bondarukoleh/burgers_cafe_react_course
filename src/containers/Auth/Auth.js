@@ -4,59 +4,36 @@ import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import styles from './Auth.module.scss';
 import {loginUser} from '../../store/actions/AuthActionCreator';
+import {errorOccurred} from '../../store/actions/errorActionCreator';
+import WithErrorHandler from "../../components/UI/WithErrorHandler/WithErrorHandler";
+import {axiosRequest} from "../../helpers/api";
 
 const Auth = props => {
   const [form, setForm] = useState({
     email: {
-      elementProps: {
-        type: 'email',
-        required: true
-      },
-      label: 'Your email',
-      inputType: 'input',
       value: '',
     },
     password: {
-      elementProps: {
-        type: 'password',
-        required: true
-      },
-      label: 'Your Password',
-      inputType: 'input',
       value: '',
-      validation: {
-        minLength: 6
-      }
     },
   });
   const [userState, setUserState] = useState({signIn: null});
 
-  const inputChangeHandler = (e, inputName) => {
+  const emailChangeHandler = (e) => {
     const newForm = {...form};
-    const newFormElement = {...newForm[inputName]};
+    const newFormElement = {...newForm.email};
     newFormElement.value = e.target.value;
-    newFormElement.valid = validationCheck(newFormElement.value, newFormElement.validation);
-    newForm[inputName] = newFormElement;
+    newForm.email = newFormElement;
     setForm(newForm);
-  };
+  }
 
-  const validationCheck = (value, rules) => {
-    let isValid = false;
-
-    if (!rules) {
-      return true;
-    }
-    if (rules.required) {
-      isValid = !!value && isValid;
-    }
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-    return isValid;
-  };
+  const passChangeHandler = (e) => {
+    const newForm = {...form};
+    const newFormElement = {...newForm.password};
+    newFormElement.value = e.target.value;
+    newForm.password = newFormElement;
+    setForm(newForm);
+  }
 
   const authenticate = async (e) => {
     e.preventDefault();
@@ -84,16 +61,21 @@ const Auth = props => {
 
   const renderForm = () => {
     return <form onSubmit={authenticate}>
-      {Object.entries(form).map(([key, value]) => {
-        return <Input
-          key={key}
-          inputType={value.inputType}
-          label={value.label}
-          changed={(e) => inputChangeHandler(e, key)}
-          elementProps={value.elementProps}
-          valid={value.valid}
-        />;
-      })}
+      <Input
+        inputType={'input'}
+        label={'Your email'}
+        changed={emailChangeHandler}
+        required={true}
+        elementProps={{type: 'email', required: true}}
+        valid={form.email.valid}
+      />
+      <Input
+        inputType={'input'}
+        label={'Your password'}
+        changed={passChangeHandler}
+        elementProps={{type: 'password', required: true, minLength: 6}}
+        valid={form.password.valid}
+      />
       <Button buttonType={'Success'} type='submit'>{userState.signIn ? 'Sign in' : 'Sign up'}</Button>
     </form>;
   };
@@ -114,8 +96,9 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loginAUser: (userData, signIn) => dispatch(loginUser(userData, signIn))
+    loginAUser: (userData, signIn) => dispatch(loginUser(userData, signIn)),
+    someErrorOccurred: (e) => dispatch(errorOccurred(e))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(WithErrorHandler(Auth, axiosRequest));

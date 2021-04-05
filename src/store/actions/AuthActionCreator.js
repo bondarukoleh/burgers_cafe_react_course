@@ -6,7 +6,8 @@ const authenticateUser = (result) => (dispatch) => {
     type: Actions.userSignIn,
     payload: result
   });
-  dispatch(setLogoutExpirationTime(result.expiresIn))
+  // TODO: Figure out this
+  // dispatch(setLogoutExpirationTime(result.expiresIn))
 }
 
 const setLocalStorageUserAuthData = (userData) => {
@@ -26,8 +27,10 @@ const loginUser = (userData, signIn) => async (dispatch) => {
       expiresIn = expiresIn + Date.now();
       setLocalStorageUserAuthData({idToken, kind, localId, refreshToken, expiresIn});
     } else {
+      dispatch({type: Actions.errorOccurred, payload: {message: `WE don't have data for this user`}})
     }
   } catch (e) {
+    dispatch({type: Actions.errorOccurred, payload: e})
   }
 }
 

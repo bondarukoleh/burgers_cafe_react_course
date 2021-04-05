@@ -11,7 +11,8 @@ function Error(props) {
   return (
     <div className={styles.Error}>
       <div className={styles.Message}>
-        {`We're sorry. There is an error :( ${message}`}
+        {`We're sorry. There is an error :(`}
+        <p>{message}</p>
       </div>
       <button onClick={props.errorConfirmed}>Got it</button>
     </div>
