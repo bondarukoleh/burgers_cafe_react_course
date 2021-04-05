@@ -19,19 +19,11 @@ const Auth = props => {
   });
   const [userState, setUserState] = useState({signIn: null});
 
-  const emailChangeHandler = (e) => {
+  const inputChangeHandler = (e, key) => {
     const newForm = {...form};
-    const newFormElement = {...newForm.email};
+    const newFormElement = {...newForm[key]};
     newFormElement.value = e.target.value;
-    newForm.email = newFormElement;
-    setForm(newForm);
-  }
-
-  const passChangeHandler = (e) => {
-    const newForm = {...form};
-    const newFormElement = {...newForm.password};
-    newFormElement.value = e.target.value;
-    newForm.password = newFormElement;
+    newForm[key] = newFormElement;
     setForm(newForm);
   }
 
@@ -42,7 +34,6 @@ const Auth = props => {
       password: form.password.value
     };
     await props.loginAUser(userData, userState.signIn);
-    props.history.push('/');
   };
 
   const renderChooseUserState = () => {
@@ -64,7 +55,7 @@ const Auth = props => {
       <Input
         inputType={'input'}
         label={'Your email'}
-        changed={emailChangeHandler}
+        changed={(e) => inputChangeHandler(e, 'email')}
         required={true}
         elementProps={{type: 'email', required: true}}
         valid={form.email.valid}
@@ -72,7 +63,7 @@ const Auth = props => {
       <Input
         inputType={'input'}
         label={'Your password'}
-        changed={passChangeHandler}
+        changed={(e) => inputChangeHandler(e, 'password')}
         elementProps={{type: 'password', required: true, minLength: 6}}
         valid={form.password.valid}
       />
