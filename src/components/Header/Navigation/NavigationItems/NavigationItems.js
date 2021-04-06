@@ -13,7 +13,7 @@ function NavigationItems(props) {
         }
         {props.userAuthenticated
           ? <NavigationItem link="/logout" onClick={props.navItemClick}>Sign out</NavigationItem>
-          : <NavigationItem link="/auth" onClick={props.navItemClick}>Authenticate</NavigationItem>}
+          : <NavigationItem link="/auth" onClick={props.navItemClick}>Sign in</NavigationItem>}
       </ul>
     </nav>
   );

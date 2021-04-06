@@ -50,16 +50,16 @@ const logoutUserSucceed = () => {
 const checkUserAuthState = async (dispatch) => {
   const idToken = localStorage.getItem('idToken');
   if (idToken) {
-    if (Date.now() > localStorage.getItem('expiresIn')) {
-      /* logout is token is expired */
-      dispatch(logoutUserInitiated);
-    } else {
+    // if (Date.now() > localStorage.getItem('expiresIn')) {
+    //   /* logout is token is expired */
+    //   dispatch(logoutUserInitiated);
+    // } else {
       const userData = {};
       for (const key of ['idToken', 'kind', 'localId', 'refreshToken', 'expiresIn']) {
         userData[key] = localStorage.getItem(key);
       }
       dispatch(authenticateUser(userData));
-    }
+    // }
   }
 };
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import ContactData from "./ContactData/ContactData";
-import {Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 const Checkout = props => {
@@ -22,21 +21,20 @@ const Checkout = props => {
   // }, [])
 
   const goBack = () => props.history.goBack();
-  const checkoutContinueHandler = () => props.history.replace(`/checkout/contact-data`);
 
   return <div>
     <CheckoutSummary
-      checkoutCanceled={goBack}
-      checkoutContinued={checkoutContinueHandler}
       ingredients={props.ingredients}
     />;
-    <Route path={`${props.match.path}/contact-data`} render={() => {
-      return <ContactData
-        orderCanceled={goBack}
-        ingredients={props.ingredients}
-        price={props.price}
-      />
-    }}/>
+    <ContactData
+      orderCanceled={goBack}
+      ingredients={props.ingredients}
+      price={props.price}
+    />
+    {/* Let it stay as an example */}
+    {/*<Route path={`${props.match.path}/contact-data`} render={() => {*/}
+    {/*  return */}
+    {/*}}/>*/}
   </div>
 };
 

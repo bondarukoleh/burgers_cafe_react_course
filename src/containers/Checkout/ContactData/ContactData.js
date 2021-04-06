@@ -10,33 +10,12 @@ import {connect} from "react-redux";
 
 const ContactData = props => {
   const [form, setForm] = useState({
-    name: {
-      elementProps: {
-        type: 'text',
-      },
-      label: 'Your Name',
-      inputType: 'input',
-      value: '',
-      validation: {
-        required: true
-      }
-    },
-    email: {
-      elementProps: {
-        type: 'text',
-      },
-      label: 'Your email',
-      inputType: 'input',
-      value: '',
-      validation: {
-        required: true
-      }
-    },
     street: {
       elementProps: {
         type: 'text',
+        required: true
       },
-      label: 'Your Street',
+      label: 'Street',
       inputType: 'input',
       value: '',
       validation: {
@@ -46,6 +25,7 @@ const ContactData = props => {
     postalCode: {
       elementProps: {
         type: 'text',
+        required: true
       },
       label: 'Postal code',
       inputType: 'input',
@@ -57,6 +37,7 @@ const ContactData = props => {
     country: {
       elementProps: {
         type: 'text',
+        required: true
       },
       label: 'Country',
       inputType: 'input',

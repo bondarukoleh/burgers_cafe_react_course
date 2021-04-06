@@ -7,6 +7,7 @@ import {loginUser} from '../../store/actions/AuthActionCreator';
 import {errorOccurred} from '../../store/actions/errorActionCreator';
 import WithErrorHandler from "../../components/UI/WithErrorHandler/WithErrorHandler";
 import {axiosRequest} from "../../helpers/api";
+import {Link} from "react-router-dom";
 
 const Auth = props => {
   const [form, setForm] = useState({
@@ -17,7 +18,7 @@ const Auth = props => {
       value: '',
     },
   });
-  const [userState, setUserState] = useState({signIn: null});
+  const [userSignIn, setUserSignIn] = useState(true);
 
   const inputChangeHandler = (e, key) => {
     const newForm = {...form};
@@ -33,21 +34,7 @@ const Auth = props => {
       email: form.email.value,
       password: form.password.value
     };
-    await props.loginAUser(userData, userState.signIn);
-  };
-
-  const renderChooseUserState = () => {
-    return <div>
-      <Button
-        clickHandler={() => setUserState({signIn: false})}
-        className={'Success'}
-      >Sign up</Button>
-      or
-      <Button
-        className={'Success'}
-        clickHandler={() => setUserState({signIn: true})}
-      >Sign in</Button>
-    </div>;
+    await props.loginAUser(userData, userSignIn);
   };
 
   const renderForm = () => {
@@ -67,13 +54,17 @@ const Auth = props => {
         elementProps={{type: 'password', required: true, minLength: 6}}
         valid={form.password.valid}
       />
-      <Button buttonType={'Success'} type='submit'>{userState.signIn ? 'Sign in' : 'Sign up'}</Button>
+      <Button buttonType={'Success'} type='submit'>{userSignIn ? 'Sign in' : 'Sign up'}</Button>
+      <Link
+        onClick={() => setUserSignIn(prevState => !prevState)}
+        to={'*'}
+      >{`Maybe, ${userSignIn ? 'sign up' : 'sign in'}`}?</Link>
     </form>;
   };
 
   return (
     <div className={styles.Auth}>
-     {userState.signIn === null ? renderChooseUserState() : renderForm()}
+     {renderForm()}
     </div>
   );
 };

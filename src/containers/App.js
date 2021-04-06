@@ -8,10 +8,10 @@ import Logout from "./Auth/Logout";
 import {checkUserAuthState} from '../store/actions/AuthActionCreator';
 import Spinner from "../components/Burger/Spinner/Spinner";
 
-const App = (props) => {
+const App = ({checkUserAuthDataInLocalStorage, user}) => {
   useEffect(() => {
-    props.checkUserAuthDataInLocalStorage();
-  }, [props]);
+    checkUserAuthDataInLocalStorage();
+  }, [checkUserAuthDataInLocalStorage]);
 
   const loggedInRouts = () => {
     return <Switch>
@@ -36,7 +36,7 @@ const App = (props) => {
   return (
     <Router>
       <Layout>
-        {props.user ? loggedInRouts() : notLoggedInRouts()}
+        {user ? loggedInRouts() : notLoggedInRouts()}
       </Layout>
     </Router>
   );

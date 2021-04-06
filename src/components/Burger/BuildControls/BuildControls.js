@@ -32,7 +32,7 @@ const BuildControls = (props) => {
           ? props.purchasingHandler
           : () => props.history.push('/auth')
         }>
-        {props.isAuthenticated ? 'Make Order' : 'Sign up to order'}
+        {props.isAuthenticated ? 'Make Order' : 'Sign in to order'}
       </button>
     </div>
   );
