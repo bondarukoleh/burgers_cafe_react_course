@@ -12,7 +12,8 @@ export function burgerReducer(state = initialState, action) {
       return {
         ...state,
         ingredients: {
-          ...action.payload
+          ...action.payload,
+          ...state.ingredients
         }
       }
     case Actions.ingredientAdded:

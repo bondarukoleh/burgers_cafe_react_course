@@ -57,7 +57,7 @@ const Auth = props => {
       <Button buttonType={'Success'} type='submit'>{userSignIn ? 'Sign in' : 'Sign up'}</Button>
       <Link
         onClick={() => setUserSignIn(prevState => !prevState)}
-        to={'*'}
+        to={'/auth'}
       >{`Maybe, ${userSignIn ? 'sign up' : 'sign in'}`}?</Link>
     </form>;
   };

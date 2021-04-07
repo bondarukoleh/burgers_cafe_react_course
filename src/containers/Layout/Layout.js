@@ -15,7 +15,7 @@ const Layout = (props) => {
       return <React.Fragment>
         <Shade onClick={sideDrawerAppearance} show={true}/>
         {/* TODO: Create a context to avoid drilling */}
-        <SideDrawer open navItemsClick={sideDrawerAppearance}/>
+        <SideDrawer open navItemsClick={sideDrawerAppearance} userAuthenticated={props.userAuthenticated}/>
       </React.Fragment>
     }
   }
