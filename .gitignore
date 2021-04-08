@@ -5,8 +5,7 @@
 # firebase
 .firebase
 
-# passwords
-/src/config/config.js
+start.sh
 
 # Dependency directories
 node_modules/
